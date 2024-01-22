@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
+#    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/01/22 11:39:15 by emimenza         ###   ########.fr        #
+#    Updated: 2024/01/22 13:40:44 by anurtiag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NC = \033[0m # No color (reiniciar)
 
 #Comandos
 DEL			=	rm -f
-CC			=	gcc
+CC			=	gcc -lreadline
 CCFLAGS		=	-Wall -Wextra -Werror
 
 # -g3 -fsanitize=address
@@ -28,7 +28,7 @@ CCFLAGS		=	-Wall -Wextra -Werror
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	
+SRC_FILES	=	main
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
