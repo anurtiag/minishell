@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bash_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/24 13:11:20 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:08:27 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ignore_separator(char const *s, int *control, int *i)
 		control[1] = TRUE;
 }
 
-static int	ft_count(char const *s, char c, int *control)
+static	int	ft_count(char const *s, char c, int *control)
 {
 	int		i;
 	int		count;
@@ -40,7 +40,7 @@ static int	ft_count(char const *s, char c, int *control)
 				count++;
 		i++;
 	}
-	printf("el num de palabras es: %d\n", count);
+	//printf("el num de palabras es: %d\n", count);
 	return (count);
 }
 
