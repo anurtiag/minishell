@@ -6,7 +6,7 @@
 #    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/01/22 13:40:44 by anurtiag         ###   ########.fr        #
+#    Updated: 2024/01/24 07:18:41 by anurtiag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CCFLAGS		=	-Wall -Wextra -Werror
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	main
+SRC_FILES	=	main check_input bash_split tokenization
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft

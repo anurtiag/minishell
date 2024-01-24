@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/24 12:35:34 by anurtiag         ###   ########.fr       */
+/*   Created: 2024/01/23 12:37:57 by anurtiag          #+#    #+#             */
+/*   Updated: 2024/01/24 07:25:42 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
- 
-void	print_history(char *line)
-{
-	if(tokenization(line) == 0)
-		printf("la linea es correcta\n");
-	else
-		printf("syntax error\n");
-}
- 
- int main(void)
-{
-	char	*input;
 
-	input = NULL;
-	while (1)
-	{
-		input = readline("Minishell>");
-		if (ft_strncmp(input, "exit", 5) == 0)
-		{
-			printf("%s\n", input);
-			break ;
-		}
-		print_history(input);
-		add_history(input);
-	}
-	return (0);
-}
+// int	check_pipes(char *input, char c)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while(input[++i])
+// 	{
+// 		if(input[i] == c && input[i + 1] == c)
+// 			return (0);
+// 		else if (input[i] == c && i == 0)
+// 			return (0);
+// 	}
+// 	if (input[i - 1] == c)
+// 		return (0);
+// 	return (1);
+// }
+
+// int	check_characters(char *input)
+// {
+// 	check_pipes(input, '|');
+// }
