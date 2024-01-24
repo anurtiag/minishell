@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/24 18:17:02 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:47:16 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	check_str(char **str, int j)
 //size = i - start
 //TRUE = no estamos dentro de comillas
 //FALSE = estamos dentro de las comillas
-char	**ft_bash_split(char const *s, char c, int *control)
+char	**ft_bash_split(char const *s, char c, int *control, t_ent_var **variable_list)
 {
 	int		i;
 	int		j;
@@ -110,7 +110,7 @@ char	**ft_bash_split(char const *s, char c, int *control)
 		if (( end > start))
 		{
 			str[j++] = ft_substr(s, start, end - start);
-			ft_look_4_equal(s, start, end);
+			ft_look_4_equal(s, start, end, variable_list);
 			if (check_str(str, j))
 				return (NULL);
 		}
