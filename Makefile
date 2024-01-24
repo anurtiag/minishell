@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
+#    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/01/24 07:18:41 by anurtiag         ###   ########.fr        #
+#    Updated: 2024/01/24 20:52:09 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,9 @@ NC = \033[0m # No color (reiniciar)
 
 #Comandos
 DEL			=	rm -f
-CC			=	gcc -lreadline
+CC			=	gcc 
 CCFLAGS		=	-Wall -Wextra -Werror
+LDFLAGS		=	-lreadline
 
 # -g3 -fsanitize=address
 
@@ -28,7 +29,7 @@ CCFLAGS		=	-Wall -Wextra -Werror
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	main check_input bash_split tokenization
+SRC_FILES	=	main check_input bash_split tokenization ent_var
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
@@ -50,7 +51,7 @@ all: libft $(NAME)
 
 #Compilar 
 $(NAME):$(OBJ)
-		@$(CC) $(OBJ) $(LIBS) -o $(NAME)
+		@$(CC) $(OBJ) $(LIBS) -o $(NAME)  $(LDFLAGS)
 		@echo "$(GREEN)PHILOSOPHERS HAS BEEN COMPILED!$(NC)"
 
 # Compilar objetos individualmente y crear carpeta objs
