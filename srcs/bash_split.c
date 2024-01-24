@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/24 16:08:27 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:17:02 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	**ft_bash_split(char const *s, char c, int *control)
 		if (( end > start))
 		{
 			str[j++] = ft_substr(s, start, end - start);
+			ft_look_4_equal(s, start, end);
 			if (check_str(str, j))
 				return (NULL);
 		}

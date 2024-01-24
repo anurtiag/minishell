@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/24 16:10:22 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:13:46 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,30 @@
 
 # define TRUE 1
 # define FALSE 0
-# define SPACE 32
+# define SPACE_M 32
 
 typedef struct s_input
 {
-	char	**token_raw;
+	char				**token_raw;
+	struct t_ent_var	*ent_var;
+	
 }				t_input;
+
+typedef struct s_ent_var
+{
+	char				*name;
+	char				*content;
+	struct	t_ent_var 	*next;
+}				t_ent_var;
 
 int	check_special_character(char *input, char c);
 //bash_split.c
 char	**ft_bash_split(char const *s, char c, int *control);
+
 //tokenization.c
 int	tokenization(char *input, t_input *struct_input);
+
+//ent_var.c
+int     ft_look_4_equal(char const*token, int start, int end);
 
 #endif
