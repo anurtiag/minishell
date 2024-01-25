@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 14:21:43 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:16:49 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_li
 
 	match_var_name = strndup(token + start + 1, end);
 	if (ft_find_variable(match_var_name, variable_list, content) == 1)
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content)
@@ -51,11 +51,11 @@ int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variabl
 		if (((token[i - 1] == SPACE_M) || (!token[i - 1])) && (token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z'))))
 		{
 			printf("llamada a variable de entorno encontrada\n");
-			if (ft_trim_var_dollar((char *)token, start, end, variable_list, content) == 1)
-				return (0);
-			return(1);
+			if (ft_trim_var_dollar((char *)token, start, end, variable_list, content) == TRUE)
+				return (TRUE);
+			return(FALSE);
 		}
 		i++;
 	}
-	return (1);
+	return (FALSE);
 }

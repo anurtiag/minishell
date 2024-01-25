@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 13:06:13 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:17:51 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
  
 int	print_history(char *line, t_input **struct_input)
 {
-	if (tokenization(line, struct_input) == 1)
+	if (tokenization(line, struct_input) == FALSE)
 	{
-		return (printf("syntax error\n"), 1);
+		return (printf("syntax error\n"), FALSE);
 	}
-	return (0);
+	return (TRUE);
 }
  
  int main(void)
@@ -37,7 +37,7 @@ int	print_history(char *line, t_input **struct_input)
 		}
 		if (ft_strncmp(input, "clear", 5) == 0)
 			system("clear");
-		if (print_history(input, &struct_input) == 0)
+		if (print_history(input, &struct_input) == TRUE)
 		{
 			//el input esta bien
 			//printf("la linea escrita es :%s\n", struct_input.token_raw[0]);

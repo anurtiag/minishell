@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/25 14:24:44 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:27:11 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ static int	check_str(char **str, int j)
 	if (str[j - 1] == NULL)
 	{
 		freeall(str);
-		return (1);
+		return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 //size = i - start
@@ -111,8 +111,7 @@ char	**ft_bash_split(char const *s, char c, int *control, t_var_list **variable_
 		if (( end > start))
 		{
 			ft_look_4_equal(s, start, end, variable_list);
-			
-			if (ft_look_4_dollar(s, start, end, variable_list, &content) == 0)
+			if (ft_look_4_dollar(s, start, end, variable_list, &content) == TRUE)
 				str[j++] = content;
 			else
 				str[j++] = ft_substr(s, start, end - start);

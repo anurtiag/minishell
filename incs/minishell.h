@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 14:22:30 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:25:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define TRUE 1
 # define FALSE 0
+# define ERROR -1
 # define SPACE_M 32
 
 //main struct for the input

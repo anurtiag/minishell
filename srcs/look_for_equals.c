@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 13:29:41 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:17:18 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int	ft_var_found(t_var_list **list, char *name, char *content)
 		if (strcmp(current->name, name) == 0)
 		{
 			current->content = content;
-			return (1);
+			return (TRUE);
 		}
 		current = current->next;
 	}
-	return (0);
+	return (FALSE);
 }
 
 //Trim the token into name and content
@@ -71,7 +71,7 @@ void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_lis
 	var_name = strndup(token + start, equal_pos - start);
 	var_content = strndup(token + equal_pos + 2, (end - 1) - (equal_pos + 2));
 	//buscamos si hay alguna variable ya creada y si existe la sobreescribimos
-	if (ft_var_found(variable_list, var_name, var_content) == 0)
+	if (ft_var_found(variable_list, var_name, var_content) == FALSE)
 	{
 		// y si no existe creamos nuevo nodo y lo anadimos a la lista
 		ft_add_var(variable_list, var_name, var_content);
@@ -90,9 +90,9 @@ int	ft_look_4_equal(char const *token, int start, int end, t_var_list **variable
 		{
 			printf("creacion variable de entorno encontrada\n");
 			ft_trim_var_equal((char *)token, i, start, end, variable_list);
-			return (0);
+			return (TRUE);
 		}
 		i++;
 	}
-	return (1);
+	return (FALSE);
 }
