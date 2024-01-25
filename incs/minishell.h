@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/24 20:25:01 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:22:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,50 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <string.h>
 
 # define TRUE 1
 # define FALSE 0
 # define SPACE_M 32
 
+//main struct for the input
 typedef struct s_input
 {
 	char				**token_raw;
-	struct s_ent_var	*ent_var;
-	
+	struct s_var_list	*ent_var;
 }				t_input;
 
-typedef struct s_ent_var
+//linked list for the enviroment variables
+typedef struct s_var_list
 {
 	char				*name;
 	char				*content;
-	struct	s_ent_var 	*next;
-}				t_ent_var;
+	struct	s_var_list 	*next;
+}				t_var_list;
 
-int	check_special_character(char *input, char c);
-//bash_split.c
-char	**ft_bash_split(char const *s, char c, int *control, t_ent_var **variable_list);
+//MAIN
+int	print_history(char *line, t_input **struct_input);
 
-//tokenization.c
-int	tokenization(char *input, t_input *struct_input);
+//BASH SPLIT
+static void	ignore_separator(char const *s, int *control, int *i);
+static	int	ft_count(char const *s, char c, int *control);
+static void	freeall(char **splits);
+static int	check_str(char **str, int j);
+char	**ft_bash_split(char const *s, char c, int *control, t_var_list **variable_list);
 
-//ent_var.c
-int     ft_look_4_equal(char const*token, int start, int end, t_ent_var **variable_list);
+//CHECK INPUT
+
+//LOOK FOR EQUALS
 void    ft_print_var(t_input *input);
+void    ft_add_var(t_var_list **list, char* name, char *content);
+int     ft_var_found(t_var_list **list, char* name, char* content);
+void    ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list);
+int     ft_look_4_equal(char const *token, int start, int end, t_var_list **variable_list);
+
+//LOOK FOR DOLLARS
+int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
+
+//TOKENIZATION
+int	tokenization(char *input, t_input **struct_input);
 
 #endif

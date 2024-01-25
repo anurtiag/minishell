@@ -6,13 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/24 20:23:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:06:13 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
  
-int	print_history(char *line, t_input *struct_input)
+int	print_history(char *line, t_input **struct_input)
 {
 	if (tokenization(line, struct_input) == 1)
 	{
@@ -24,7 +24,7 @@ int	print_history(char *line, t_input *struct_input)
  int main(void)
 {
 	char	*input;
-	t_input struct_input;
+	t_input *struct_input;
 
 	input = NULL;
 	while (1)
@@ -42,6 +42,7 @@ int	print_history(char *line, t_input *struct_input)
 			//el input esta bien
 			//printf("la linea escrita es :%s\n", struct_input.token_raw[0]);
 		}
+		//ft_print_var(struct_input);
 		add_history(input);
 	}
 	return (0);
