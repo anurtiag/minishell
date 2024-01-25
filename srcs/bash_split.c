@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bash_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/24 19:47:16 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/01/25 08:25:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	ignore_separator(char const *s, int *control, int *i)
 {
-	if(control[0] == TRUE && s[*i] == '\'')
+	if((control[0] == TRUE && control[1] == TRUE) && s[*i] == '\'')
 		control[0] = FALSE;
 	else if(control[0] == FALSE && s[*i] == '\'')
 		control[0] = TRUE;
-	else if(control[1] == TRUE && s[*i] == '\"')
+	else if((control[1] == TRUE && control[0] == TRUE) && s[*i] == '\"')
 		control[1] = FALSE;
 	else if(control[1] == FALSE && s[*i] == '\"')
 		control[1] = TRUE;
@@ -98,7 +98,7 @@ char	**ft_bash_split(char const *s, char c, int *control, t_ent_var **variable_l
 
 		//Actualiamos start
 		start = i;
-		
+
 		//Actualizamos end cuando encontramos un espacio que no este entre comillas
 		while ((s[i] != c && s[i]) || (control[1] == FALSE || control[0] == FALSE))
 		{
@@ -106,7 +106,7 @@ char	**ft_bash_split(char const *s, char c, int *control, t_ent_var **variable_l
 			ignore_separator(s, control, &i);
 		}
 		end = i;
-		
+
 		if (( end > start))
 		{
 			str[j++] = ft_substr(s, start, end - start);
