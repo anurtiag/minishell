@@ -6,7 +6,7 @@
 #    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/02/22 12:52:34 by emimenza         ###   ########.fr        #
+#    Updated: 2024/02/22 15:00:04 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LDFLAGS		=	-lreadline
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	main check_input bash_split tokenization look_for_equals look_for_dollars history
+SRC_FILES	=	00_main 01_history 03_variables 04_look_for_equals 05_look_for_dollars
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft

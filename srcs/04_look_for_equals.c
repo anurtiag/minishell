@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   look_for_equals.c                                  :+:      :+:    :+:   */
+/*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 15:17:18 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:06:39 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,19 @@ void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_lis
 {
 	char	*var_name;
 	char	*var_content;
+	int		content_start = equal_pos + 1;
 
 	var_name = strndup(token + start, equal_pos - start);
-	var_content = strndup(token + equal_pos + 2, (end - 1) - (equal_pos + 2));
-	//buscamos si hay alguna variable ya creada y si existe la sobreescribimos
+	if (token[equal_pos + 1] == '\'' || token[equal_pos + 1] == '\"')
+	{
+		var_content = strndup(token + equal_pos + 2, (end - 1) - (equal_pos + 2));
+	}
+	else
+	{
+		var_content = strndup(token + equal_pos + 1, end - (equal_pos + 1));
+	}
 	if (ft_var_found(variable_list, var_name, var_content) == FALSE)
 	{
-		// y si no existe creamos nuevo nodo y lo anadimos a la lista
 		ft_add_var(variable_list, var_name, var_content);
 	}
 }
@@ -81,16 +87,25 @@ void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_lis
 //looks for equals in the token
 int	ft_look_4_equal(char const *token, int start, int end, t_var_list **variable_list)
 {
-	int i;
+	int		i;
+	char	quote = '\0'; // Variable para rastrear comillas abiertas
 
 	i = start;
 	while (i < end)
 	{
-		if (((((token[i - 1] >= 'a') && (token[i - 1] <= 'z')) || ((token[i - 1] >= 'A') && (token[i - 1] <= 'Z'))) && (token[i] == '=')) && (((token[i + 1] == '\'') || (token[i + 1] == '\"'))))
+		if (token[i] == '\'' || token[i] == '\"')
 		{
-			printf("creacion variable de entorno encontrada\n");
+			quote = token[i]; // Si encontramos una comilla, actualizamos el tipo de comilla
+		}
+		else if (quote == '\0' && token[i - 1] != '\'' && token[i - 1] != '\"' && token[i] == '=')
+		{
+			// Si no hay comillas abiertas y encontramos un igual no precedido por comillas
 			ft_trim_var_equal((char *)token, i, start, end, variable_list);
 			return (TRUE);
+		}
+		else if (token[i] == quote)
+		{
+			quote = '\0'; // Si encontramos la comilla de cierre, la reseteamos
 		}
 		i++;
 	}

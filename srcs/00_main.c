@@ -1,33 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 13:04:12 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:11:26 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
  
-int	print_history(char *line, t_input **struct_input)
+// int	print_history(char *line, t_input **struct_input)
+// {
+// 	if (tokenization(line, struct_input) == FALSE)
+// 	{
+// 		return (printf("syntax error\n"), FALSE);
+// 	}
+// 	return (TRUE);
+// }
+
+void	print_env(char	**env)
 {
-	if (tokenization(line, struct_input) == FALSE)
+	while (*env)
 	{
-		return (printf("syntax error\n"), FALSE);
+		printf("%s\n", *env);
+		env++;
 	}
-	return (TRUE);
 }
- 
- int main(void)
+ int main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_input *struct_input;
 
+	(void)argc;
+	(void)argv;
+
 	input = NULL;
+	print_env(envp);
 	load_history();
+	save_env(envp, &struct_input);
 	while (1)
 	{
 		// input = readline("\033[0;33mMinishell>\033[0m");
