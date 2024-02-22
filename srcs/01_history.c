@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   01_history.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 12:26:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:32:26 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../incs/minishell.h"
+#include "../incs/minishell.h"
 
+//This function checks if the txt is created
 int		check_history_file(void)
 {
 	FILE *file;
@@ -29,6 +30,7 @@ int		check_history_file(void)
 	return (0);
 }
 
+//This function loads the history from the txt
 void	load_history(void)
 {
 	char	*tmp;
@@ -46,6 +48,7 @@ void	load_history(void)
 	close(fd);
 }
 
+//This function saves the input into the local and text history
 void	save_history(char	*input)
 {
 	int	file;

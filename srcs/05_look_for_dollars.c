@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   look_for_dollars.c                                 :+:      :+:    :+:   */
+/*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 15:16:49 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:45:34 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-
+//Looks for a variable with the name vien
 int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content)
 {
 	t_var_list *current;
@@ -41,6 +41,7 @@ int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_li
 	return (FALSE);
 }
 
+//Check in the given input if a variable call is detected
 int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content)
 {
 	int i;
