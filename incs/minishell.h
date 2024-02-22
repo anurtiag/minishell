@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 15:25:30 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:58:23 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libs/Libft/libft.h"
+# include "../libs/gnl/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -50,10 +51,8 @@ static void	freeall(char **splits);
 static int	check_str(char **str, int j);
 char	**ft_bash_split(char const *s, char c, int *control, t_var_list **variable_list);
 
-//CHECK INPUT
-
 //LOOK FOR EQUALS
-void    ft_print_var(t_input *input);
+void    ft_print_var(t_input *struct_input);
 void    ft_add_var(t_var_list **list, char* name, char *content);
 int     ft_var_found(t_var_list **list, char* name, char* content);
 void    ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list);
@@ -65,4 +64,11 @@ int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variabl
 //TOKENIZATION
 int	tokenization(char *input, t_input **struct_input);
 
+
+//HISTORY
+void	load_history(void);
+void	save_history(char	*input);
+
+//VARIABLES
+void	save_env(char **envp, t_input **struct_input);
 #endif
