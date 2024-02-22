@@ -6,7 +6,7 @@
 #    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/01/25 11:23:03 by emimenza         ###   ########.fr        #
+#    Updated: 2024/02/22 12:52:34 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,14 @@ LDFLAGS		=	-lreadline
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	main check_input bash_split tokenization look_for_equals look_for_dollars
+SRC_FILES	=	main check_input bash_split tokenization look_for_equals look_for_dollars history
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
+GNL			=	libs/gnl
 
 #Librerias 
-LIBS		= $(LIBFT)/libft.a 
+LIBS		= $(LIBFT)/libft.a $(GNL)/get_next_line.a
 
 # Header Files (dedicated and from libraries):
 HEADERS		=  $(LIBFT)/libft.h $(INC)/minishell.h
@@ -47,18 +48,17 @@ OBJF = objs
 INC = incs
 
 # REGLAS # 
-all: libft $(NAME)
+all: libft gnl $(NAME)
 
 #Compilar 
 $(NAME):$(OBJ)
-		@$(CC) $(OBJ) $(LIBS) -o $(NAME)  $(LDFLAGS)
-		@echo "$(GREEN)PHILOSOPHERS HAS BEEN COMPILED!$(NC)"
+		@$(CC) $(OBJ) $(LIBS) -o $(NAME) $(LDFLAGS)
+		@echo "$(GREEN)MINISHELL HAS BEEN COMPILED!$(NC)"
 
-# Compilar objetos individualmente y crear carpeta objs
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@echo "$(YELLOW)Compiling: $<$(NC)"
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADER)
+	@$(CC) $(CFLAGS) -o $@ -c $< 
 	@echo "$(YELLOW)Compiled!$(NC)"
 
 
@@ -71,11 +71,20 @@ libft:
 	@$(MAKE) -C ./$(LIBFT)
 	@echo "$(GREEN)LIBFT HAS BEEN COMPILED$(NC)"
 
+gnl:
+	@echo "$(YELLOW)COMPILING GNL...$(NC)"
+	@$(MAKE) -C ./$(GNL)
+	@echo "$(GREEN)GNL HAS BEEN COMPILED$(NC)"
+
 # Eliminar tmp libft
 fclean_libft:
 	@make fclean -C ./$(LIBFT)
 	@echo "$(RED)LIBFT FULL CLEANED!$(NC)"
 
+# Eliminar tmp gnl
+fclean_gnl:
+	@make fclean -C ./$(GNL)
+	@echo "$(RED)GNL FULL CLEANED!$(NC)"
 
 # Eliminar temporales
 clean:
@@ -83,7 +92,7 @@ clean:
 	@echo "$(RED)OBJS AND DIRECTORY CLEANED!$(NC)"
 
 # Eliminar temporales y ejecutable fclean_mlx
-fclean: clean fclean_libft
+fclean: clean fclean_libft fclean_gnl
 	@$(RM) $(NAME)
 	@echo "$(RED)EXECUTABLE CLEANED!$(NC)"
 

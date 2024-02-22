@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/01/25 15:25:30 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:26:49 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libs/Libft/libft.h"
+# include "../libs/gnl/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -65,4 +66,8 @@ int	ft_look_4_dollar(char const *token, int start, int end, t_var_list **variabl
 //TOKENIZATION
 int	tokenization(char *input, t_input **struct_input);
 
+
+//HISTORY
+void	load_history(void);
+void	save_history(char	*input);
 #endif
