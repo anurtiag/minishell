@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   03_variables.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:23:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 11:41:38 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:35:35 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+static void	print_env(char	**env)
+{
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
+}
 
 //This function saves the env variables into a struct
 void	save_env(char	**env, t_input **struct_input)
