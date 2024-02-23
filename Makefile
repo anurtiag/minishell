@@ -6,7 +6,7 @@
 #    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/02/22 15:00:04 by emimenza         ###   ########.fr        #
+#    Updated: 2024/02/23 10:40:46 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ NC = \033[0m # No color (reiniciar)
 DEL			=	rm -f
 CC			=	gcc 
 CCFLAGS		=	-Wall -Wextra -Werror
-LDFLAGS		=	-lreadline
+LDFLAGS		=	-lreadline -L/Users/$(USER)/.brew/opt/readline/lib
+RLFLAGS		=	-I /Users/$(USER)/.brew/opt/readline/include
 
 # -g3 -fsanitize=address
 
@@ -29,7 +30,7 @@ LDFLAGS		=	-lreadline
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	00_main 01_history 03_variables 04_look_for_equals 05_look_for_dollars
+SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
@@ -52,13 +53,13 @@ all: libft gnl $(NAME)
 
 #Compilar 
 $(NAME):$(OBJ)
-		@$(CC) $(OBJ) $(LIBS) -o $(NAME) $(LDFLAGS)
+		@$(CC) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
 		@echo "$(GREEN)MINISHELL HAS BEEN COMPILED!$(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@echo "$(YELLOW)Compiling: $<$(NC)"
-	@$(CC) $(CFLAGS) -o $@ -c $< 
+	@$(CC) $(CFLAGS)$(RLFLAGS) -o $@ -c $<
 	@echo "$(YELLOW)Compiled!$(NC)"
 
 

@@ -6,20 +6,22 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 14:58:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:42:11 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libs/Libft/libft.h"
-# include "../libs/gnl/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <string.h>
+# include "../libs/Libft/libft.h"
+# include "../libs/gnl/get_next_line.h"
+
 
 # define TRUE 1
 # define FALSE 0
@@ -40,6 +42,16 @@ typedef struct s_var_list
 	char				*content;
 	struct	s_var_list 	*next;
 }				t_var_list;
+
+typedef struct s_var_parsed_table
+{
+	char						**env;
+	char						**cmd; //primera linea 'echo' segunda linea 'patata'
+	char						*path; //nombre del comando con la ruta 'users/bin/ls'
+	int							fd_in;
+	int							fd_out;
+	struct	s_var_parsed_table	*next;
+}				t_var_parsed_table;
 
 //MAIN
 int	print_history(char *line, t_input **struct_input);
@@ -71,4 +83,7 @@ void	save_history(char	*input);
 
 //VARIABLES
 void	save_env(char **envp, t_input **struct_input);
+
+//SIGNAL
+void	signal_receiver(void);
 #endif

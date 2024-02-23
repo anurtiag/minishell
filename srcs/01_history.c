@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 16:32:26 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:58:31 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,19 @@ int		check_history_file(void)
 //This function loads the history from the txt
 void	load_history(void)
 {
-	char	*tmp;
-	int		fd;
+	char *tmp;
+	int fd;
 
-	check_history_file();
+	if (check_history_file() != 0)
+		return; // Handle error opening or creating history file
 	fd = open(".history.txt", O_RDONLY);
-	tmp = "a";
-	while (tmp)
+	if (fd == -1)
 	{
-		tmp = get_next_line(fd);
+		perror("Error opening history file");
+		return;
+	}
+	while ((tmp = get_next_line(fd)) != NULL)
+	{
 		add_history(tmp);
 		free(tmp);
 	}

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 16:42:07 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:05:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ void	print_env(char	**env)
 
 	(void)argc;
 	(void)argv;
-	input = NULL;
+	//input = NULL;
 	load_history();
 	save_env(envp, &struct_input);
+	signal_receiver();
 	while (1)
 	{
 		input = readline("Minishell>>");
-		if (ft_strncmp(input, "exit", 5) == 0)
+		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 		save_history(input);
 		free(input);
