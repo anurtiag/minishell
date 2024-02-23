@@ -1,0 +1,7 @@
+los pseudopasos que habria que hacer para tokenizar la linea son:
+
+1-Separar el input en funcion de los caracteres de IFS(input field separators). Los caracteres que haya en esa variable se obtienen con getenv. Los caracteres que esten entre comillas simpples o dobles seran ignorados para separar. Si IFS es null(esta vacio) no se separa nada
+2-Después de la división de campos, si no está activado set -f, cada campo en la línea de comandos resultante se expandirá usando el algoritmo Pattern Matching Notation,
+de acuerdo a las reglas especificadas en Patterns Used for Filename Expansion.(por lo que he mirado por encima, todo son vainas de caracteres especiales)
+3-Se quitan las comillas simples y dobles
+4-

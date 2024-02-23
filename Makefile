@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
+#    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/02/23 10:40:46 by emimenza         ###   ########.fr        #
+#    Updated: 2024/02/23 11:36:19 by anurtiag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,14 +30,14 @@ RLFLAGS		=	-I /Users/$(USER)/.brew/opt/readline/include
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars
+SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_lexer
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
-GNL			=	libs/gnl
+GNL			=	libs/GNL
 
 #Librerias 
-LIBS		= $(LIBFT)/libft.a $(GNL)/get_next_line.a
+LIBS		= $(LIBFT)/libft.a $(GNL)/gnl.a
 
 # Header Files (dedicated and from libraries):
 HEADERS		=  $(LIBFT)/libft.h $(INC)/minishell.h
@@ -59,7 +59,7 @@ $(NAME):$(OBJ)
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
 	@echo "$(YELLOW)Compiling: $<$(NC)"
-	@$(CC) $(CFLAGS)$(RLFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(RLFLAGS) -o $@ -c $<
 	@echo "$(YELLOW)Compiled!$(NC)"
 
 

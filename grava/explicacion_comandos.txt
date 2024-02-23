@@ -1,0 +1,59 @@
+readline: Lee una línea de texto de la entrada estándar (generalmente la consola) y almacena la línea leída en un buffer.
+
+rl_clear_history: Borra el historial de líneas que se ha acumulado utilizando la función add_history.
+
+rl_on_new_line: Indica que el cursor ha vuelto a la línea principal, lo cual es útil en la gestión de líneas de comandos interactivas.
+
+rl_replace_line: Reemplaza la línea actual en el buffer de entrada.
+
+rl_redisplay: Actualiza la pantalla para reflejar cambios en el buffer de entrada.
+
+add_history: Agrega una línea al historial para su posterior recuperación.
+
+printf: Imprime texto en la salida estándar (consola).
+
+malloc: Reserva un bloque de memoria dinámica en el heap.
+
+free: Libera un bloque de memoria previamente asignado con malloc.
+
+write: Escribe datos en un descriptor de archivo.
+
+access: Verifica los permisos de acceso a un archivo.
+
+open, read, close: Funciones para manipular archivos abiertos.
+
+fork: Crea un nuevo proceso duplicando el proceso existente.
+
+wait, waitpid, wait3, wait4: Espera a que un proceso hijo termine.
+
+signal, sigaction: Configuran manejo de señales del sistema.
+
+kill: Envía una señal a un proceso.
+
+exit: Termina el programa y devuelve un código de salida.
+
+getcwd, chdir: Obtiene y cambia el directorio de trabajo actual.
+
+stat, lstat, fstat: Obtiene información sobre un archivo.
+
+unlink: Elimina un enlace a un archivo.
+
+execve: Ejecuta un programa.
+
+dup, dup2: Duplica descriptores de archivo.
+
+pipe: Crea una tubería para la comunicación entre procesos.
+
+opendir, readdir, closedir: Manipulan directorios.
+
+strerror, perror: Devuelven mensajes de error correspondientes a un código de error.
+
+isatty, ttyname, ttyslot: Funciones relacionadas con dispositivos de terminal.
+
+ioctl: Realiza operaciones de control sobre un descriptor de archivo.
+
+getenv: Obtiene el valor de una variable de entorno.
+
+tcsetattr, tcgetattr: Configuran y obtienen atributos del terminal.
+
+tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs: Funciones relacionadas con la manipulación de la terminal y las secuencias de escape ANSI.

@@ -1,0 +1,15 @@
+La tabla de la gramatica tiene 5 secciones: el estado en el que se encuentra, el tipo de token, la accion a realizar, el estado al que pasar y el numero de tokens reducidos.
+1-Estado:
+	Depende en que estado estes tienes que aplicar unas normas u otras
+2-tipo de token:
+	Los tokens del 0 al 5 son los token sencillos(word, pipe, ...), los que van por encima de 100 son los compuestos(cmd_name, pipe_secuence, ...)
+	-1 en el caso de que el estado solo tenga la opcion default (por ejemplo estado 1).
+	-2 en el caso de que estas pasando $end(lo que marca el final del input)
+3-accion a realizar:
+	-1 en el caso de que ni se reduzca ni se shiftee, 0 shift(pasarlo al otro stack), 1 reduce(upgradear token), 2 aceptar.
+4-estado al que pasar:
+	en funcion de los anteriores parametros pasas a un estado u otro
+	(en el caso de que solo haya la opcion default en el estado en el que estas pone el tipo de token al que se a upgradeado)
+5-numero de tokens reducidos:
+	-1 en el caso de shiftear(añadir 1 al stack es reducir en -1)
+	en caso de los diferentes numeros son la cantidad de tokens que se han reducido(por ejemplo 1 es que un token se a upgradeado a otro, 2 es que 2 tokens se han upgradeado a otro, ...)

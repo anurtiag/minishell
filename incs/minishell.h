@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 10:42:11 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:34:49 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,56 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <string.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libs/Libft/libft.h"
-# include "../libs/gnl/get_next_line.h"
+# include "../libs/GNL/get_next_line.h"
 
 
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
 # define SPACE_M 32
+# define WORD 0
+# define RED_TO 1
+# define RED_FROM 2
+# define DLESS 3
+# define DGREAT 4
+# define PIPE 5
+# define PIPE_SEQUENCE 100
+# define SIMPLE_CMD 101
+# define CMD_NAME 102
+# define CMD_WORD 103
+# define CMD_PREFIX 104
+# define CMD_SUFFIX 105
+# define IO_REDIRECT 106
+# define IO_FILE 107
+# define FILENAME 108
+# define IO_HERE 109
+# define HERE_END 110
+
+typedef struct s_states
+{
+	int					state;
+	struct s_options	*state_options;
+}				t_states;
+
+typedef struct s_options
+{
+	int			token_type;
+	int			action;
+	int			next_state;
+	int			nbr_red;//number of reduced tokens
+	struct s_options	*next;
+}				t_options;
+
+typedef struct s_token
+{
+	char			*data;
+	int				type;
+	struct s_token	*next;
+}				t_token;
 
 //main struct for the input
 typedef struct s_input
