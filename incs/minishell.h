@@ -28,6 +28,7 @@
 # define FALSE 0
 # define ERROR -1
 # define SPACE_M 32
+# define REDUCE -1
 # define WORD 0
 # define RED_TO 1
 # define RED_FROM 2
@@ -46,18 +47,31 @@
 # define IO_HERE 109
 # define HERE_END 110
 
-typedef struct s_states
+typedef struct	s_states
 {
 	int					state;
-	struct s_options	*state_options;
+	struct s_options	*options;
 }				t_states;
+
+typedef struct	s_parsing
+{
+	int			step;
+	int			state;
+	int			option;
+	t_options	*rule;
+	t_token		*stack;
+	t_token		*input;
+	t_parsing	*next;
+	t_parsing	*prev;
+}				t_parsing;
 
 typedef struct s_options
 {
-	int			token_type;
+	int			t_type;
 	int			action;
 	int			next_state;
 	int			nbr_red;//number of reduced tokens
+	int			option_num;
 	struct s_options	*next;
 }				t_options;
 
