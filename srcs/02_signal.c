@@ -6,15 +6,15 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 10:49:42 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:54:34 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-void	signal_handler(int	signal)
+static void	signal_handler(int	signal)
 {
-if (signal == SIGINT)
+	if (signal == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_replace_line("", 0);

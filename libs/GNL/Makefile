@@ -6,7 +6,7 @@
 #    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 10:55:33 by emimenza          #+#    #+#              #
-#    Updated: 2023/10/23 08:41:07 by emimenza         ###   ########.fr        #
+#    Updated: 2024/02/23 11:50:11 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ LIB			=	ar rcs
 DEL			=	rm -f
 CC			=	gcc
 CCFLAGS		=	-Wall -Wextra -Werror
-NAME		=	get_next_line.a
+NAME		=	gnl.a
 SRC			=	get_next_line.c get_next_line_utils.c
 SRC_BONUS	=	get_next_line_bonus.c get_next_line_utils_bonus.c
 OBJ			=	$(SRC:.c=.o)
