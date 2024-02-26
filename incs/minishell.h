@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 12:55:55 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:44:47 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include "../libs/Libft/libft.h"
 # include "../libs/GNL/get_next_line.h"
-
+# include <stdint.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -47,11 +47,32 @@
 # define IO_HERE 109
 # define HERE_END 110
 
+
+typedef struct s_options
+{
+	int			index;
+	int			state;
+	int			t_type;
+	int			action;
+	int			next_state;
+	int			nbr_red;
+	struct s_options	*next;
+}				t_options;
+
 typedef struct	s_states
 {
 	int					state;
 	struct s_options	*options;
+	struct s_states 	*next;
 }				t_states;
+
+
+typedef struct s_token
+{
+	char			*data;
+	int				type;
+	struct s_token	*next;
+}				t_token;
 
 typedef struct	s_parsing
 {
@@ -61,32 +82,17 @@ typedef struct	s_parsing
 	t_options	*rule;
 	t_token		*stack;
 	t_token		*input;
-	t_parsing	*next;
-	t_parsing	*prev;
+	struct s_parsing	*next;
+	struct s_parsing	*prev;
 }				t_parsing;
 
-typedef struct s_options
-{
-	int			t_type;
-	int			action;
-	int			next_state;
-	int			nbr_red;//number of reduced tokens
-	int			option_num;
-	struct s_options	*next;
-}				t_options;
-
-typedef struct s_token
-{
-	char			*data;
-	int				type;
-	struct s_token	*next;
-}				t_token;
 
 //main struct for the input
 typedef struct s_input
 {
 	char				**token_raw;
 	struct s_var_list	*ent_var;
+	struct s_states		*parsing_table;
 }				t_input;
 
 //linked list for the enviroment variables
@@ -135,7 +141,9 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content);
 int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
 
-//LEXER
+//READ TABLE
+void print_options_for_state(t_states *states_list, int state_number);
+void read_table(t_input **struct_input);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
