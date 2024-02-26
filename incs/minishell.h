@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/26 18:44:47 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/26 20:36:09 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define IO_HERE 109
 # define HERE_END 110
 
-
+//Options of a state
 typedef struct s_options
 {
 	int			index;
@@ -59,6 +59,7 @@ typedef struct s_options
 	struct s_options	*next;
 }				t_options;
 
+//State
 typedef struct	s_states
 {
 	int					state;
@@ -66,25 +67,28 @@ typedef struct	s_states
 	struct s_states 	*next;
 }				t_states;
 
-
+//Tokens of the analyzer
 typedef struct s_token
 {
-	char			*data;
-	int				type;
-	struct s_token	*next;
+	char			*data;			//data of the token
+	int				type;			//type of the token
+	struct s_token	*next;			//ptr to the next token
+	struct s_token	*left;			//once reduced ptr to the left token
+	struct s_token	*right;			//once reduced ptr to the right token
 }				t_token;
 
-typedef struct	s_parsing
+//Steps of the analyzer
+typedef struct	s_step
 {
-	int			step;
-	int			state;
-	int			option;
-	t_options	*rule;
-	t_token		*stack;
-	t_token		*input;
-	struct s_parsing	*next;
-	struct s_parsing	*prev;
-}				t_parsing;
+	int			step_nbr;			//nbr of the current step
+	int			state_nbr;			//nbr of the current state
+	struct s_states *state;			//ptr to the current state
+	int			option_nbr;			//nbr of the current option of the state
+	struct s_token *tree_stack;		//ptr to the tree/ stack
+	struct s_token *input;			//ptr to the input
+	struct s_step	*next;			//ptr to the next step
+	struct s_step	*prev;			//ptr to the prev step
+}				t_step;
 
 
 //main struct for the input
@@ -142,8 +146,11 @@ static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **vari
 int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
 
 //READ TABLE
-void print_options_for_state(t_states *states_list, int state_number);
-void read_table(t_input **struct_input);
+void		print_options_for_state(t_states *states_list, int state_number);
+void		read_table(t_input **struct_input);
+
+//ANALYZER
+void		create_tokens_analyzer(t_input **struct_input);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
