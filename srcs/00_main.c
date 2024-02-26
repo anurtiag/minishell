@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 12:27:07 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:47:46 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	print_history(char *line, t_input **struct_input)
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 		print_history(input, &struct_input);
+		lexer(&struct_input);
 		save_history(input);
 		free(input);
 	}

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 12:55:55 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:01:35 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,27 @@
 # define IO_HERE 109
 # define HERE_END 110
 
-typedef struct s_states
-{
-	int					state;
-	struct s_options	*state_options;
-}				t_states;
+// typedef struct s_states
+// {
+// 	int					state;
+// 	struct s_options	*state_options;
+// }				t_states;
 
-typedef struct s_options
-{
-	int			token_type;
-	int			action;
-	int			next_state;
-	int			nbr_red;//number of reduced tokens
-	struct s_options	*next;
-}				t_options;
+// typedef struct s_options
+// {
+// 	int			token_type;
+// 	int			action;
+// 	int			next_state;
+// 	int			nbr_red;//number of reduced tokens
+// 	struct s_options	*next;
+// }				t_options;
 
-typedef struct s_token
-{
-	char			*data;
-	int				type;
-	struct s_token	*next;
-}				t_token;
+// typedef struct s_token
+// {
+// 	char			*data;
+// 	int				type;
+// 	struct s_token	*next;
+// }				t_token;
 
 //main struct for the input
 typedef struct s_input
@@ -86,10 +86,11 @@ typedef struct s_var_list
 typedef struct s_var_parsed_table
 {
 	char						**env;
-	char						**cmd; //primera linea 'echo' segunda linea 'patata'
+	char						**cmd; //primera linea 'echo' segunda linea 'patata' cat -e 
 	char						*path; //nombre del comando con la ruta 'users/bin/ls'
 	int							fd_in;
-	int							fd_out;
+	int							fd_out; 
+	int							fd_error;
 	struct	s_var_parsed_table	*next;
 }				t_var_parsed_table;
 
@@ -122,7 +123,6 @@ static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **vari
 int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
 
 //LEXER
-
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);
