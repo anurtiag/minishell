@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 15:06:39 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:30:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_print_var(t_input *input)
 }
 
 //creates a new node and add it to the list
-void	ft_add_var(t_var_list **list, char *name, char *content)
+static void	ft_add_var(t_var_list **list, char *name, char *content)
 {
 	t_var_list	*new;
 
@@ -45,7 +45,7 @@ void	ft_add_var(t_var_list **list, char *name, char *content)
 }
 
 //looks for a node with the same name and overwrites its content
-int	ft_var_found(t_var_list **list, char *name, char *content)
+static int	ft_var_found(t_var_list **list, char *name, char *content)
 {
 	t_var_list	*current;
 
@@ -63,7 +63,7 @@ int	ft_var_found(t_var_list **list, char *name, char *content)
 }
 
 //Trim the token into name and content
-void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list)
+static void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list)
 {
 	char	*var_name;
 	char	*var_content;

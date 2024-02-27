@@ -6,14 +6,14 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 10:58:31 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:28:00 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 //This function checks if the txt is created
-int		check_history_file(void)
+static int		check_history_file(void)
 {
 	FILE *file;
 

@@ -6,14 +6,14 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/22 16:45:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:31:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 //Looks for a variable with the name vien
-int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content)
+static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content)
 {
 	t_var_list *current;
 
@@ -30,7 +30,7 @@ int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **co
 	return (0);
 }
 
-int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content)
+static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content)
 {
 	char	*match_var_name;
 	char	*match_var_content;
