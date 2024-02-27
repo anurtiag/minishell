@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/26 13:01:35 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 12:46:19 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 # include <readline/history.h>
 # include "../libs/Libft/libft.h"
 # include "../libs/GNL/get_next_line.h"
-
+# include <stdint.h>
 
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
 # define SPACE_M 32
+# define REDUCE -1
 # define WORD 0
 # define RED_TO 1
 # define RED_FROM 2
@@ -46,33 +47,59 @@
 # define IO_HERE 109
 # define HERE_END 110
 
-// typedef struct s_states
-// {
-// 	int					state;
-// 	struct s_options	*state_options;
-// }				t_states;
+//Options of a state
+typedef struct s_options
+{
+	int			index;
+	int			state;
+	int			t_type;
+	int			action;
+	int			next_state;
+	int			nbr_red;
+	struct s_options	*next;
+}				t_options;
 
-// typedef struct s_options
-// {
-// 	int			token_type;
-// 	int			action;
-// 	int			next_state;
-// 	int			nbr_red;//number of reduced tokens
-// 	struct s_options	*next;
-// }				t_options;
+//State
+typedef struct	s_states
+{
+	int					state;
+	struct s_options	*options;
+	struct s_states 	*next;
+}				t_states;
 
-// typedef struct s_token
-// {
-// 	char			*data;
-// 	int				type;
-// 	struct s_token	*next;
-// }				t_token;
+//Tokens of the analyzer
+typedef struct s_token
+{
+	char			*data;			//data of the token
+	int				type;			//type of the token
+	struct s_token	*next;			//ptr to the next token
+
+	struct s_token	*left;			//once reduced ptr to the left token
+	struct s_token	*right;			//once reduced ptr to the right token
+	struct s_token	*middle;		//once reduced ptr to the middle token
+}				t_token;
+
+//Steps of the analyzer
+typedef struct	s_step
+{
+	int				step_nbr;			//nbr of the current step
+	int				state_nbr;			//nbr of the current state
+	struct s_states *state;			//ptr to the current state
+	int				option_nbr;			//nbr of the current option of the state
+	struct s_token	*tree_stack;		//ptr to the tree/ stack
+	struct s_token	*input;			//ptr to the input
+
+	struct s_step	*next;			//ptr to the next step
+	struct s_step	*prev;			//ptr to the prev step
+}				t_step;
+
 
 //main struct for the input
 typedef struct s_input
 {
 	char				**token_raw;
 	struct s_var_list	*ent_var;
+	struct s_states		*parsing_table;
 }				t_input;
 
 //linked list for the enviroment variables
@@ -122,7 +149,21 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content);
 int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
 
-//LEXER
+//READ TABLE
+void		print_options_for_state(t_states *states_list, int state_number);
+void		read_table(t_input **struct_input);
+
+//ANALYZER
+void		create_tokens_analyzer(t_input **struct_input);
+
+//STEPS
+int		start_anaylizer(t_input **struct_input, t_token *input_token);
+
+//STEPS UTILS
+int			find_state(t_states *states_list, int state_number, t_states **state);
+int			stack_size(t_token *stack);
+t_options	*find_option(t_states *state, int token_type);
+
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);

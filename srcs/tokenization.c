@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 07:08:36 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/02/23 11:53:44 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:51:43 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ int	tokenization(char *input, t_input **struct_input)
 			}
 		}
 		i = -1;
-		while(tokens[++i])
-			printf("%s\n", tokens[i]);
-		*struct_input = (t_input *)malloc(sizeof(t_input));
+		// while(tokens[++i])
+		// 	printf("%s\n", tokens[i]);
 		(*struct_input)->token_raw = tokens;
 		(*struct_input)->ent_var =  variable_list;
 		return(TRUE);

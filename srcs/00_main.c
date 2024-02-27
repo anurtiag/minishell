@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/26 12:47:46 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:51:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ static int	print_history(char *line, t_input **struct_input)
 	return (TRUE);
 }
 
+void	prepare_program(t_input **struct_input, char **envp)
+{
+	*struct_input = (t_input *)malloc(sizeof(t_input));
+	load_history();
+	save_env(envp, struct_input);
+	signal_receiver();
+	read_table(struct_input);
+}
  int main(int argc, char **argv, char **envp)
 {
 	char	*input;
@@ -29,16 +37,14 @@ static int	print_history(char *line, t_input **struct_input)
 	(void)argc;
 	(void)argv;
 	input = NULL;
-	load_history();
-	save_env(envp, &struct_input);
-	signal_receiver();
+	prepare_program(&struct_input, envp);
 	while (1)
 	{
 		input = readline("Minishell>>");
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 		print_history(input, &struct_input);
-		lexer(&struct_input);
+		create_tokens_analyzer(&struct_input);
 		save_history(input);
 		free(input);
 	}
