@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 17:09:48 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:41:38 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_options *find_option(t_states *state, int token_type)
 	return (null_option);
 }
 
-//funcion para crear un nuevo paso 
-void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_token *input_token, t_step *prev_step)
+//funcion para crear un nuevo paso
+void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_token *input_token, t_step **c_step)
 {
 	t_step		*step;
 	t_states	*state;
@@ -77,7 +77,7 @@ void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_t
 	if (state == NULL)
 		return ((void)free(step));
 
-	step->step_nbr = prev_step->step_nbr + 1;
+	step->step_nbr = (*c_step)->step_nbr + 1;
 	step->state_nbr = option->next_state;
 
 	if (find_state(struct_input->parsing_table, option->next_state, &state) == FALSE)
@@ -91,9 +91,11 @@ void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_t
 	step->tree_stack = tree_stack;
 	step->input = input_token;
 	step->next = NULL;
-	step->prev = prev_step;
-	prev_step->next = step;
+	step->prev = *c_step;
+	(*c_step)->next = step;
+	*c_step = step;
 }
+
 
 t_token	*last_node_stack(t_token *stack)
 {
@@ -108,3 +110,11 @@ t_token	*last_node_stack(t_token *stack)
 	return (current);
 }
 //funcion para volver al paso anterior
+void	ret_to_prev(t_step **c_step)
+{
+	t_step	*prev_step;
+
+	prev_step = (*c_step)->prev;
+	free(*c_step);
+	*c_step = prev_step;
+}

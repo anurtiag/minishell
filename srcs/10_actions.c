@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 17:45:55 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:59:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ void	ft_reduce(t_options *options, t_step *c_step)
 		c_token->type = options->next_state;
 	}
 	
-	c_step = c_step->prev;
-	free(c_step->next);
-	c_step->next = NULL;
 }
 void 	ft_shift(t_token **stack, t_token **input)
 {
@@ -46,7 +43,7 @@ void 	ft_shift(t_token **stack, t_token **input)
 		c_stack->next = c_token;
 }
 
-void		apply_action(t_options *options, t_step *c_step, t_token *c_token, int *end_flag)
+void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag)
 {
 	int	action_type;
 
@@ -60,13 +57,14 @@ void		apply_action(t_options *options, t_step *c_step, t_token *c_token, int *en
 	{
 		//shift and go
 		printf("SHIFT AND GO TO %i\n", options->next_state);
-		ft_shift(&c_step->tree_stack, &c_step->input);
+		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);
 	}
 	else if (action_type == 1)
 	{
 		//reduce
-		ft_reduce(options, c_step);
-		printf("REDUCE TO %i BACT TO %i\n", last_node_stack(c_step->tree_stack)->type, c_step->prev->state_nbr);
+		ft_reduce(options, *c_step);
+		printf("\nREDUCE TO %i BACT TO %i\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
+		ret_to_prev(c_step);
 	}
 	else if (action_type == 2)
 	{

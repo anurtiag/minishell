@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 17:55:01 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:46:22 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	while ( end != 7)
 	{	//(si vamos a un estado de una opcion que es token simple nuestro token a evaluar es el ultimo de stack, sino el primero del input)
 
+		printf("\n\033[0;33m-----START OF BUCLE INPUT:---%i---\033[0m\n", end);
+		print_token_list(step->input);
+		printf("-----STACK:-----\n");
+		print_token_list(step->tree_stack);
+		printf("\n");
+		
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
 		available_option = find_option(c_step->state, c_token->type);
@@ -105,22 +111,19 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		else if ((available_option != NULL))
 		{
 			//aplicamos accion
-			apply_action(available_option, c_step, c_token, &end_flag);
+			apply_action(available_option, &c_step, c_token, &end_flag);
 
 			//creamos nuevo paso
-			add_step(*struct_input, available_option, c_step->tree_stack, c_step->input, c_step);
-			c_step = c_step->next;
+			add_step(*struct_input, available_option, c_step->tree_stack, c_step->input, &c_step);
 
-			if (available_option->t_type >= 100)
+			if (c_token->type >= 100)
 				c_token = step->input;
 		}
 		else if ((available_option == NULL) && def_option)
 		{
 			//si no coincide con ningun tipo de token, y tenemos default, hacemos default (volvemos al paso anterior)
 			//aplicamos accion
-			apply_action(def_option, c_step, c_token, &end_flag);
-
-			c_step = c_step->prev;
+			apply_action(def_option, &c_step, c_token, &end_flag);
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
 		{
@@ -130,11 +133,11 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		end++;
 	}
 
-	print_steps_info(step);
-	printf("-----INPUT:-----\n");
-	print_token_list(step->input);
-	printf("-----STACK:-----\n");
-	print_token_list(step->tree_stack);
+	// print_steps_info(step);
+	// printf("-----INPUT:-----\n");
+	// print_token_list(step->input);
+	// printf("-----STACK:-----\n");
+	// print_token_list(step->tree_stack);
 	
 	if ((step->tree_stack != NULL) && ((stack_size(step->tree_stack) == 1) && (step->tree_stack->type == 100)))
 	{
