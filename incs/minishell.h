@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 12:46:19 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:10:06 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void		read_table(t_input **struct_input);
 
 //ANALYZER
 void		create_tokens_analyzer(t_input **struct_input);
+void		print_token_list(t_token *tokens);
+
 
 //STEPS
 int		start_anaylizer(t_input **struct_input, t_token *input_token);
@@ -163,6 +165,11 @@ int		start_anaylizer(t_input **struct_input, t_token *input_token);
 int			find_state(t_states *states_list, int state_number, t_states **state);
 int			stack_size(t_token *stack);
 t_options	*find_option(t_states *state, int token_type);
+void		add_step(t_input *struct_input, t_options *options, t_token *tree_stack, t_token *input_token, t_step *prev_step);
+t_token		*last_node_stack(t_token *stack);
+
+//ACTIONS
+void		apply_action(t_options *options, t_step *c_step, t_token *c_token, int *end_flag);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);

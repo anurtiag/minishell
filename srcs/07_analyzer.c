@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 11:22:37 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:27:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void print_token_list(t_token *tokens)
 {
-    t_token *current = tokens;
+	t_token *current = tokens;
 
-    while (current != NULL)
-    {
-        printf("Data: %s, Type: %d\n", current->data, current->type);
-        current = current->next;
-    }
+	while (current != NULL)
+	{
+		printf("Data: %s, Type: %d\n", current->data, current->type);
+		current = current->next;
+	}
 }
 
 // Función para asignar el tipo de data y el tipo de un token
@@ -79,6 +79,6 @@ void create_tokens_analyzer(t_input **struct_input)
 		}
 		i++;
 	}
-	print_token_list(tokens);
+	//print_token_list(tokens);
 	start_anaylizer(struct_input, tokens);
 }

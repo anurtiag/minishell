@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 12:46:08 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:09:48 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,51 @@ t_options *find_option(t_states *state, int token_type)
 	}
 	return (null_option);
 }
-//funcion para crear un nuevo paso 
 
+//funcion para crear un nuevo paso 
+void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_token *input_token, t_step *prev_step)
+{
+	t_step		*step;
+	t_states	*state;
+
+	step = NULL;
+	step = (t_step *)malloc(sizeof(t_step));
+
+	if (step == NULL)
+		return ;
+	
+	state = (t_states *)malloc(sizeof(t_states));
+	if (state == NULL)
+		return ((void)free(step));
+
+	step->step_nbr = prev_step->step_nbr + 1;
+	step->state_nbr = option->next_state;
+
+	if (find_state(struct_input->parsing_table, option->next_state, &state) == FALSE)
+	{
+		free(state);
+		free(step);
+		return ;
+	}
+	step->state = state;
+	step->option_nbr = 0;
+	step->tree_stack = tree_stack;
+	step->input = input_token;
+	step->next = NULL;
+	step->prev = prev_step;
+	prev_step->next = step;
+}
+
+t_token	*last_node_stack(t_token *stack)
+{
+	t_token	*current;
+
+	current = NULL;
+	if (stack == NULL)
+		return NULL;
+	current = stack;
+	while (current->next != NULL)
+		current = current->next;		
+	return (current);
+}
 //funcion para volver al paso anterior
