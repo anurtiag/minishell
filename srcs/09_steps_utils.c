@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 22:41:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:22:41 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void	ret_to_prev(t_step **c_step)
 	t_step	*prev_step;
 
 	prev_step = (*c_step)->prev;
+	prev_step->tree_stack = (*c_step)->tree_stack;
+	prev_step->input = (*c_step)->input;
 	free(*c_step);
 	*c_step = prev_step;
 }

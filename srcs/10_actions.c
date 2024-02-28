@@ -6,23 +6,118 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 22:59:17 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:05:21 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 //shifts the first node of the input to the last position of stack
-void	ft_reduce(t_options *options, t_step *c_step)
+void	ft_reduce(t_options *options, t_step **c_step)
 {
-	t_token *c_token;
+	t_token *token_4;
+	t_token *token_3;
+	t_token *token_2;
+	t_token *token_1;
+	t_token *join_token;
+	t_token *start_stack;
 
+	join_token = NULL;
 	if (options->nbr_red == 1)
 	{
-		c_token = last_node_stack(c_step->tree_stack);
-		c_token->type = options->next_state;
+		token_1 = last_node_stack((*c_step)->tree_stack);
+		token_1->type = options->next_state;
 	}
-	
+	else if (options->nbr_red == 2)
+	{
+		printf("segunda opcion de reduce\n");
+		
+		start_stack = (*c_step)->tree_stack;
+		
+		join_token = (t_token *)malloc(sizeof(t_token));
+		if (join_token == NULL)
+			return;
+		//Asignamos data a joined token
+		join_token->data = "Joined token";
+		join_token->type = options->next_state;
+		join_token->left = NULL;
+		join_token->right = NULL;
+		join_token->middle = NULL;
+
+		//init los 3 ultimos tokens
+		token_1 = last_node_stack(start_stack);
+		token_2 = start_stack;
+		token_3 = start_stack;
+		
+		while (token_2->next != token_1)
+			token_2 = token_2->next;
+		while ((token_3->next != token_2) && (token_3 != token_2))
+			token_3 = token_3->next;		
+		join_token->left = token_2;
+		join_token->right = token_1;
+
+		if (token_2 == token_3)
+		{
+			// solo tenemos 2 elemento
+			(*c_step)->tree_stack = NULL;
+			(*c_step)->tree_stack = join_token;
+		}
+		else
+		{
+			// tenemos 3 elementos
+			token_3->next = join_token;
+		}
+	}
+	else if (options->nbr_red == 3)
+	{
+		printf("tercera opcion de reduce\n");
+
+		start_stack = (*c_step)->tree_stack;
+		
+		join_token = (t_token *)malloc(sizeof(t_token));
+		if (join_token == NULL)
+			return;
+		//Asignamos data a joined token
+		join_token->data = "Joined token";
+		join_token->type = options->next_state;
+		join_token->left = NULL;
+		join_token->right = NULL;
+		join_token->middle = NULL;
+
+		//init los 3 ultimos tokens
+		token_1 = last_node_stack(start_stack);
+		token_2 = start_stack;
+		token_3 = start_stack;
+		token_4 = start_stack;
+		
+		printf("toke 1 %i\n", token_1->type);
+		printf("toke 2 %i\n", token_2->type);
+		printf("toke 3 %i\n", token_3->type);
+		printf("toke 4 %i\n", token_4->type);
+		
+		while (token_2->next != token_1)
+			token_2 = token_2->next;
+		while ((token_3->next != token_2) && (token_3 != token_2))
+			token_3 = token_3->next;
+		while ((token_4->next != token_3) && (token_4 != token_3) && (token_4 != token_2))
+			token_4 = token_4->next;
+		join_token->left = token_3;
+		join_token->middle = token_2;
+		join_token->right = token_1;
+		
+		if (token_3 == token_4)
+		{
+			// solo tenemos 4 elemento
+			(*c_step)->tree_stack = NULL;
+			(*c_step)->tree_stack = join_token;
+		}
+		else
+		{
+			// tenemos 4 elementos
+			token_3->next = join_token;
+		}
+		
+	}
 }
 void 	ft_shift(t_token **stack, t_token **input)
 {
@@ -51,25 +146,25 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 	if (action_type == -1)
 	{
 		//go
-		printf("GO TO %i\n", options->next_state);
+		printf("\n\033[0;35mGO TO %i\n\033[0m\n", options->next_state);
 	}
 	else if (action_type == 0)
 	{
-		//shift and go
-		printf("SHIFT AND GO TO %i\n", options->next_state);
-		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);
+		//shift and go		
+		printf("\n\033[0;35mmSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
+		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);;
 	}
 	else if (action_type == 1)
 	{
 		//reduce
-		ft_reduce(options, *c_step);
-		printf("\nREDUCE TO %i BACT TO %i\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
+		ft_reduce(options, c_step);
+		printf("\n\033[0;35mREDUCE TO %i BACT TO %i\n\033[0m\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
 		ret_to_prev(c_step);
 	}
 	else if (action_type == 2)
 	{
 		//accept
-		printf("ACCEPT\n");
+		printf("\n\033[0;35mACCEPT\n\033[0m\n");
 		*end_flag = TRUE;
 	}
 }

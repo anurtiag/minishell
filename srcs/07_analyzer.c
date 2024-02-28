@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 16:27:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:54:14 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_token_list(t_token *tokens)
 
 	while (current != NULL)
 	{
-		printf("Data: %s, Type: %d\n", current->data, current->type);
+		printf("Data: %s, Type: %d, Dir: %p, Next Dir %p\n", current->data, current->type, current, current->next);
 		current = current->next;
 	}
 }
@@ -41,6 +41,8 @@ t_token *assign_token_types(char *token_raw)
 		new_token->type = 4;
 	else if (strcmp(token_raw, "|") == 0)
 		new_token->type = 5;
+	else if (strcmp(token_raw, "$END") == 0)
+		new_token->type = -2;
 	else
 		new_token->type = 0;
 	new_token->data = ft_strdup(token_raw);
@@ -78,6 +80,16 @@ void create_tokens_analyzer(t_input **struct_input)
 			last_token = last_token->next;
 		}
 		i++;
+	}
+
+	// Agregar el token $END al final de la lista
+	t_token *end_token = assign_token_types("$END");
+	if (end_token != NULL)
+	{
+		if (tokens == NULL)
+			tokens = end_token;
+		else
+			last_token->next = end_token;
 	}
 	//print_token_list(tokens);
 	start_anaylizer(struct_input, tokens);
