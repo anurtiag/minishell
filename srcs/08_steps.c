@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 11:13:10 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:09:14 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,16 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	
 	while (end_flag == FALSE)
 	{
+		// printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
+		// print_token_list(c_step->input);
+		// printf("-----STACK:-----\n");
+		// print_token_list(c_step->tree_stack);
+		// printf("\n");
+
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
 		available_option = find_option(c_step->state, c_token->type);
-		
+		//printf("\033[0;32mevaluate node ->%s<- type ->%i<- \033[0m\n", c_token->data, c_token->type);
 		//miramos si nuestro token es el mismo que el default (volvemos al paso anterior)
 		if (def_option && (def_option->next_state == c_token->type))
 		{
@@ -96,6 +102,9 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 			apply_action(def_option, &c_step, c_token, &end_flag);
 			if (last_node_stack(c_step->tree_stack)->type >= 100)
 				c_token = last_node_stack(c_step->tree_stack);
+
+			if (c_step->state_nbr == 22)
+				c_token = c_step->input;
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
 		{

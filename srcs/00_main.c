@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 11:58:57 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 12:42:36 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void	prepare_program(t_input **struct_input, char **envp)
 	//signal_receiver();
 	read_table(struct_input);
 }
+
  int main(int argc, char **argv, char **envp)
 {
 	char	*input;
