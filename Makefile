@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
+#    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
 #    Updated: 2024/02/27 15:38:31 by emimenza         ###   ########.fr        #
@@ -31,6 +31,7 @@ NAME		=	minishell
 
 #Ficheros
 SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions bash_split tokenization
+
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
