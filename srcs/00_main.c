@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 16:01:21 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:28:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void	open_quotes(char *input)
 	if (s_quote == FALSE || d_quote == FALSE)
 		write(2, "ERROR: open quotes\n", 19);
 }
-
 
 int main(int argc, char **argv, char **envp)
 {

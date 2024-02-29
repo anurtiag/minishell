@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 16:01:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:34:13 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,6 @@ typedef struct	s_states
 	struct s_options	*options;
 }				t_states;
 
-typedef struct	s_parsing
-{
-	int			step;
-	int			state;
-	int			option;
-	t_options	*rule;
-	t_token		*stack;
-	t_token		*input;
-	t_parsing	*next;
-	t_parsing	*prev;
-}				t_parsing;
 
 typedef struct s_options
 {
@@ -82,6 +71,17 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
+// typedef struct	s_parsing
+// {
+// 	int			step;
+// 	int			state;
+// 	int			option;
+// 	t_options	*rule;
+// 	t_token		*stack;
+// 	t_token		*input;
+// 	t_parsing	*next;
+// 	t_parsing	*prev;
+// }				t_parsing;
 //main struct for the input
 typedef struct s_input
 {
