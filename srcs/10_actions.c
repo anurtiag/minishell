@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 13:08:22 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:19:02 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		while ((token_3->next != token_2) && (token_3 != token_2))
 			token_3 = token_3->next;
 
+		
 		join_token->left = token_2;
 		join_token->right = token_1;
 
@@ -100,6 +101,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 			token_3 = token_3->next;
 		while ((token_4->next != token_3) && (token_4 != token_3) && (token_4 != token_2))
 			token_4 = token_4->next;
+
 		
 		join_token->left = token_3;
 		join_token->middle = token_2;

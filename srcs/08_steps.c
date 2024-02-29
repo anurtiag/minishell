@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 13:09:14 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:18:07 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,27 @@ t_step	*init_first_step(t_input **struct_input, t_token *input_token)
 	first_step->next = NULL;
 	first_step->prev = NULL;
 	return (first_step);
+}
+
+// Function to display the structure tree
+void display_structure_tree(t_token *root, int depth)
+{
+	if (root == NULL)
+		return;
+
+	// Print right child
+	display_structure_tree(root->right, depth + 1);
+
+	// Print current node
+	for (int i = 0; i < depth; i++)
+		printf("    ");
+	printf("|-- data: %s, type: %d\n", root->data, root->type);
+
+	// Print middle child
+	display_structure_tree(root->middle, depth + 1);
+	
+	// Print left child
+	display_structure_tree(root->left, depth + 1);
 }
 
 //Main function of the analizer
@@ -103,7 +124,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 			if (last_node_stack(c_step->tree_stack)->type >= 100)
 				c_token = last_node_stack(c_step->tree_stack);
 
-			if (c_step->state_nbr == 22)
+			if (c_step->state_nbr == 22 && c_step->input->type != -2)
 				c_token = c_step->input;
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
@@ -113,4 +134,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		}
 		end++;
 	}
+	printf("\n\n");
+	display_structure_tree(c_step->tree_stack, 0);
+	printf("\n\n");
 }
