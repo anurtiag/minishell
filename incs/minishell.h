@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/27 16:01:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:55:20 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include "../libs/Libft/libft.h"
 # include "../libs/GNL/get_next_line.h"
-
+# include <stdint.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -47,46 +47,59 @@
 # define IO_HERE 109
 # define HERE_END 110
 
+//Options of a state
+typedef struct s_options
+{
+	int			index;
+	int			state;
+	int			t_type;
+	int			action;
+	int			next_state;
+	int			nbr_red;
+	struct s_options	*next;
+}				t_options;
+
+//State
 typedef struct	s_states
 {
 	int					state;
 	struct s_options	*options;
+	struct s_states 	*next;
 }				t_states;
 
-typedef struct	s_parsing
-{
-	int			step;
-	int			state;
-	int			option;
-	t_options	*rule;
-	t_token		*stack;
-	t_token		*input;
-	t_parsing	*next;
-	t_parsing	*prev;
-}				t_parsing;
-
-typedef struct s_options
-{
-	int			t_type;
-	int			action;
-	int			next_state;
-	int			nbr_red;//number of reduced tokens
-	int			option_num;
-	struct s_options	*next;
-}				t_options;
-
+//Tokens of the analyzer
 typedef struct s_token
 {
-	char			*data;
-	int				type;
-	struct s_token	*next;
+	char			*data;			//data of the token
+	int				type;			//type of the token
+	struct s_token	*next;			//ptr to the next token
+
+	struct s_token	*left;			//once reduced ptr to the left token
+	struct s_token	*right;			//once reduced ptr to the right token
+	struct s_token	*middle;		//once reduced ptr to the middle token
 }				t_token;
+
+//Steps of the analyzer
+typedef struct	s_step
+{
+	int				step_nbr;			//nbr of the current step
+	int				state_nbr;			//nbr of the current state
+	struct s_states *state;			//ptr to the current state
+	int				option_nbr;			//nbr of the current option of the state
+	struct s_token	*tree_stack;		//ptr to the tree/ stack
+	struct s_token	*input;			//ptr to the input
+
+	struct s_step	*next;			//ptr to the next step
+	struct s_step	*prev;			//ptr to the prev step
+}				t_step;
+
 
 //main struct for the input
 typedef struct s_input
 {
 	char				**token_raw;
 	struct s_var_list	*ent_var;
+	struct s_states		*parsing_table;
 }				t_input;
 
 //linked list for the enviroment variables
@@ -100,10 +113,11 @@ typedef struct s_var_list
 typedef struct s_var_parsed_table
 {
 	char						**env;
-	char						**cmd; //primera linea 'echo' segunda linea 'patata'
+	char						**cmd; //primera linea 'echo' segunda linea 'patata' cat -e 
 	char						*path; //nombre del comando con la ruta 'users/bin/ls'
 	int							fd_in;
-	int							fd_out;
+	int							fd_out; 
+	int							fd_error;
 	struct	s_var_parsed_table	*next;
 }				t_var_parsed_table;
 
@@ -135,7 +149,28 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content);
 int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
 
-//LEXER
+//READ TABLE
+void		print_options_for_state(t_states *states_list, int state_number);
+void		read_table(t_input **struct_input);
+
+//ANALYZER
+void		create_tokens_analyzer(t_input **struct_input);
+void		print_token_list(t_token *tokens);
+
+
+//STEPS
+int		start_anaylizer(t_input **struct_input, t_token *input_token);
+
+//STEPS UTILS
+int			find_state(t_states *states_list, int state_number, t_states **state);
+int			stack_size(t_token *stack);
+t_options	*find_option(t_states *state, int token_type);
+void		add_step(t_input *struct_input, t_options *options, t_token *tree_stack, t_token *input_token, t_step **c_step);
+t_token		*last_node_stack(t_token *stack);
+void		ret_to_prev(t_step **c_step);
+
+//ACTIONS
+void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
