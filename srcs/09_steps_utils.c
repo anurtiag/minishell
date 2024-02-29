@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 11:10:17 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:41:28 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ int	find_state(t_states *states_list, int state_number, t_states **state)
 }
 
 //Caculates the size of the stack
-int	stack_size(t_token *stack)
+int	stack_size(t_token *tokens)
 {
-	int	i;
-
-	i = 0;
-	while (stack)
-		stack = stack->next;
+	t_token *current = tokens;
+	int i = 0;
+	while (current != NULL)
+	{
+		i++;
+		current = current->next;
+	}
 	return (i);
 }
 

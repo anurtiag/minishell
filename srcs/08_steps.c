@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 14:18:07 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:46:20 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,13 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 				c_token = c_step->input;
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
-		{
-			printf("\033[0;31mSYNTAX ERROR\033[0m\n");
 			break;
-		}
 		end++;
 	}
+
+	if ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2))
+		printf("\033[0;31mSYNTAX ERROR\033[0m\n");
+
 	printf("\n\n");
 	display_structure_tree(c_step->tree_stack, 0);
 	printf("\n\n");
