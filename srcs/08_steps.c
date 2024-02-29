@@ -6,38 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 10:06:39 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:13:10 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-
-void print_steps_info(t_step *first_step) {
-    t_step *current_step = first_step;
-    int step_count = 0;
-
-    printf("Steps Information:\n");
-    printf("-------------------\n");
-
-    while (current_step != NULL) {
-        printf("Step %d:\n", step_count);
-        printf("  Step Number: %d\n", current_step->step_nbr);
-        printf("  State Number: %d\n", current_step->state_nbr);
-        // Aquí puedes imprimir más información sobre el estado, la pila de árboles, etc.
-        // Por ejemplo:
-        // printf("  State Info: ...\n");
-        // printf("  Tree Stack: ...\n");
-        // printf("  Input Token: ...\n");
-        
-        step_count++;
-        current_step = current_step->next;
-    }
-
-    printf("-------------------\n");
-    printf("Total Steps: %d\n", step_count);
-}
-
+//Inits the first step of the analizer
 t_step	*init_first_step(t_input **struct_input, t_token *input_token)
 {
 	t_step		*first_step;
@@ -67,8 +42,7 @@ t_step	*init_first_step(t_input **struct_input, t_token *input_token)
 	return (first_step);
 }
 
-//LA FUNCION REDUCE DEPENDE DE QUE CASOS HACE SEGFAULT
-
+//Main function of the analizer
 int	start_anaylizer(t_input **struct_input, t_token *input_token)
 {
 	t_step		*step;
@@ -88,32 +62,22 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	//cogemos el primer nodo de input como nuestro token a evaluar
 	c_token = step->input;
 	
-	//end_flag == FALSE ||
 	while (end_flag == FALSE)
-	{	
-		printf("\n\033[0;33m-----START OF BUCLE INPUT:---%i---\033[0m\n", end);
-		print_token_list(c_step->input);
-		printf("-----STACK:-----\n");
-		print_token_list(c_step->tree_stack);
-		printf("\n");
-	
+	{
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
 		available_option = find_option(c_step->state, c_token->type);
-		printf("\033[0;32mevaluate node ->%s<- type ->%i<- \033[0m\n", c_token->data, c_token->type);
 		
 		//miramos si nuestro token es el mismo que el default (volvemos al paso anterior)
 		if (def_option && (def_option->next_state == c_token->type))
 		{
 			//volvemos al paso anterior manteniendo nuestro c_token;
-			printf("MISMO QUE EL DEFAULT\n");
+			//printf("MISMO QUE EL DEFAULT\n");
 			apply_action(def_option, &c_step, c_token, &end_flag);
 		}
 		//No tenemos defualt y tenemos avail option
 		else if ((available_option == NULL) && (def_option == NULL) && (c_token->type >= 100) && (c_step->state_nbr != 0))
-		{
 			ret_to_prev(&c_step);
-		}
 		//miramos si es mismo tipo que un token simple (si es asi aplicamos la accion y movemos al siguiente paso creandolo)
 		else if ((available_option != NULL))
 		{
@@ -135,10 +99,9 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
 		{
-			printf("SYNTAX ERROR\n");
+			printf("\033[0;31mSYNTAX ERROR\033[0m\n");
 			break;
 		}
 		end++;
 	}
 }
-

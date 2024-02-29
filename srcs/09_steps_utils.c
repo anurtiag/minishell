@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/28 13:22:41 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:10:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_t
 	*c_step = step;
 }
 
-
+//Returns the last node of the stack
 t_token	*last_node_stack(t_token *stack)
 {
 	t_token	*current;
@@ -109,6 +109,7 @@ t_token	*last_node_stack(t_token *stack)
 		current = current->next;		
 	return (current);
 }
+
 //funcion para volver al paso anterior
 void	ret_to_prev(t_step **c_step)
 {
