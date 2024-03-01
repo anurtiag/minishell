@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 12:21:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 21:03:27 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_token *assign_token_types(char *token_raw)
 	new_token->data = ft_strdup(token_raw);
 	new_token->left = NULL;
 	new_token->right = NULL;
+	new_token->middle = NULL;
 	new_token->next = NULL;
 	return (new_token);
 }

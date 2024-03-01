@@ -6,11 +6,51 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 13:53:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 23:50:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+void print_cmd_contents(t_var_parsed_table *head)
+{
+    t_var_parsed_table *current = head;
+
+	printf("\n");
+    while (current != NULL) {
+        if (current->cmd != NULL)
+		{
+			printf("--------------------\n");
+            printf("cmd: %s\n", current->cmd);
+			printf("std in: %i\n", current->fd_in);
+			printf("std out: %i\n", current->fd_out);
+			printf("std error: %i\n", current->fd_error);
+			printf("--------------------\n\n");
+        }
+        current = current->next;
+    }
+}
+
+// Function to display the structure tree
+void display_structure_tree(t_token *root, int depth)
+{
+	if (root == NULL)
+		return;
+
+	// Print right child
+	display_structure_tree(root->right, depth + 1);
+
+	// Print current node
+	for (int i = 0; i < depth; i++)
+		printf("    ");
+	printf("|-- data: %s, type: %d\n", root->data, root->type);
+
+	// Print middle child
+	display_structure_tree(root->middle, depth + 1);
+	
+	// Print left child
+	display_structure_tree(root->left, depth + 1);
+}
 
 //Inits the first step of the analizer
 t_step	*init_first_step(t_input **struct_input, t_token *input_token)
@@ -40,27 +80,6 @@ t_step	*init_first_step(t_input **struct_input, t_token *input_token)
 	first_step->next = NULL;
 	first_step->prev = NULL;
 	return (first_step);
-}
-
-// Function to display the structure tree
-void display_structure_tree(t_token *root, int depth)
-{
-	if (root == NULL)
-		return;
-
-	// Print right child
-	display_structure_tree(root->right, depth + 1);
-
-	// Print current node
-	for (int i = 0; i < depth; i++)
-		printf("    ");
-	printf("|-- data: %s, type: %d\n", root->data, root->type);
-
-	// Print middle child
-	display_structure_tree(root->middle, depth + 1);
-	
-	// Print left child
-	display_structure_tree(root->left, depth + 1);
 }
 
 //Main function of the analizer
@@ -142,11 +161,15 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	else
 	{
 		printf("\033[0;32mOK\033[0m\n");
-		walk_tree(struct_input, c_step->tree_stack);
+
+		// printf("\n\n");
+		// display_structure_tree(c_step->tree_stack, 0);
+		// printf("\n\n");
+		t_var_parsed_table *tmp_parsed_table = (*struct_input)->parsed_table;
+		walk_tree(&tmp_parsed_table, c_step->tree_stack);
+		print_cmd_contents(tmp_parsed_table);
 	}
 
 
-	// printf("\n\n");
-	// display_structure_tree(c_step->tree_stack, 0);
-	// printf("\n\n");
+
 }

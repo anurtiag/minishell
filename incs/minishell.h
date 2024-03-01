@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 13:21:15 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 23:50:25 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ typedef struct s_var_list
 typedef struct s_var_parsed_table
 {
 	char						**env;
-	char						**cmd; //primera linea 'echo' segunda linea 'patata' cat -e 
+	char						**cmd_splited; //primera linea 'echo' segunda linea 'patata' cat -e 
+	char						*cmd;
 	char						*path; //nombre del comando con la ruta 'users/bin/ls'
 	int							fd_in;
 	int							fd_out; 
@@ -174,7 +175,7 @@ void		ret_to_prev(t_step **c_step);
 void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag);
 
 //READ_TREE
-void		walk_tree(t_input **input_struct, t_token *tree);
+void		walk_tree(t_var_parsed_table **table, t_token *tree);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
