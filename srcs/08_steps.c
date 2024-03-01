@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 10:44:21 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:56:10 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	}
 
 	if ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2))
-		printf("\033[0;31mSYNTAX ERROR\033[0m\n");
+		printf("\033[0;31mKO\033[0m\n");
 	else
 		printf("\033[0;32mOK\033[0m\n");
 

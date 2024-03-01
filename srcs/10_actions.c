@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 10:41:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:54:54 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 			(*c_step)->tree_stack = join_token;
 		}
 		else
-			token_3->next = join_token;
+			token_4->next = join_token;
 	}
 }
 
@@ -153,8 +153,8 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 	}
 	else if (action_type == 0)
 	{
-		//shift and go		
-		//printf("\n\033[0;35mmSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
+		//shift and go
+		//printf("\n\033[0;35mSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
 		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);;
 	}
 	else if (action_type == 1)
