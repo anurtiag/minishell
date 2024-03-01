@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/28 14:54:14 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:21:38 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token *assign_token_types(char *token_raw)
 		return (new_token);
 	if (strcmp(token_raw, "<") == 0)
 		new_token->type = 2;
-	else if (strcmp(token_raw, ">") == 0)
+	else if ((strcmp(token_raw, ">") == 0) || strcmp(token_raw, "2>") == 0)
 		new_token->type = 1;
 	else if (strcmp(token_raw, "<<") == 0)
 		new_token->type = 3;

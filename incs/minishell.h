@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 10:50:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:21:15 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_input
 	char				**token_raw;
 	struct s_var_list	*ent_var;
 	struct s_states		*parsing_table;
+	struct s_var_parsed_table	*parsed_table;
 }				t_input;
 
 //linked list for the enviroment variables
@@ -171,6 +172,9 @@ void		ret_to_prev(t_step **c_step);
 
 //ACTIONS
 void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag);
+
+//READ_TREE
+void		walk_tree(t_input **input_struct, t_token *tree);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
