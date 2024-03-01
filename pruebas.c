@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
+int main(int argc, char *argv[], char **env)
 {
-	char *s = "a";
-	if(s[0] == 'a')
-		printf("pues parece que se hace asi\n");
-	else
-		printf("eres imbecil\n");
+	size_t	i;
+
+	i = -1;
+	argv++;
+	argc--;
+	while(env[++i])
+		printf("%s\n", env[i]);
+	env = (char **)malloc(sizeof(char *) * (i + 2));
+	return (0);
 }
