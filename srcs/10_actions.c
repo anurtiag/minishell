@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 15:46:30 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:12:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,25 +149,25 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 	if (action_type == -1)
 	{
 		//go
-		//printf("\n\033[0;35mGO TO %i\n\033[0m\n", options->next_state);
+		printf("\n\033[0;35mGO TO %i\n\033[0m\n", options->next_state);
 	}
 	else if (action_type == 0)
 	{
 		//shift and go		
-		//printf("\n\033[0;35mmSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
+		printf("\n\033[0;35mmSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
 		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);;
 	}
 	else if (action_type == 1)
 	{
 		//reduce
 		ft_reduce(options, c_step);
-		//printf("\n\033[0;35mREDUCE TO %i BACT TO %i\n\033[0m\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
+		printf("\n\033[0;35mREDUCE TO %i BACT TO %i\n\033[0m\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
 		ret_to_prev(c_step);
 	}
 	else if (action_type == 2)
 	{
 		//accept
-		//printf("\n\033[0;35mACCEPT\n\033[0m\n");
+		printf("\n\033[0;35mACCEPT\n\033[0m\n");
 		*end_flag = TRUE;
 	}
 }
