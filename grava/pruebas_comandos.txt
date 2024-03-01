@@ -1,0 +1,49 @@
+echo patata
+echo patata | ls -l | >>
+hola pepito que tal estamos hoy señor
+hola pepito que tal estamos
+hola pepito que tal estamos | hola
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato < prueba | wc -l
+hola pepito que tal estamos | hola > pepito | pattaa boniato 
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo patata > file | wc -l
+echo p1 p2 p3 p4 p5 p6 p7
+echo p1 p2 p3 p4 p5 p6 p7
+echo patata > file | wc -l
+echo p1 p2 p3 p4 p5 p6 p7 | echo patata > file | ls -la
+echo p1 p2 p3 p4 p5 p6 p7 | echo patata > file | ls -la
+echo p1 p2 p3 p4 p5 p6 p7 | echo patata > file | ls -la
+echo p1 p2 p3 p4 p5 p6 p7 | echo patata > file | ls -la
