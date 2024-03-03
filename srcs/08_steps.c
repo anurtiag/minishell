@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/03 15:47:43 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/03 23:28:38 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void print_cmd_contents(t_var_parsed_table *head)
         if (current->cmd != NULL)
 		{
 			printf("--------------------\n");
-            printf("cmd[0]: %s\n", current->cmd_splited[0]);
+            printf("cmd: %s\n", current->cmd);
 			printf("std in: %i\n", current->fd_in);
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
@@ -50,16 +50,18 @@ void config_parsed_table(t_var_parsed_table **current)
 	}
 	first_node = *current;
 	
-    // Realizar acciones en cada nodo de la lista
+    //Realizar acciones en cada nodo de la lista
     while (first_node != NULL)
     {
-        if (i == 0 && (first_node->fd_in == -1))
-            first_node->fd_in = 0;
-        first_node->cmd_splited = ft_split(first_node->cmd, ' ');
-        first_node = first_node->next;
-        i++;
+		if (i == 0 && (first_node->fd_in == -1))
+			first_node->fd_in = 0;
+		first_node->cmd_splited = ft_split(first_node->cmd, ' ');
+
 		if (i == max && first_node->fd_out == -1)
 			first_node->fd_out = 1;
+
+		first_node = first_node->next;
+		i++;
     }
 	
 }
@@ -195,11 +197,10 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	{
 		printf("\033[0;32mOK\033[0m\n");
 
+		//display_structure_tree(c_step->tree_stack, 0);
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		print_cmd_contents((*struct_input)->parsed_table);
+		//print_cmd_contents((*struct_input)->parsed_table);
 	}
-
-
 
 }
