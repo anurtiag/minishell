@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 23:50:25 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:26:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_var_parsed_table
 	int							fd_out; 
 	int							fd_error;
 	struct	s_var_parsed_table	*next;
+	struct	s_var_parsed_table	*prev;
 }				t_var_parsed_table;
 
 //MAIN

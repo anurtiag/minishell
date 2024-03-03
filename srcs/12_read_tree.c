@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 23:50:32 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:45:50 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 		node->fd_out = -1;
 		node->next = NULL;
 		node->path = NULL;
+		node->prev = prev_table;
 	}
-	else
-		return (node);
+	return (node);
 }
 
 //Recursive function to read the data of the tree
@@ -39,6 +39,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	static int first_time = 1;
 	static int red_to_flag = 0;
 	static int red_from_flag = 0;
+	static int error_flag = 0;
 	static int fd = -1;
 
 	if (tree == NULL)
@@ -47,9 +48,9 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	if (mode == 1)
 	{
 		//reset of the variables
-		first_time = 1;
 		red_to_flag = 0;
 		red_from_flag = 0;
+		error_flag = 0;
 		fd = -1;
 		return ;
 	}
@@ -65,6 +66,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		{
 			//printf("\nCREAMOS NODO SECUNDARIO\n");
 			(*table_node)->next = init_parsed_table(*table_node);
+			//printf("NEXT NODE: %p\n", (*table_node)->next);
 			*table_node = (*table_node)->next;
 		}
 	}
@@ -73,8 +75,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		red_from_flag = 1;
 		
 	if (tree->type == 1)
-		//printf("RED TO FOUND\n");
+	{
 		red_to_flag = 1;
+		if (strcmp(tree->data, "2>") == 0)
+			error_flag = 1;
+	}
+		
 	
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDONLY);
@@ -98,16 +104,21 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			(*table_node)->cmd = strdup(tree->data);
 		else
 		{
-		(*table_node)->cmd = realloc((*table_node)->cmd, ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 2);
-		ft_strlcat((*table_node)->cmd, " ", ft_strlen(" "));
-		ft_strlcat((*table_node)->cmd, tree->data, ft_strlen(tree->data));
+			(*table_node)->cmd = realloc((*table_node)->cmd, ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 2);
+			ft_strlcat((*table_node)->cmd, " ", (ft_strlen((*table_node)->cmd) + ft_strlen(" ") + 1));
+			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
-		//printf("cmd: %s\n", (*table_node)->cmd);
 	}
 	if (red_from_flag == 1)
 		(*table_node)->fd_in = fd;
 	if (red_to_flag == 1)
-		(*table_node)->fd_out = fd;
+	{
+		if (error_flag == 1)		
+			(*table_node)->fd_error = fd;
+		else
+			(*table_node)->fd_out = fd;
+	}
+		
 }
 
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
