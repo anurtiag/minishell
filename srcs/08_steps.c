@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/02 15:36:33 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:33:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void print_cmd_contents(t_var_parsed_table *head)
 {
     t_var_parsed_table *current = head;
 
-	printf("\n");
-    while (current != NULL) {
+    while (current != NULL)
+	{
         if (current->cmd != NULL)
 		{
 			printf("--------------------\n");
@@ -25,10 +25,45 @@ void print_cmd_contents(t_var_parsed_table *head)
 			printf("std in: %i\n", current->fd_in);
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
+			//printf("CURRENT %p\n", current);
+			//printf("NEXT %p\n", current->next);
+			//printf("PREV %p\n", current->prev);
 			printf("--------------------\n\n");
         }
         current = current->next;
     }
+}
+
+void config_parsed_table(t_var_parsed_table **current)
+{
+	int i;
+	int max;
+	t_var_parsed_table *first_node;
+
+	i = 0;
+	max = 0;
+    // Avanzar al primer nodo de la lista
+    while ((*current)->prev != NULL)
+	{
+		max++;
+        (*current) = (*current)->prev;
+	}
+	first_node = *current;
+	
+    //Realizar acciones en cada nodo de la lista
+    while (first_node != NULL)
+    {
+		if (i == 0 && (first_node->fd_in == -1))
+			first_node->fd_in = 0;
+		first_node->cmd_splited = ft_split(first_node->cmd, ' ');
+
+		if (i == max && first_node->fd_out == -1)
+			first_node->fd_out = 1;
+
+		first_node = first_node->next;
+		i++;
+    }
+	
 }
 
 // Function to display the structure tree

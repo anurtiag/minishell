@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/02 15:51:21 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:32:58 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 		node->path = NULL;
 		return (node);
 	}
-	else
-		return (node);
+	return (node);
 }
 
 //Recursive function to read the data of the tree
@@ -42,6 +41,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode, int *co
 	int first_time = mode;
 	static int red_to_flag = 0;
 	static int red_from_flag = 0;
+	static int error_flag = 0;
 	static int fd = -1;
 
 	if (tree == NULL)
@@ -50,9 +50,9 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode, int *co
 	if (mode == 1)
 	{
 		//reset of the variables
-		first_time = 1;
 		red_to_flag = 0;
 		red_from_flag = 0;
+		error_flag = 0;
 		fd = -1;
 		return ;
 	}
@@ -81,8 +81,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode, int *co
 		red_from_flag = 1;
 		
 	if (tree->type == 1)
-		//printf("RED TO FOUND\n");
+	{
 		red_to_flag = 1;
+		if (strcmp(tree->data, "2>") == 0)
+			error_flag = 1;
+	}
+		
 	
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDONLY);
@@ -126,7 +130,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode, int *co
 			ft_strlcat((*table_node)->cmd, tree->data, ft_strlen(tree->data));
 			// printf("1llegamos aqui?\nel arbol tiene una direccion de %p\nel esdiferentetipo de token es %d\ntree data : %s", tree, tree->type, tree->data);
 		}
-		//printf("cmd: %s\n", (*table_node)->cmd);
 	}
 	// printf("4llegamos aqui?\n");
 	if (red_from_flag == 1)

@@ -6,7 +6,11 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/02 12:02:16 by anurtiag         ###   ########.fr       */
+=======
+/*   Updated: 2024/03/03 13:26:29 by emimenza         ###   ########.fr       */
+>>>>>>> 9d53b1e068a6580c382188ac766acccc717ce466
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +125,7 @@ typedef struct s_var_parsed_table
 	int							fd_out; 
 	int							fd_error;
 	struct	s_var_parsed_table	*next;
+	struct	s_var_parsed_table	*prev;
 }				t_var_parsed_table;
 
 //MAIN
