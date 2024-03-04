@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 12:10:16 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:57:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,9 @@ int			ft_look_4_equal(char const *token, int start, int end, t_var_list **variab
 
 //LOOK FOR DOLLARS
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
-static int	ft_trim_var_dollar(char *token, int start, int end, t_var_list **variable_list, char **content);
-int			ft_look_4_dollar(char const *token, int start, int end, t_var_list **variable_list, char **content);
+static int	ft_trim_var_dollar(char *token, t_var_list **variable_list, char **content);
+int			ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content);
+void		expand_var_ent(t_input **struct_input);
 
 //READ TABLE
 void		print_options_for_state(t_states *states_list, int state_number);
@@ -163,6 +164,7 @@ void		print_token_list(t_token *tokens);
 
 //STEPS
 int		start_anaylizer(t_input **struct_input, t_token *input_token);
+void	print_cmd_contents(t_var_parsed_table *head);
 
 //STEPS UTILS
 int			find_state(t_states *states_list, int state_number, t_states **state);
@@ -178,6 +180,7 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 //READ_TREE
 void		walk_tree(t_var_parsed_table **table, t_token *tree);
 void		read_tree(t_token *tree, t_var_parsed_table **table_node, int mode);
+
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);
