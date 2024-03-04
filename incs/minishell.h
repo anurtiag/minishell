@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 13:47:38 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:53:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 
 //READ_TREE
 void		walk_tree(t_var_parsed_table **table, t_token *tree);
-
+void		read_tree(t_token *tree, t_var_parsed_table **table_node, int mode);
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);

@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/03 15:45:50 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:54:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-//Creation of a node
+	void free_parsed_table(t_var_parsed_table **table)
+	{
+		while (*table != NULL)
+		{
+			t_var_parsed_table *temp = *table;
+			*table = (*table)->next;
+			free(temp);
+		}
+	}
+
 t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 {
 	t_var_parsed_table *node;
@@ -45,6 +54,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	if (tree == NULL)
 		return;
 	
+	if (mode == 2)
+	{
+		first_time = 1;
+		free_parsed_table(table_node);
+		return;
+	}
 	if (mode == 1)
 	{
 		//reset of the variables
@@ -113,7 +128,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		(*table_node)->fd_in = fd;
 	if (red_to_flag == 1)
 	{
-		if (error_flag == 1)		
+		if (error_flag == 1)
 			(*table_node)->fd_error = fd;
 		else
 			(*table_node)->fd_out = fd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/29 13:10:57 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:43:47 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ char	*add_space(char *input, char c)
 		free(last);
 		s = ft_strchr((s + 1), c);
 		if(s && *(s + 1) == c)
-		{
-			printf("donde petas\n");
 			s++;
-		}
 	}
 	return (input);
 }
