@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 14:02:36 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:09:11 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,21 @@ void print_cmd_contents(t_var_parsed_table *head)
         if (current->cmd != NULL)
 		{
 			printf("--------------------\n");
-            printf("cmd: %s\n", current->cmd);
+            if (current->cmd_splited != NULL)
+			{
+                printf("cmd_splited: ");
+                char **cmd_ptr = current->cmd_splited;
+                while (*cmd_ptr != NULL)
+				{
+                    printf("%s ", *cmd_ptr);
+                    cmd_ptr++;
+                }
+                printf("\n");
+            }
 			printf("path: %s\n", current->path);
 			printf("std in: %i\n", current->fd_in);			
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
-			//printf("CURRENT %p\n", current);
-			//printf("NEXT %p\n", current->next);
-			//printf("PREV %p\n", current->prev);
 			printf("--------------------\n\n");
         }
         current = current->next;
@@ -203,9 +210,9 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
 		cmd_handle(&(*struct_input)->parsed_table);
-		
+		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
+
 		print_cmd_contents((*struct_input)->parsed_table);
-		
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 	}
 }

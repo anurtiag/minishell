@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 12:48:02 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:09:37 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 	{
 		if (((token[i - 1] == SPACE_M) || (!token[i - 1])) && (token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z'))))
 		{
-			printf("llamada a variable de entorno encontrada\n");
+			//printf("llamada a variable de entorno encontrada\n");
 			if (ft_trim_var_dollar((char *)token, variable_list, content) == TRUE)
 				return (TRUE);
 			return(FALSE);
@@ -63,20 +63,20 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 	return (FALSE);
 }
 
-void	expand_var_ent(t_input **struct_input)
+void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 {
 	t_var_parsed_table *current;
 	int	index;
 	char **cmd;
 
-	index = 0;
-	current = (*struct_input)->parsed_table;
+	current = *table;
 	while (current != NULL)
 	{
+		index = 0;
 		cmd = current->cmd_splited;
 		while (cmd[index])
 		{
-			printf("%s\n", cmd[index]);
+			ft_look_4_dollar(cmd[index], &(*struct_input)->ent_var, &cmd[index]);
 			index++;
 		}
 		current = current->next;
