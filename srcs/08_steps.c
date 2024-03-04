@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/03 23:28:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:49:50 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void print_cmd_contents(t_var_parsed_table *head)
 		{
 			printf("--------------------\n");
             printf("cmd: %s\n", current->cmd);
-			printf("std in: %i\n", current->fd_in);
+			printf("path: %s\n", current->path);
+			printf("std in: %i\n", current->fd_in);			
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
 			//printf("CURRENT %p\n", current);
@@ -200,7 +201,8 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		//display_structure_tree(c_step->tree_stack, 0);
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		//print_cmd_contents((*struct_input)->parsed_table);
+		cmd_handle(&(*struct_input)->parsed_table);
+		print_cmd_contents((*struct_input)->parsed_table);
 	}
 
 }
