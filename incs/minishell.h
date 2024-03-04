@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 12:57:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:02:43 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,5 +190,8 @@ char	**ft_bash_split(char const *s, char c, int *control);
 
 //TOKENIZATION
 int	tokenization(char *input, t_input **struct_input);
+
+//PIPEX_UTILS
+void	cmd_handle(t_var_parsed_table **cmd_list);
 
 #endif
