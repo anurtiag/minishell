@@ -6,11 +6,22 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/03 15:45:50 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:50:25 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+void free_parsed_table(t_var_parsed_table **table)
+{
+	while (*table != NULL)
+	{
+		t_var_parsed_table *temp = *table; // Guarda una referencia al nodo actual
+		*table = (*table)->next; // Avanza al siguiente nodo
+		free(temp->cmd); // Libera la memoria asignada para el puntero cmd
+		free(temp); // Libera la memoria asignada para el nodo actual
+	}
+}
 
 //Creation of a node
 t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
@@ -45,13 +56,18 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	if (tree == NULL)
 		return;
 	
-	if (mode == 1)
+	if (mode == 1 || mode == 2)
 	{
 		//reset of the variables
 		red_to_flag = 0;
 		red_from_flag = 0;
 		error_flag = 0;
 		fd = -1;
+		if (mode == 2)
+		{
+			first_time = 1;
+			free_parsed_table(table_node);
+		}
 		return ;
 	}
 	if (tree->type == 100 || tree->type == 101)
@@ -70,7 +86,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			*table_node = (*table_node)->next;
 		}
 	}
-	
+
 	if (tree->type == 2)
 		red_from_flag = 1;
 		
@@ -80,8 +96,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		if (strcmp(tree->data, "2>") == 0)
 			error_flag = 1;
 	}
-		
-	
+
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDONLY);
 
@@ -113,12 +128,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		(*table_node)->fd_in = fd;
 	if (red_to_flag == 1)
 	{
-		if (error_flag == 1)		
+		if (error_flag == 1)
 			(*table_node)->fd_error = fd;
 		else
 			(*table_node)->fd_out = fd;
 	}
-		
+
 }
 
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
@@ -130,7 +145,7 @@ void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
 		read_tree(tree->right, parsed_table, 0);
 	else
 		read_tree(tree, parsed_table, 0);
-		
+
 	//Calling the function again to clear the static variables (mode 1)
 	read_tree(tree, parsed_table, 1);
 }
