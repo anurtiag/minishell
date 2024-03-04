@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 12:14:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:54:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 			t_var_parsed_table *temp = *table;
 			*table = (*table)->next;
 			free(temp);
-			
 		}
 	}
 
