@@ -6,12 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/02/23 12:54:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:47:00 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Handles the signals
 static void	signal_handler(int	signal)
 {
 	if (signal == SIGINT)
@@ -24,6 +25,7 @@ static void	signal_handler(int	signal)
 	}
 }
 
+//Receives the signals
 void	signal_receiver(void)
 {
 	struct sigaction	sa;

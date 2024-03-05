@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 09:37:26 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:37:40 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 	return (FALSE);
 }
 
+//Looks into the cmd looking for dollars and equals
 void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 {
 	t_var_parsed_table *current;
@@ -78,6 +79,7 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 		while (cmd[index])
 		{
 			ft_look_4_dollar(cmd[index], &(*struct_input)->ent_var, &cmd[index]);
+			ft_look_4_equal(cmd[index], &(*struct_input)->ent_var);
 			index++;
 		}
 		current = current->next;

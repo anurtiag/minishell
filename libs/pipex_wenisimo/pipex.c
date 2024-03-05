@@ -6,48 +6,49 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/09 07:51:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:21:01 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "../../incs/minishell.h"
 
-char	**ft_get_cmd(char *s1)
-{
-	char	**cmd;
+// char	**ft_get_cmd(char *s1)
+// {
+// 	char	**cmd;
 
-	cmd = ft_split(s1, ' ');
-	if (!cmd)
-		ft_exit(1);
-	return (cmd);
-}
+// 	cmd = ft_split(s1, ' ');
+// 	if (!cmd)
+// 		ft_exit(1);
+// 	return (cmd);
+// }
 
-t_data	*set_data(int argc, char **argv, char **env, t_data *cmd)
-{
-	int		i;
-	t_data	*tmp;
+// t_data	*set_data(int argc, char **argv, char **env, t_data *cmd)
+// {
+// 	int		i;
+// 	t_data	*tmp;
 
-	i = -1;
-	tmp = NULL;
-	while (++i < (argc - 3))
-	{
-		if (!cmd)
-		{
-			cmd = cmd_handle(argv, env, i, cmd);
-			cmd->fd = fd_handle(i, argc, argv);
-			cmd->next = NULL;
-			tmp = cmd;
-		}
-		else
-		{
-			cmd->next = cmd_handle(argv, env, i, tmp);
-			cmd = cmd->next;
-			cmd->fd = fd_handle(i, argc, argv);
-		}
-	}
-	cmd->next = NULL;
-	return (tmp);
-}
+// 	i = -1;
+// 	tmp = NULL;
+// 	while (++i < (argc - 3))
+// 	{
+// 		if (!cmd)
+// 		{
+// 			cmd = cmd_handle(argv, env, i, cmd);
+// 			cmd->fd = fd_handle(i, argc, argv);
+// 			cmd->next = NULL;
+// 			tmp = cmd;
+// 		}
+// 		else
+// 		{
+// 			cmd->next = cmd_handle(argv, env, i, tmp);
+// 			cmd = cmd->next;
+// 			cmd->fd = fd_handle(i, argc, argv);
+// 		}
+// 	}
+// 	cmd->next = NULL;
+// 	return (tmp);
+// }
 
 void	ft_exit(int i)
 {
@@ -74,21 +75,21 @@ void	freeall(char **str)
 	str = NULL;
 }
 
-int	main(int argc, char **argv, char **env)
+int	pipex(t_var_parsed_table *cmd_list)
 {
-	t_data	*cmd;
-	t_data	*tmp;
+	// t_data	*cmd;
+	// t_data	*tmp;
 	int		fd[2];
 	int		pid;
 
-	cmd = NULL;
-	tmp = NULL;
+	// cmd = NULL;
+	// tmp = NULL;
 	pid = 0;
 	fd[READ] = 0;
 	fd[WRITE] = 0;
-	error_handle(argc, argv);
-	cmd = set_data(argc, argv, env, cmd);
-	tmp = cmd;
-	ft_make_process(cmd, fd, pid);
-	return (free_nodes(tmp), 0);
+	// error_handle(argc, argv);
+	// cmd = set_data(argc, argv, env, cmd);
+	// tmp = cmd;
+	ft_make_process(cmd_list, fd, pid);
+	return (0);
 }

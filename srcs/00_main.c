@@ -6,31 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 18:46:27 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:46:14 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
- 
-int	print_history(char *line, t_input **struct_input)
-{
-	//ft_print_var(*struct_input);
-	if (tokenization(line, struct_input) == FALSE)
-	{
-		return (printf("syntax error\n"), FALSE);
-	}
-	return (TRUE);
-}
 
-// void	print_env(char	**env)
-// {
-// 	while (*env)
-// 	{
-// 		printf("%s\n", *env);
-// 		env++;
-// 	}
-// }
-
+//If a pipe is the last char opens a here doc to complete it
 void	beyond_pipe(char *input, size_t *control)
 {
 	char	*pipe;
@@ -54,6 +36,7 @@ void	beyond_pipe(char *input, size_t *control)
 	*control = FALSE;
 }
 
+//If the last char is a pipe generates a line and joins it
 char	*join_line(char *input, char *tmp, char *line, size_t *control)
 {
 	write(1,">", 1);
@@ -80,6 +63,7 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control)
 	return(input);
 }
 
+//If the redirect and the filename are joined adds a space
 char	*add_space(char *input, char c)
 {
 	char	*s;
@@ -110,26 +94,8 @@ char	*add_space(char *input, char c)
 	return (input);
 }
 
-char	*analyze_input(char *input)
-{
-	char	*tmp;
-	char	*line;
-	size_t	control;
-
-	control = TRUE;
-	beyond_pipe(input, &control);
-	while (control == FALSE)
-	{
-		input = join_line(input, tmp, line, &control);
-		if (!input)
-			return (NULL);
-	}
-	input = add_space(input, '>');
-	input = add_space(input, '<');
-	return(input);
-}
-
-void	open_quotes(char *input)
+//Checks if there are any open quotes
+int	open_quotes(char *input)
 {
 	size_t	s_quote;
 	size_t	d_quote;
@@ -149,9 +115,36 @@ void	open_quotes(char *input)
 		input++;
 	}
 	if (s_quote == FALSE || d_quote == FALSE)
-		write(2, "ERROR: open quotes\n", 19);
+	{
+		printf("\033[0;31mERROR: open quotes\033[0m\n");
+		return (FALSE);
+	}
+	return (TRUE);		
 }
 
+//Analize the input looking for errors
+int		analyze_input(char **input)
+{
+	char	*tmp;
+	char	*line;
+	size_t	control;
+
+	control = TRUE;
+	beyond_pipe(*input, &control);
+	if (open_quotes(*input) == FALSE)
+		return (FALSE);
+	while (control == FALSE)
+	{
+		*input = join_line(*input, tmp, line, &control);
+		if (!input)
+			return (FALSE);
+	}
+	*input = add_space(*input, '>');
+	*input = add_space(*input, '<');
+	return (TRUE);
+}
+
+//Prepares the variables and structures for the program
 void	prepare_program(t_input **struct_input, char **envp)
 {
 	*struct_input = (t_input *)malloc(sizeof(t_input));
@@ -161,17 +154,27 @@ void	prepare_program(t_input **struct_input, char **envp)
 	read_table(struct_input);
 }
 
+//Checks the input 
+int	check_input(char **line, t_input **struct_input)
+{
+	if (analyze_input(line) == FALSE)
+		return (FALSE);
+	
+	//ft_print_var(*struct_input);
+	if (tokenization(*line, struct_input) == FALSE)
+	{
+		return (printf("\033[0;31mSYNTAX ERROR TOKENIZATION\033[0m\n"), FALSE);
+	}
+	return (TRUE);
+}
+
  int main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_input *struct_input;
-	char	**prueba;
-	int		control[2];
 
 	(void)argc;
 	(void)argv;
-	control[0] = TRUE;
-	control[1] = TRUE;
 	input = NULL;
 	prepare_program(&struct_input, envp);
 	while (1)
@@ -181,12 +184,10 @@ void	prepare_program(t_input **struct_input, char **envp)
 			break ;
 
 		//printf("el input es:--->%s<----\n", input);
-		open_quotes(input);
-		input = analyze_input(input);
-		prueba = ft_bash_split(input, ' ', control);
 
-		print_history(input, &struct_input);
-		create_tokens_analyzer(&struct_input);
+		if (check_input(&input, &struct_input) == TRUE)
+			create_tokens_analyzer(&struct_input);
+		
 		save_history(input);
 		free(input);
 	}

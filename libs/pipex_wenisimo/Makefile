@@ -6,11 +6,11 @@
 #    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 07:10:48 by anurtiag          #+#    #+#              #
-#    Updated: 2024/01/09 06:48:51 by anurtiag         ###   ########.fr        #
+#    Updated: 2024/03/05 13:25:50 by anurtiag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=	pipex
+NAME			=	pipex.a
 
 NAME_BONUS		=	pipex_bonus
 
@@ -20,11 +20,13 @@ PRINTF			= 	./lib/ft_printf
 
 GNL				=	./lib/gnl
 
+MINISHELL		=	../../incs/minishell.h
+
 LIBS			=	$(LIBFT)/libft.a $(PRINTF)/libftprintf.a
 
 LIBS_BONUS		=	$(LIBFT)/libft.a $(PRINTF)/libftprintf.a $(GNL)/gnl.a
 
-HEADERS			=	-I $(LIBFT) -I $(PRINTF)
+HEADERS			=	-I $(LIBFT) -I $(PRINTF) -I$(MINISHELL)
 
 HEADERS_BONUS	=	-I $(LIBFT) -I $(PRINTF) -I $(GNL)
 
@@ -38,7 +40,7 @@ OBJ_BONUS		=	$(SRCS_BONUS:.c=.o)
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS			=	#-Wall -Wextra -Werror #-g3 -fsanitize=address
 
 RM				=	rm -rf
 
@@ -47,11 +49,11 @@ RM				=	rm -rf
 all:			$(NAME)
 
 $(NAME):		libft printf $(OBJ)
-				@$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME)
+				@ar rcs $(NAME) $(OBJ)
 
-bonus:			libft printf gnl
-				@$(CC) -g $(CFLAGS) -c $(SRCS_BONUS) $(HEADERS_BONUS)
-				@$(CC) -g $(CFLAGS) $(OBJ_BONUS) $(LIBS_BONUS) -o $(NAME_BONUS)
+# bonus:			libft printf gnl
+# 				@$(CC) -g $(CFLAGS) -c $(SRCS_BONUS) $(HEADERS_BONUS)
+# 				@$(CC) -g $(CFLAGS) $(OBJ_BONUS) $(LIBS_BONUS) -o $(NAME_BONUS)
 
 libft:
 				@$(MAKE) -C $(LIBFT)

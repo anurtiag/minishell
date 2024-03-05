@@ -6,12 +6,13 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 09:34:42 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:43:10 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Prints the parsed table content
 void print_cmd_contents(t_var_parsed_table *head)
 {
     t_var_parsed_table *current = head;
@@ -35,7 +36,7 @@ void print_cmd_contents(t_var_parsed_table *head)
                 printf("\n");
             }
 			printf("path: %s\n", current->path);
-			printf("std in: %i\n", current->fd_in);			
+			printf("std in: %i\n", current->fd_in);
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
 			printf("--------------------\n\n");
@@ -44,6 +45,7 @@ void print_cmd_contents(t_var_parsed_table *head)
     }
 }
 
+//Configs the parsed table (fd OUT fd IN)
 void config_parsed_table(t_var_parsed_table **current)
 {
 	int i;
@@ -52,28 +54,27 @@ void config_parsed_table(t_var_parsed_table **current)
 
 	i = 0;
 	max = 0;
-    // Avanzar al primer nodo de la lista
-    while ((*current)->prev != NULL)
+	// Avanzar al primer nodo de la lista
+	while ((*current)->prev != NULL)
 	{
 		max++;
-        (*current) = (*current)->prev;
+		(*current) = (*current)->prev;
 	}
 	first_node = *current;
-	
-    //Realizar acciones en cada nodo de la lista
-    while (first_node != NULL)
-    {
+	//Realizar acciones en cada nodo de la lista
+	while (first_node != NULL)
+	{
 		if (i == 0 && (first_node->fd_in == -1))
 			first_node->fd_in = 0;
+		
 		first_node->cmd_splited = ft_split(first_node->cmd, ' ');
-
+		
 		if (i == max && first_node->fd_out == -1)
 			first_node->fd_out = 1;
 
 		first_node = first_node->next;
 		i++;
-    }
-	
+	}
 }
 
 // Function to display the structure tree
@@ -206,7 +207,9 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	else
 	{
 		printf("\033[0;32mOK\033[0m\n");
+
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
+			
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
 		cmd_handle(&(*struct_input)->parsed_table);
@@ -215,6 +218,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		print_cmd_contents((*struct_input)->parsed_table);
 		
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
+		//pipex((*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 	}
 }

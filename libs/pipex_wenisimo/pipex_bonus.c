@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:00:47 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/01/09 08:06:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:20:23 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,28 +81,28 @@ void	freeall(char **str)
 	str = NULL;
 }
 
-int	main(int argc, char **argv, char **env)
-{
-	t_data		*cmd;
-	t_data		*tmp;
-	int			fd[2];
-	int			pid;
-	const char	*tempfile;
+// int	main(int argc, char **argv, char **env)
+// {
+// 	t_data		*cmd;
+// 	t_data		*tmp;
+// 	int			fd[2];
+// 	int			pid;
+// 	const char	*tempfile;
 
-	cmd = NULL;
-	tmp = NULL;
-	pid = 0;
-	fd[READ] = 0;
-	fd[WRITE] = 0;
-	tempfile = "tempfile";
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-		ft_here_doc_errors(argc, argv);
-	else
-		error_handle(argc, argv);
-	cmd = set_data(argc, argv, env, cmd);
-	tmp = cmd;
-	ft_make_process(cmd, fd, pid);
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-		unlink(tempfile);
-	return (free_nodes(tmp), 0);
-}
+// 	cmd = NULL;
+// 	tmp = NULL;
+// 	pid = 0;
+// 	fd[READ] = 0;
+// 	fd[WRITE] = 0;
+// 	tempfile = "tempfile";
+// 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+// 		ft_here_doc_errors(argc, argv);
+// 	else
+// 		error_handle(argc, argv);
+// 	cmd = set_data(argc, argv, env, cmd);
+// 	tmp = cmd;
+// 	ft_make_process(cmd, fd, pid);
+// 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+// 		unlink(tempfile);
+// 	return (free_nodes(tmp), 0);
+// }

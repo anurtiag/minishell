@@ -6,13 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 10:22:12 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:52:53 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-//funcion que devuelva un estado pasando el numero
+//Returns a state with the number of it
 int	find_state(t_states *states_list, int state_number, t_states **state)
 {
 	t_states *current_state;
@@ -45,7 +45,7 @@ int	stack_size(t_token *tokens)
 	return (i);
 }
 
-//funcion que devuelve la opcion default si la encuentra
+//Returns the option according to the token type
 t_options *find_option(t_states *state, int token_type)
 {
 	t_options *current_option;
@@ -63,7 +63,7 @@ t_options *find_option(t_states *state, int token_type)
 	return (null_option);
 }
 
-//funcion para crear un nuevo paso
+//Creates a new step node
 void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_token *input_token, t_step **c_step)
 {
 	t_step		*step;
@@ -112,7 +112,7 @@ t_token	*last_node_stack(t_token *stack)
 	return (current);
 }
 
-//funcion para volver al paso anterior
+//Returns to the prev step
 void	ret_to_prev(t_step **c_step)
 {
 	t_step	*prev_step;

@@ -6,13 +6,14 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 12:26:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:43:56 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//# include "../libs/pipex_wenisimo/pipex.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -145,8 +146,8 @@ void		save_env(char **envp, t_input **struct_input);
 void		ft_print_var(t_input *input);
 static void	ft_add_var(t_var_list **list, char *name, char *content);
 static int	ft_var_found(t_var_list **list, char *name, char *content);
-static void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list);
-int			ft_look_4_equal(char const *token, int start, int end, t_var_list **variable_list);
+static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list);
+int			ft_look_4_equal(char const *token, t_var_list **variable_list);
 
 //LOOK FOR DOLLARS
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
