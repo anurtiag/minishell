@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 10:01:09 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:32:38 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ void create_tokens_analyzer(t_input **struct_input)
 	//print_token_list(tokens);
 	start_anaylizer(struct_input, tokens);
 	//print_cmd_contents((*struct_input)->parsed_table);
+	
 }
