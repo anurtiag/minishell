@@ -6,21 +6,12 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 18:46:27 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:19:25 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
  
-int	print_history(char *line, t_input **struct_input)
-{
-	//ft_print_var(*struct_input);
-	if (tokenization(line, struct_input) == FALSE)
-	{
-		return (printf("syntax error\n"), FALSE);
-	}
-	return (TRUE);
-}
 
 // void	print_env(char	**env)
 // {
@@ -110,26 +101,7 @@ char	*add_space(char *input, char c)
 	return (input);
 }
 
-char	*analyze_input(char *input)
-{
-	char	*tmp;
-	char	*line;
-	size_t	control;
-
-	control = TRUE;
-	beyond_pipe(input, &control);
-	while (control == FALSE)
-	{
-		input = join_line(input, tmp, line, &control);
-		if (!input)
-			return (NULL);
-	}
-	input = add_space(input, '>');
-	input = add_space(input, '<');
-	return(input);
-}
-
-void	open_quotes(char *input)
+int	open_quotes(char *input)
 {
 	size_t	s_quote;
 	size_t	d_quote;
@@ -149,7 +121,32 @@ void	open_quotes(char *input)
 		input++;
 	}
 	if (s_quote == FALSE || d_quote == FALSE)
-		write(2, "ERROR: open quotes\n", 19);
+	{
+		printf("\033[0;31mERROR: open quotes\033[0m\n");
+		return (FALSE);
+	}
+	return (TRUE);		
+}
+
+int		analyze_input(char **input)
+{
+	char	*tmp;
+	char	*line;
+	size_t	control;
+
+	control = TRUE;
+	beyond_pipe(*input, &control);
+	if (open_quotes(*input) == FALSE)
+		return (FALSE);
+	while (control == FALSE)
+	{
+		*input = join_line(*input, tmp, line, &control);
+		if (!input)
+			return (FALSE);
+	}
+	*input = add_space(*input, '>');
+	*input = add_space(*input, '<');
+	return (TRUE);
 }
 
 void	prepare_program(t_input **struct_input, char **envp)
@@ -159,6 +156,19 @@ void	prepare_program(t_input **struct_input, char **envp)
 	save_env(envp, struct_input);
 	//signal_receiver();
 	read_table(struct_input);
+}
+
+int	check_input(char **line, t_input **struct_input)
+{
+	if (analyze_input(line) == FALSE)
+		return (FALSE);
+	
+	//ft_print_var(*struct_input);
+	if (tokenization(*line, struct_input) == FALSE)
+	{
+		return (printf("\033[0;31mSYNTAX ERROR TOKENIZATION\033[0m\n"), FALSE);
+	}
+	return (TRUE);
 }
 
  int main(int argc, char **argv, char **envp)
@@ -181,12 +191,10 @@ void	prepare_program(t_input **struct_input, char **envp)
 			break ;
 
 		//printf("el input es:--->%s<----\n", input);
-		open_quotes(input);
-		input = analyze_input(input);
-		prueba = ft_bash_split(input, ' ', control);
 
-		print_history(input, &struct_input);
-		create_tokens_analyzer(&struct_input);
+		if (check_input(&input, &struct_input) == TRUE)
+			create_tokens_analyzer(&struct_input);
+		
 		save_history(input);
 		free(input);
 	}
