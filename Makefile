@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
+#    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/03/04 13:48:55 by anurtiag         ###   ########.fr        #
+#    Updated: 2024/03/05 12:05:06 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RLFLAGS		=	-I /Users/$(USER)/.brew/opt/readline/include
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 12_read_tree 13_pipex_utils bash_split tokenization
+SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 12_read_tree 13_pipex_utils 14_bash_split 15_tokenization
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
