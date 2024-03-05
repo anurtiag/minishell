@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 19:09:37 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:37:26 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 		}
 		current = current->next;
 	}
+	(*content) = NULL;
 	return (0);
 }
 

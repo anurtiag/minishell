@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 18:42:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:29:54 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	ft_add_var(t_var_list **list, char *name, char *content)
 	new->content = content;
 	new->name = name;
 	new->next = *list;
+	new->is_printed = 0;
 	*list = new;
 }
 
