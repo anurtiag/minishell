@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 19:09:37 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:43:35 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 		while (cmd[index])
 		{
 			ft_look_4_dollar(cmd[index], &(*struct_input)->ent_var, &cmd[index]);
+			ft_look_4_equal(cmd[index], &(*struct_input)->ent_var);
 			index++;
 		}
 		current = current->next;

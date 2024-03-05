@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 18:42:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:55:25 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,15 @@ static int	ft_var_found(t_var_list **list, char *name, char *content)
 }
 
 //Trim the token into name and content
-static void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_var_list **variable_list)
+static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list)
 {
 	char	*var_name;
 	char	*var_content;
 	int		content_start = equal_pos + 1;
+	int		end;
 
-	var_name = strndup(token + start, equal_pos - start);
+	end = ft_strlen(token);
+	var_name = strndup(token, equal_pos);
 	if (token[equal_pos + 1] == '\'' || token[equal_pos + 1] == '\"')
 	{
 		var_content = strndup(token + equal_pos + 2, (end - 1) - (equal_pos + 2));
@@ -78,6 +80,7 @@ static void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_
 	{
 		var_content = strndup(token + equal_pos + 1, end - (equal_pos + 1));
 	}
+
 	if (ft_var_found(variable_list, var_name, var_content) == FALSE)
 	{
 		ft_add_var(variable_list, var_name, var_content);
@@ -85,13 +88,15 @@ static void	ft_trim_var_equal(char *token, int equal_pos, int start, int end, t_
 }
 
 //looks for equals in the token
-int	ft_look_4_equal(char const *token, int start, int end, t_var_list **variable_list)
+int	ft_look_4_equal(char const *token, t_var_list **variable_list)
 {
 	int		i;
 	char	quote = '\0'; // Variable para rastrear comillas abiertas
+	int		max;
 
-	i = start;
-	while (i < end)
+	max = ft_strlen(token);
+	i = 0;
+	while (i < max)
 	{
 		if (token[i] == '\'' || token[i] == '\"')
 		{
@@ -100,7 +105,7 @@ int	ft_look_4_equal(char const *token, int start, int end, t_var_list **variable
 		else if (quote == '\0' && token[i - 1] != '\'' && token[i - 1] != '\"' && token[i] == '=')
 		{
 			// Si no hay comillas abiertas y encontramos un igual no precedido por comillas
-			ft_trim_var_equal((char *)token, i, start, end, variable_list);
+			ft_trim_var_equal((char *)token, i, variable_list);
 			return (TRUE);
 		}
 		else if (token[i] == quote)
