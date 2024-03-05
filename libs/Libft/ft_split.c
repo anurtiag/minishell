@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 11:33:58 by emimenza          #+#    #+#             */
-/*   Updated: 2023/12/07 11:55:04 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:26:29 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,85 +17,66 @@
 // utilizando el caracter ’c’ como delimitador. El
 // array debe terminar con un puntero NULL.
 
-static int	ft_count(char const *s, char c)
+static size_t	num_strings(char const *s, char c)
 {
-	int		i;
-	int		count;
+	size_t	i;
+	int		div;
 
+	div = 0;
 	i = 0;
-	count = 0;
-	if (s[i] != c && s[i] != '\0')
-		count++;
-	while (s[i])
-	{
-		if ((s[i] == c) && (s[i + 1] != c) && (s[i + 1]))
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-static void	freeall(char **splits)
-{
-	int		i;
-
-	i = 0;
-	while (splits[i])
-	{
-		free(splits[i]);
-		i++;
-	}
-	free(splits);
-}
-
-static int	check_str(char **str, int j)
-{
-	if (str[j - 1] == NULL)
-	{
-		freeall(str);
+	if (c == 0 && *s != 0)
 		return (1);
+	else if (c == 0)
+		return (0);
+	while (s[i] == c)
+			i++;
+	while (s[i] != '\0')
+	{
+		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+			div++;
+		i++;
 	}
-	return (0);
+	return (div);
 }
 
-//size = i - start
+static char	**freeall(char **str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{	
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	return (NULL);
+}
+
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
-	int		start;
 	char	**str;
+	size_t	i;
+	size_t	len;
+	size_t	start;
 
 	i = 0;
-	j = 0;
-	str = ft_calloc(ft_count(s, c) + 1, sizeof(char *));
-	if (!s || !str)
+	len = 0;
+	start = 0;
+	str = (char **) ft_calloc ((num_strings(s, c) + 1), sizeof (char *));
+	if (!str)
 		return (NULL);
-	while (s[i])
+	while (i < num_strings(s, c))
 	{
-		while (s[i] == c)
-			i++;
-		start = i;
-		while (s[i] != c && s[i])
-			i++;
-		if (i > start)
-		{
-			str[j++] = ft_substr(s, start, i - start);
-			if (check_str(str, j))
-				return (NULL);
-		}
+		while (s[len] == c)
+			len++;
+		start = len;
+		while (s[len] != c && len < ft_strlen(s))
+			len++;
+		str[i] = ft_substr(s, start, (len - start));
+		if (str[i] == NULL)
+			return (freeall(str));
+		i++;
 	}
 	return (str);
 }
-
-// int main(void)
-// {
-// 	char *str = "hello!";
-// 	char **splt;
-
-// 	splt = ft_split(str, ' ');
-// 	printf("%s", splt[0]);
-// 	printf("%s", splt[1]);
-// 	printf("%s", splt[2]);
-// 	return (0);
-// }

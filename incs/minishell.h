@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 14:02:43 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:54:09 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int			ft_look_4_equal(char const *token, int start, int end, t_var_list **variab
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
 static int	ft_trim_var_dollar(char *token, t_var_list **variable_list, char **content);
 int			ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content);
-void		expand_var_ent(t_input **struct_input);
+void		expand_var_ent(t_var_parsed_table **table, t_input **struct_input);
 
 //READ TABLE
 void		print_options_for_state(t_states *states_list, int state_number);

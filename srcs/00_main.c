@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 12:43:47 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:46:27 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
  
 int	print_history(char *line, t_input **struct_input)
 {
+	//ft_print_var(*struct_input);
 	if (tokenization(line, struct_input) == FALSE)
 	{
 		return (printf("syntax error\n"), FALSE);
