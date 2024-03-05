@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 09:43:35 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:47:55 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 	return (FALSE);
 }
 
+//Looks into the cmd looking for dollars and equals
 void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 {
 	t_var_parsed_table *current;

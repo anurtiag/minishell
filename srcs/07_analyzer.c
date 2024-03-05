@@ -6,12 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 10:32:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:50:05 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Prints the token list
 void print_token_list(t_token *tokens)
 {
 	t_token *current = tokens;
@@ -23,7 +24,7 @@ void print_token_list(t_token *tokens)
 	}
 }
 
-// Función para asignar el tipo de data y el tipo de un token
+//This function assign type depending on the data
 t_token *assign_token_types(char *token_raw)
 {
 	t_token *new_token;
@@ -53,7 +54,7 @@ t_token *assign_token_types(char *token_raw)
 	return (new_token);
 }
 
-// Función para crear tokens a partir de token_raw
+//Creates the tokens taking the token_raw
 void create_tokens_analyzer(t_input **struct_input)
 {
 	char		**token_raw;    //double ptr with the raw input

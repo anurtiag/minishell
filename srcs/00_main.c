@@ -6,22 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 11:19:25 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:46:14 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
- 
 
-// void	print_env(char	**env)
-// {
-// 	while (*env)
-// 	{
-// 		printf("%s\n", *env);
-// 		env++;
-// 	}
-// }
-
+//If a pipe is the last char opens a here doc to complete it
 void	beyond_pipe(char *input, size_t *control)
 {
 	char	*pipe;
@@ -45,6 +36,7 @@ void	beyond_pipe(char *input, size_t *control)
 	*control = FALSE;
 }
 
+//If the last char is a pipe generates a line and joins it
 char	*join_line(char *input, char *tmp, char *line, size_t *control)
 {
 	write(1,">", 1);
@@ -71,6 +63,7 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control)
 	return(input);
 }
 
+//If the redirect and the filename are joined adds a space
 char	*add_space(char *input, char c)
 {
 	char	*s;
@@ -101,6 +94,7 @@ char	*add_space(char *input, char c)
 	return (input);
 }
 
+//Checks if there are any open quotes
 int	open_quotes(char *input)
 {
 	size_t	s_quote;
@@ -128,6 +122,7 @@ int	open_quotes(char *input)
 	return (TRUE);		
 }
 
+//Analize the input looking for errors
 int		analyze_input(char **input)
 {
 	char	*tmp;
@@ -149,6 +144,7 @@ int		analyze_input(char **input)
 	return (TRUE);
 }
 
+//Prepares the variables and structures for the program
 void	prepare_program(t_input **struct_input, char **envp)
 {
 	*struct_input = (t_input *)malloc(sizeof(t_input));
@@ -158,6 +154,7 @@ void	prepare_program(t_input **struct_input, char **envp)
 	read_table(struct_input);
 }
 
+//Checks the input 
 int	check_input(char **line, t_input **struct_input)
 {
 	if (analyze_input(line) == FALSE)
@@ -175,13 +172,9 @@ int	check_input(char **line, t_input **struct_input)
 {
 	char	*input;
 	t_input *struct_input;
-	char	**prueba;
-	int		control[2];
 
 	(void)argc;
 	(void)argv;
-	control[0] = TRUE;
-	control[1] = TRUE;
 	input = NULL;
 	prepare_program(&struct_input, envp);
 	while (1)

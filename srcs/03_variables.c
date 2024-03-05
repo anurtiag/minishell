@@ -6,12 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:23:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 09:46:52 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:47:16 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Prints the enviroment vars
 static void	print_env(char	**env)
 {
 	while (*env)

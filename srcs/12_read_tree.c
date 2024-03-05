@@ -6,22 +6,26 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 10:42:47 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:54:15 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-	void free_parsed_table(t_var_parsed_table **table)
-	{
-		while (*table != NULL)
-		{
-			t_var_parsed_table *temp = *table;
-			*table = (*table)->next;
-			free(temp);
-		}
-	}
+//Frees the parsed table node
+void free_parsed_table(t_var_parsed_table **table)
+{
+	t_var_parsed_table *temp;
 
+	while (*table != NULL)
+	{
+		temp = *table;
+		*table = (*table)->next;
+		free(temp);
+	}
+}
+
+//Inits and creates node for parsed table
 t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 {
 	t_var_parsed_table *node;
@@ -138,6 +142,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	}
 }
 
+//Looks for sub_trees in the main tree
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
 {	
 	if (tree->left && tree->left->type == 100)

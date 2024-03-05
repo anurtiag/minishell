@@ -6,12 +6,13 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 10:44:17 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:50:55 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Prints the parsed table content
 void print_cmd_contents(t_var_parsed_table *head)
 {
     t_var_parsed_table *current = head;
@@ -44,6 +45,7 @@ void print_cmd_contents(t_var_parsed_table *head)
     }
 }
 
+//Configs the parsed table (fd OUT fd IN)
 void config_parsed_table(t_var_parsed_table **current)
 {
 	int i;
