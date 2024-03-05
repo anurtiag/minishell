@@ -6,12 +6,11 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/05 13:21:01 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:24:36 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "../../incs/minishell.h"
+#include "../incs/minishell.h"
 
 // char	**ft_get_cmd(char *s1)
 // {

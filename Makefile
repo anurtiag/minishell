@@ -6,7 +6,7 @@
 #    By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/03/05 13:44:23 by anurtiag         ###   ########.fr        #
+#    Updated: 2024/03/05 15:25:43 by anurtiag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,18 +29,18 @@ RLFLAGS		=	-I /Users/$(USER)/.brew/opt/readline/include
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 12_read_tree 13_pipex_utils 14_bash_split 15_tokenization
+SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 12_read_tree 13_pipex_utils 14_bash_split 15_tokenization pipex process utils
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
 GNL			=	libs/GNL
-PIPEX		=	libs/pipex_wenisimo
+# PIPEX		=	libs/pipex_wenisimo
 
 #Librerias 
-LIBS		= $(LIBFT)/libft.a $(GNL)/gnl.a #$(PIPEX)/pipex.a
+LIBS		= $(LIBFT)/libft.a $(GNL)/gnl.a
 
 # Header Files (dedicated and from libraries):
-HEADERS		=  $(LIBFT)/libft.h $(INC)/minishell.h #$(PIPEX)/pipex.h
+HEADERS		=  $(LIBFT)/libft.h $(INC)/minishell.h 
 
 #Directorios
 SRC_DIR = srcs/
@@ -72,10 +72,10 @@ libft:
 	@$(MAKE) -C ./$(LIBFT)
 	@echo "$(GREEN)LIBFT HAS BEEN COMPILED$(NC)"
 
-pipex:
-	@echo "$(YELLOW)COMPILING PIPEX...$(NC)"
-	@$(MAKE) -C ./$(PIPEX)
-	@echo "$(GREEN)PIPEX HAS BEEN COMPILED$(NC)"
+# pipex:
+# 	@echo "$(YELLOW)COMPILING PIPEX...$(NC)"
+# 	@$(MAKE) -C ./$(PIPEX)
+# 	@echo "$(GREEN)PIPEX HAS BEEN COMPILED$(NC)"
 
 gnl:
 	@echo "$(YELLOW)COMPILING GNL...$(NC)"
@@ -92,9 +92,9 @@ fclean_gnl:
 	@make fclean -C ./$(GNL)
 	@echo "$(RED)GNL FULL CLEANED!$(NC)"
 
-fclean_pipex:
-	@make fclean -C ./$(PIPEX)
-	@echo "$(RED)PIPEX FULL CLEANED!$(NC)"
+# fclean_pipex:
+# 	@make fclean -C ./$(PIPEX)
+# 	@echo "$(RED)PIPEX FULL CLEANED!$(NC)"
 
 # Eliminar temporales
 clean:
@@ -102,7 +102,7 @@ clean:
 	@echo "$(RED)OBJS AND DIRECTORY CLEANED!$(NC)"
 
 # Eliminar temporales y ejecutable fclean_mlx
-fclean: clean fclean_libft fclean_gnl fclean_pipex
+fclean: clean fclean_libft fclean_gnl
 	@$(RM) $(NAME)
 	@echo "$(RED)EXECUTABLE CLEANED!$(NC)"
 

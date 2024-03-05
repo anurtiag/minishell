@@ -6,14 +6,13 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 13:43:56 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:50:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//# include "../libs/pipex_wenisimo/pipex.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -47,6 +46,12 @@
 # define FILENAME 108
 # define IO_HERE 109
 # define HERE_END 110
+# ifndef READ
+#  define READ 0
+# endif
+# ifndef WRITE
+#  define WRITE 1
+# endif
 
 //Options of a state
 typedef struct s_options
@@ -195,5 +200,45 @@ int	tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
 void	cmd_handle(t_var_parsed_table **cmd_list);
+
+
+
+
+
+
+
+
+
+
+
+// # include "minishell.h"
+// # include <stdio.h>
+// # include <stdlib.h>
+// # include <unistd.h>
+// # include <string.h>
+// # include <sys/wait.h>
+// # include <fcntl.h>
+// # include <errno.h>
+// # include "../libs/Libft/libft.h"
+// # include "../libs/GNL/get_next_line.h"
+
+
+
+
+void	ft_exit(int i);
+void	error_handle(int argc, char **argv);
+char	*ft_get_path(char **env, char *cmd);
+char	**ft_get_cmd(char *s1);
+void    cmd_handle(t_var_parsed_table **cmd_list);
+char	*ft_get_path_line(char **env);
+void	ft_son_process(t_var_parsed_table *arg);
+// void	freeall(char **str);
+t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid, int *i);
+void	ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
+void	file_permissions(char *name, int type);
+
+int	pipex(t_var_parsed_table *cmd_list);
+
+
 
 #endif
