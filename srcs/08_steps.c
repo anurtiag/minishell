@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 19:09:11 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:17:53 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,28 @@ void config_parsed_table(t_var_parsed_table **current)
 
 	i = 0;
 	max = 0;
-    // Avanzar al primer nodo de la lista
-    while ((*current)->prev != NULL)
+	// Avanzar al primer nodo de la lista
+	while ((*current)->prev != NULL)
 	{
 		max++;
-        (*current) = (*current)->prev;
+		(*current) = (*current)->prev;
 	}
 	first_node = *current;
-	
-    //Realizar acciones en cada nodo de la lista
-    while (first_node != NULL)
-    {
+	printf("checkpoint 1\n");
+	//Realizar acciones en cada nodo de la lista
+	while (first_node != NULL)
+	{
+		printf("index: %i\n", i);
 		if (i == 0 && (first_node->fd_in == -1))
 			first_node->fd_in = 0;
 		first_node->cmd_splited = ft_split(first_node->cmd, ' ');
-
 		if (i == max && first_node->fd_out == -1)
 			first_node->fd_out = 1;
 
 		first_node = first_node->next;
 		i++;
-    }
-	
+	}
+	printf("checkpoint 2\n");
 }
 
 // Function to display the structure tree
@@ -206,7 +206,9 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	else
 	{
 		printf("\033[0;32mOK\033[0m\n");
+
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
+		
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
 		cmd_handle(&(*struct_input)->parsed_table);

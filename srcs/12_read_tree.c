@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/04 13:54:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:12:49 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		free_parsed_table(table_node);
 		return;
 	}
+	
 	if (mode == 1)
 	{
 		//reset of the variables
@@ -69,6 +70,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		fd = -1;
 		return ;
 	}
+	
 	if (tree->type == 100 || tree->type == 101)
 	{
 		if (first_time == 1)
@@ -88,30 +90,29 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	
 	if (tree->type == 2)
 		red_from_flag = 1;
-		
+	
 	if (tree->type == 1)
 	{
 		red_to_flag = 1;
 		if (strcmp(tree->data, "2>") == 0)
 			error_flag = 1;
 	}
-		
 	
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDONLY);
-
+	
 	// Process left child
 	if (tree->left != NULL)
 		read_tree(tree->left, table_node, 0);
-		
+	
 	// Process middle child
 	if (tree->middle != NULL)
 		read_tree(tree->middle, table_node, 0);
-		
+	
 	// Process right child
 	if (tree->right != NULL)
 		read_tree(tree->right, table_node, 0);
-
+	
 	//Is the type of data we are looking for
 	if ((tree->type == 0 || tree->type == 102 || tree->type == 103 || tree->type == 105) && (tree->left == NULL && tree->middle == NULL && tree->right == NULL))
 	{		
@@ -124,8 +125,10 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
 	}
+	
 	if (red_from_flag == 1)
 		(*table_node)->fd_in = fd;
+	
 	if (red_to_flag == 1)
 	{
 		if (error_flag == 1)
@@ -133,7 +136,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		else
 			(*table_node)->fd_out = fd;
 	}
-		
 }
 
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
@@ -141,11 +143,11 @@ void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
 	if (tree->left && tree->left->type == 100)
 		walk_tree(parsed_table, tree->left);
 
-	if (tree->left->type == 100)
+	if (tree->left && tree->left->type == 100)
 		read_tree(tree->right, parsed_table, 0);
 	else
 		read_tree(tree, parsed_table, 0);
-		
+	
 	//Calling the function again to clear the static variables (mode 1)
 	read_tree(tree, parsed_table, 1);
 }
