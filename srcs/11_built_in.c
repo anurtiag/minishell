@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/05 12:33:43 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/06 11:08:38 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,13 @@ void add_var(char *name, t_var_list **env, char *content)
 		{
 			if(content)
 				current->content = ft_strdup(content);
-			return (0);
+			return ;
 		}
 		current = current->next;
 	}
 	new = (t_var_list *)malloc(sizeof(t_var_list));
 	if(!new)
-		return(1);
+		return ;
 	new->name = name;
 	new->content = content;
 	current->next = new;
@@ -132,20 +132,23 @@ void ft_empty_export(t_var_list **env)
 	t_var_list	*name;
 	int			size;
 
+	size = 0;
 	current = *env;
 	while(current)
 	{
 		size++;
+		printf("la variable es %s\n", current->name);
 		current = current->next;
 	}
+	printf("donde petas\nel tamaño es de %d\n", size);
 	current = *env;
 	name->name = current->name;
 	while(size > 0)
 	{
-		
+		current = *env;
 		while(current)
 		{
-			if(ft_strncmp(name->name, current->name, ft_strlen(name->name)) > 0 || name->is_printed == 0)
+			if(ft_strncmp(name->name, current->name, ft_strlen(name->name)) > 0 && name->is_printed == 0)
 				name = current;
 			current = current->next;
 		}
@@ -161,11 +164,13 @@ int ft_export(char	*var, t_var_list **env)
 	char	*name;
 	char	*content;
 
-	if(!(ft_isalpha((int)*var) || *var == '_'))
-		return(ft_printf("Hay que makearlo pero ERROR, invalid export\n"), 1);
-	equal = ft_strchr(var, '=');
-	if(!var)
-		//imprimir todas las variabes en orden alfabetico
+	// if(var)
+	// 	printf("pues parece que var existe y es %s\n", var);
+	// if(!(ft_isalpha((int)*var) || *var == '_'))
+	// 	return(printf("Hay que makearlo pero ERROR, invalid export\n"), 1);
+	// equal = ft_strchr(var, '=');
+	// if(!var)
+	ft_empty_export(env);
 	if (equal)
 	{
 		name = ft_substr(var, 0, equal - name);
@@ -175,11 +180,11 @@ int ft_export(char	*var, t_var_list **env)
 		add_var(var, env, NULL);
 }
 
-int	ft_built_in(char **env, char **argv)
+int	ft_built_in(char **envp, char **argv)
 {
-	t_var_list	*env;
+	t_var_list	**env;
 
-	save_env(env, &env);
+	save_env(envp, env);
 	if (ft_strncmp(argv[0], "echo", 4) == 0 && ft_strncmp(argv[1], "-n", 2) == 0)
 		ft_echo(argv, 1);
 	else if(ft_strncmp(argv[0], "pwd", 3) == 0)
@@ -187,7 +192,7 @@ int	ft_built_in(char **env, char **argv)
 	else if(ft_strncmp(argv[0], "cd", 2) == 0)
 		ft_cd(argv++);
 	else if(ft_strncmp(argv[0], "export", 2) == 0)
-		ft_export(argv++, &env);
+		ft_export(argv++, env);
 	else if(ft_strncmp(argv[0], "unset", 2) == 0)
 		ft_cd(argv++);
 	else if(ft_strncmp(argv[0], "env", 2) == 0)

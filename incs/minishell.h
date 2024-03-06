@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 15:50:15 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:21:58 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,22 @@ int	tokenization(char *input, t_input **struct_input);
 //PIPEX_UTILS
 void	cmd_handle(t_var_parsed_table **cmd_list);
 
+//BUILT_IN
+void	ft_echo(char **args, int fd);
+
+int	ft_pwd(void);
+
+int	get_path(char *args);
+
+int	ft_cd(char **args);
+
+void add_var(char *name, t_var_list **env, char *content);
+
+void ft_empty_export(t_var_list **env);
+
+int ft_export(char	*var, t_var_list **env);
+
+int	ft_built_in(char **env, char **argv);
 
 
 
@@ -233,7 +249,7 @@ void    cmd_handle(t_var_parsed_table **cmd_list);
 char	*ft_get_path_line(char **env);
 void	ft_son_process(t_var_parsed_table *arg);
 // void	freeall(char **str);
-t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid, int *i);
+t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid);
 void	ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
 void	file_permissions(char *name, int type);
 

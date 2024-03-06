@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 11:54:15 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:58:24 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	}
 	
 	if (tree->type == 108)
-		fd = open(tree->data, O_RDONLY);
+		fd = open(tree->data, O_RDWR);
 	
 	// Process left child
 	if (tree->left != NULL)
