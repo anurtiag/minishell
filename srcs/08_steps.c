@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 16:55:58 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:15:03 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void config_parsed_table(t_var_parsed_table **current)
 			first_node->fd_in = 0;
 		
 		first_node->cmd_splited = ft_split(first_node->cmd, ' ');
-		
+
 		if (i == max && first_node->fd_out == -1)
 			first_node->fd_out = 1;
 
@@ -208,12 +208,14 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	{
 		printf("\033[0;32mOK\033[0m\n");
 
+		//display_structure_tree(c_step->tree_stack, 0);
+		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
-			
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
-		cmd_handle(&(*struct_input)->parsed_table);
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
+		//quitamos comillas
+		cmd_handle(&(*struct_input)->parsed_table);
 
 		//print_cmd_contents((*struct_input)->parsed_table);
 		
