@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/04 13:46:54 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/07 16:42:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 	char	*str;
 
 	i = -1;
-	cmd->cmd_splited = ft_split(cmd->cmd, ' ');
 	while(paths[++i])
 	{
 		str = ft_strjoin("/", cmd->cmd_splited[0]);
@@ -45,8 +44,8 @@ void	cmd_handle(t_var_parsed_table **cmd_list)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
+		//printf("cmd: %s\n", cmd->cmd);
 		ft_verify_cmd(posible_paths, cmd);
-		//printf("%s\n", cmd->cmd);
 		//printf("la ruta del comando es :%s\n", cmd->path);
 		cmd = cmd->next;
 	}

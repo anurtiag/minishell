@@ -6,43 +6,115 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/06 14:15:03 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:00:13 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-//Prints the parsed table content
-void print_cmd_contents(t_var_parsed_table *head)
+void remove_quotes_aux(char **cmd_ptr)
 {
-    t_var_parsed_table *current = head;
+	int					start;
+	int					end;
+	char				*before;
+	char				*mid;
+	char				*after;
+	
+	before = NULL;
+	mid = NULL;
+	after = NULL;
+	start = 0;
+	end = ft_strlen(*cmd_ptr);
+	while (start <= end)
+	{
+		if((*cmd_ptr)[start] == '\'' || (*cmd_ptr)[start] == '\"')
+			break;
+		start++;
+	}
+	while (end >= 0)
+	{
+		if((*cmd_ptr)[end] == '\'' || (*cmd_ptr)[end] == '\"')
+			break;
+		end--;
+	}
+
+	before = ft_substr(*cmd_ptr, 0, start);
+	mid = ft_substr(*cmd_ptr, start + 1, end - start - 1);
+	after = ft_substr(*cmd_ptr, end + 1, ft_strlen(*cmd_ptr) - end);
+
+	// printf("b %s\n", before);
+	// printf("m %s\n", mid);
+	// printf("a %s\n", after);
+	
+	// printf("start %i\n", start);
+	// printf("end %i\n", end);
+	
+	if (end == -1)
+	{
+		return;
+	}
+		
+	*cmd_ptr = ft_strjoin(before, mid);
+	*cmd_ptr = ft_strjoin(*cmd_ptr, after);
+
+}
+
+//Removes the quotes
+void remove_quotes(t_var_parsed_table **head)
+{
+	t_var_parsed_table	*first;
+	int					i;
+
+	first = *head;
+	while ((*head) != NULL)
+	{
+		i = 0;
+		if ((*head)->cmd_splited != NULL)
+		{
+			while ((*head)->cmd_splited[i] != NULL)
+			{
+				remove_quotes_aux(&((*head)->cmd_splited[i]));
+				//printf("%s\n", (*head)->cmd_splited[i]);
+				i++;
+			}
+		}
+		(*head) = (*head)->next;
+	}
+	*head = first;
+}
+
+
+//Prints the parsed table content
+void print_cmd_contents(t_var_parsed_table **head)
+{
+	t_var_parsed_table *current = *head;
 
 	if (current == NULL)
 		printf("NO TENGO NADA\n");
-    while (current != NULL)
+	while (current != NULL)
 	{
-        if (current->cmd != NULL)
+		if (current->cmd != NULL)
 		{
 			printf("--------------------\n");
-            if (current->cmd_splited != NULL)
+			if (current->cmd_splited != NULL)
 			{
-                printf("cmd_splited: ");
-                char **cmd_ptr = current->cmd_splited;
-                while (*cmd_ptr != NULL)
+				printf("cmd_splited: ");
+				char **cmd_ptr = current->cmd_splited;
+				while (*cmd_ptr != NULL)
 				{
-                    printf("%s ", *cmd_ptr);
-                    cmd_ptr++;
-                }
-                printf("\n");
-            }
+					printf("%s ", *cmd_ptr);
+					cmd_ptr++;
+				}
+				printf("\n");
+			}
 			printf("path: %s\n", current->path);
 			printf("std in: %i\n", current->fd_in);
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
 			printf("--------------------\n\n");
-        }
-        current = current->next;
-    }
+		}
+		current = current->next;
+	}
 }
 
 //Configs the parsed table (fd OUT fd IN)
@@ -214,12 +286,15 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
-		//quitamos comillas
-		cmd_handle(&(*struct_input)->parsed_table);
-
-		//print_cmd_contents((*struct_input)->parsed_table);
 		
+		remove_quotes(&(*struct_input)->parsed_table);
+		
+		//print_cmd_contents(&(*struct_input)->parsed_table);
+		cmd_handle(&(*struct_input)->parsed_table);
+		//print_cmd_contents(&(*struct_input)->parsed_table);
+
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
+		
 		pipex((*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 	}

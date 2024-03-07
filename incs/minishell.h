@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/06 10:21:58 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/07 16:37:24 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void		print_token_list(t_token *tokens);
 
 //STEPS
 int		start_anaylizer(t_input **struct_input, t_token *input_token);
-void	print_cmd_contents(t_var_parsed_table *head);
+void	print_cmd_contents(t_var_parsed_table **head);
 
 //STEPS UTILS
 int			find_state(t_states *states_list, int state_number, t_states **state);
