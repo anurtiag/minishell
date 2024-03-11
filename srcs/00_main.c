@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 12:50:04 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:52:11 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ int	check_input(char **line, t_input **struct_input)
 	char	*input;
 	t_input *struct_input;
 
-	(void)argc;
+	if (argc > 1)
+		return (printf("Invalid input\n"), 2);
 	(void)argv;
 	input = NULL;
 	prepare_program(&struct_input, envp);
