@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 12:44:04 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/11 13:29:03 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,19 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 {
 	int i;
 	int max;
+	int	quotes_flag;
 
+	quotes_flag = 0;
 	max = ft_strlen(token);
 	i = 0;
 	while (i < max)
 	{
+		if (token[i] == '\'')
+			quotes_flag = 1;
+
 		//((token[i - 1] == SPACE_M) || (!token[i - 1])) &&
-		if ( (token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z'))))
+		if ((quotes_flag == 0) && ((token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z')))))
 		{
-			printf("llamada a variable de entorno encontrada\n");
 			if (ft_trim_var_dollar((char *)token, variable_list, content) == TRUE)
 				return (TRUE);
 			return(FALSE);

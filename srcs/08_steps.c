@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/07 17:00:13 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/11 13:26:12 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		cmd_handle(&(*struct_input)->parsed_table);
 		//print_cmd_contents(&(*struct_input)->parsed_table);
 
-		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
+		//expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		
 		pipex((*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
