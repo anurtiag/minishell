@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 12:37:47 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:44:39 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ void	ft_print_var(t_input *input)
 		printf("\n--------------\n");
 		printf("name: %s\n", variable_list->name);
 		printf("content: %s\n", variable_list->content);
+		printf("is env: %i\n", variable_list->is_env);
 		printf("--------------\n");
 		variable_list = variable_list->next;
 	}
 }
 
 //creates a new node and add it to the list
-static void	ft_add_var(t_var_list **list, char *name, char *content)
+static void	ft_add_var(t_var_list **list, char *name, char *content, int id)
 {
 	t_var_list	*new;
 
@@ -42,6 +43,7 @@ static void	ft_add_var(t_var_list **list, char *name, char *content)
 	new->name = name;
 	new->next = *list;
 	new->is_printed = 0;
+	new->is_env = id;
 	*list = new;
 }
 
@@ -64,7 +66,7 @@ static int	ft_var_found(t_var_list **list, char *name, char *content)
 }
 
 //Trim the token into name and content
-static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list)
+static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id)
 {
 	char	*var_name;
 	char	*var_content;
@@ -84,12 +86,12 @@ static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_
 
 	if (ft_var_found(variable_list, var_name, var_content) == FALSE)
 	{
-		ft_add_var(variable_list, var_name, var_content);
+		ft_add_var(variable_list, var_name, var_content, id);
 	}
 }
 
 //looks for equals in the token
-int	ft_look_4_equal(char const *token, t_var_list **variable_list)
+int	ft_look_4_equal(char const *token, t_var_list **variable_list,int id)
 {
 	int		i;
 	char	quote = '\0'; // Variable para rastrear comillas abiertas
@@ -106,7 +108,7 @@ int	ft_look_4_equal(char const *token, t_var_list **variable_list)
 		else if (quote == '\0' && token[i - 1] != '\'' && token[i - 1] != '\"' && token[i] == '=')
 		{
 			// Si no hay comillas abiertas y encontramos un igual no precedido por comillas
-			ft_trim_var_equal((char *)token, i, variable_list);
+			ft_trim_var_equal((char *)token, i, variable_list, id);
 			return (TRUE);
 		}
 		else if (token[i] == quote)

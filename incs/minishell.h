@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/07 16:37:24 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:45:49 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_var_list
 	int					is_printed;
 	char				*content;
 	struct	s_var_list 	*next;
+	int					is_env;
 }				t_var_list;
 
 typedef struct s_var_parsed_table
@@ -149,10 +150,10 @@ void		save_env(char **envp, t_input **struct_input);
 
 //LOOK FOR EQUALS
 void		ft_print_var(t_input *input);
-static void	ft_add_var(t_var_list **list, char *name, char *content);
+static void	ft_add_var(t_var_list **list, char *name, char *content,int id);
 static int	ft_var_found(t_var_list **list, char *name, char *content);
-static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list);
-int			ft_look_4_equal(char const *token, t_var_list **variable_list);
+static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
+int			ft_look_4_equal(char const *token, t_var_list **variable_list,int id);
 
 //LOOK FOR DOLLARS
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
