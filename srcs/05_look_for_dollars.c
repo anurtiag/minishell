@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 13:29:03 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/11 13:52:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 		if ((strncmp(match_var_name, current->name, INT32_MAX) == 0 && (strlen(match_var_name) == strlen(current->name))))
 		{
 			(*content) = current->content;
-			return (1);
+			return (TRUE);
 		}
 		current = current->next;
 	}
-	(*content) = NULL;
-	return (0);
+	(*content) = "";
+	return (FALSE);
 }
 
 static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **content)
@@ -72,7 +72,7 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 
 	match_var_name = strndup(ft_strchr(token, '$') + 1, (size1 - size - size2 - 1));
 	
-	if (ft_find_variable(match_var_name, variable_list, content) == 1)
+	if (ft_find_variable(match_var_name, variable_list, content) == TRUE)
 	{
 		(*content) = ft_strjoin((*content), after);
 		(*content) = ft_strjoin(before, (*content));
