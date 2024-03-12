@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 17:52:30 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:01:03 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,17 @@ void free_tree(t_token *root)
 void free_token_tree(t_token *head)
 {
 	t_token *temp;
+	int		flag;
 
-	while (head != NULL && head->type != -2)
+	flag = 0;
+	while (head != NULL && flag != 1)
 	{
 		temp = head->next;
+		if (temp->type == -2)
+			flag = 1;
 		free_tree(head);
 		head = temp;
 	}
-	printf("EXPLOTA\n");
 }
 
 
@@ -100,7 +103,7 @@ void	free_steps(t_step *steps)
 	t_step		*tmp_step;
 
 	free_tokens(steps->input);
-	//free_token_tree(steps->tree_stack);
+	free_token_tree(steps->tree_stack);
 	while (steps != NULL)
 	{
 		//printf("free-ing steps %i\n", steps->step_nbr);
@@ -119,7 +122,7 @@ void	free_all(t_input *struct_input, char *history)
 	t_var_parsed_table	*tmp_parsed;
 
 	//free history
-	free(history);
+	//free(history);
 
 	//free env variables
 	while ((struct_input)->ent_var)

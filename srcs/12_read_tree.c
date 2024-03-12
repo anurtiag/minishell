@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 17:05:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:59:18 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void free_parsed_table(t_var_parsed_table **table)
 		//printf("cleaning parsed table %s\n", (*table)->cmd);
 		temp = (*table)->next;
 		free_double((*table)->cmd_splited);
+		free((*table)->cmd);
 		free((*table)->path);
 		free(*table);
+
 		(*table) = temp;
 	}
 }
