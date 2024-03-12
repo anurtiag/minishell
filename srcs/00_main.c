@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 12:52:11 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:15:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,16 @@ void	prepare_program(t_input **struct_input, char **envp)
 	*struct_input = (t_input *)malloc(sizeof(t_input));
 	load_history();
 	save_env(envp, struct_input);
-	//signal_receiver();
+	signal_receiver();
 	read_table(struct_input);
 }
 
 //Checks the input 
 int	check_input(char **line, t_input **struct_input)
 {
+	if (ft_strlen(*line) == 0)
+		return (FALSE);
+		
 	if (analyze_input(line) == FALSE)
 		return (FALSE);
 	

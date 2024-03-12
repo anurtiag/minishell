@@ -1,0 +1,18 @@
+
+Revisar las comillas
+X No permitir ejecutar minishell con argumentos
+X No expandir variables si estan dentro de comillas simples
+X segfault si la variable de entorno no existe
+X Identificar en la lista de variables de entorno si son del env o no, (para saber cuales has echo export)
+X Adminitir lineas vacias y con espacios\tabulaciones
+
+Crear un outfile si no existe
+Separar cuando llamara al pipex o a los built-in
+Makear ejecutar y abrir lo archivos y comandos
+Tener en cuenta que hacer cuando tenemos una redireccion antes de un pipe
+
+$? muestra el exit status del ultimo comando ejecutado
+Revisar las señales (cat + ctrc duplica)
+
+Norminette
+Leaks
