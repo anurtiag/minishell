@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:33:58 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 11:48:57 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:54:15 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,12 @@ void read_table(t_input **struct_input)
 		next_state = ft_atoi(tokens[3]);
 		nbr_red = ft_atoi(tokens[4]);
 
+		free(tokens[0]);
+		free(tokens[1]);
+		free(tokens[2]);
+		free(tokens[3]);
+		free(tokens[4]);
+		free(tokens);
 		// Crea un nuevo nodo de estado si es necesario
 		if (current_state == NULL || current_state->state != state)
 		{
@@ -142,7 +148,7 @@ void read_table(t_input **struct_input)
 
 		// Liberar la memoria de la línea leída por get_next_line
 		free(line);
-		free(tokens);
+		
 		line = get_next_line(fd);
 	}
 	close(fd);

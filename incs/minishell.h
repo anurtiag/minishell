@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 11:20:52 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:56:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ void		ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
 void		file_permissions(char *name, int type);
 int			pipex(t_var_parsed_table *cmd_list);
 
-
+//FREE
+void		free_all(t_input *struct_input, char *history);
 
 #endif

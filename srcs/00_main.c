@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 10:15:29 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:43:24 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int	check_input(char **line, t_input **struct_input)
 			create_tokens_analyzer(&struct_input);
 		
 		save_history(input);
-		free(input);
 	}
+	free_all(struct_input, input);
 	return (0);
 }
