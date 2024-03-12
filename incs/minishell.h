@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 12:45:49 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:20:52 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,67 +194,35 @@ static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);
 static void	freeall(char **splits);
 static int	check_str(char **str, int j);
-char	**ft_bash_split(char const *s, char c, int *control);
+char		**ft_bash_split(char const *s, char c, int *control);
 
 //TOKENIZATION
-int	tokenization(char *input, t_input **struct_input);
+int			tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
-void	cmd_handle(t_var_parsed_table **cmd_list);
+void		cmd_handle(t_var_parsed_table **cmd_list);
 
 //BUILT_IN
-void	ft_echo(char **args, int fd);
-
-int	ft_pwd(void);
-
-int	get_path(char *args);
-
-int	ft_cd(char **args);
-
-void add_var(char *name, t_var_list **env, char *content);
-
-void ft_empty_export(t_var_list **env);
-
-int ft_export(char	*var, t_var_list **env);
-
-int	ft_built_in(char **env, char **argv);
-
-
-
-
-
-
-
-
-
-
-// # include "minishell.h"
-// # include <stdio.h>
-// # include <stdlib.h>
-// # include <unistd.h>
-// # include <string.h>
-// # include <sys/wait.h>
-// # include <fcntl.h>
-// # include <errno.h>
-// # include "../libs/Libft/libft.h"
-// # include "../libs/GNL/get_next_line.h"
-
-
-
-
-void	ft_exit(int i);
-void	error_handle(int argc, char **argv);
-char	*ft_get_path(char **env, char *cmd);
-char	**ft_get_cmd(char *s1);
-void    cmd_handle(t_var_parsed_table **cmd_list);
-char	*ft_get_path_line(char **env);
-void	ft_son_process(t_var_parsed_table *arg);
+void		ft_echo(char **args, int fd);
+int			ft_pwd(void);
+int			get_path(char *args);
+int			ft_cd(char **args);
+void		add_var(char *name, t_var_list **env, char *content);
+void 		ft_empty_export(t_var_list **env);
+int			ft_export(char	*var, t_var_list **env);
+int			ft_built_in(char **env, char **argv);
+void		ft_exit(int i);
+void		error_handle(int argc, char **argv);
+char		*ft_get_path(char **env, char *cmd);
+char		**ft_get_cmd(char *s1);
+void		cmd_handle(t_var_parsed_table **cmd_list);
+char		*ft_get_path_line(char **env);
+void		ft_son_process(t_var_parsed_table *arg);
 // void	freeall(char **str);
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid);
-void	ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
-void	file_permissions(char *name, int type);
-
-int	pipex(t_var_parsed_table *cmd_list);
+void		ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
+void		file_permissions(char *name, int type);
+int			pipex(t_var_parsed_table *cmd_list);
 
 
 
