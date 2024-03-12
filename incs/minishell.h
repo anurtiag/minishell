@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 11:24:30 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:58:31 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct	s_var_list
 	int					is_printed;
 	char				*content;
 	struct	s_var_list 	*next;
+	int					is_env;
 }				t_var_list;
 
 typedef struct s_var_parsed_table
@@ -149,10 +150,10 @@ void		save_env(char **envp, t_input **struct_input);
 
 //LOOK FOR EQUALS
 void		ft_print_var(t_input *input);
-static void	ft_add_var(t_var_list **list, char *name, char *content);
+static void	ft_add_var(t_var_list **list, char *name, char *content,int id);
 static int	ft_var_found(t_var_list **list, char *name, char *content);
-static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list);
-int			ft_look_4_equal(char const *token, t_var_list **variable_list);
+static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
+int			ft_look_4_equal(char const *token, t_var_list **variable_list,int id);
 
 //LOOK FOR DOLLARS
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
@@ -171,7 +172,7 @@ void		print_token_list(t_token *tokens);
 
 //STEPS
 int		start_anaylizer(t_input **struct_input, t_token *input_token);
-void	print_cmd_contents(t_var_parsed_table *head);
+void	print_cmd_contents(t_var_parsed_table **head);
 
 //STEPS UTILS
 int			find_state(t_states *states_list, int state_number, t_states **state);
@@ -193,10 +194,10 @@ static void	ignore_separator(char const *s, int *control, int *i);
 static	int	ft_count(char const *s, char c, int *control);
 static void	freeall(char **splits);
 static int	check_str(char **str, int j);
-char	**ft_bash_split(char const *s, char c, int *control);
+char		**ft_bash_split(char const *s, char c, int *control);
 
 //TOKENIZATION
-int	tokenization(char *input, t_input **struct_input);
+int			tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
 void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
@@ -231,11 +232,11 @@ char	*ft_get_path_line(char **env);
 void	ft_son_process(t_var_parsed_table *arg);
 // void	freeall(char **str);
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid);
-void	ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
-void	file_permissions(char *name, int type);
+void		ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
+void		file_permissions(char *name, int type);
+int			pipex(t_var_parsed_table *cmd_list);
 
-int	pipex(t_var_parsed_table *cmd_list);
-
-
+//FREE
+void		free_all(t_input *struct_input, char *history);
 
 #endif
