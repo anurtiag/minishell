@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/05 11:52:53 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:30:34 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_t
 	if (step == NULL)
 		return ;
 	
-	state = (t_states *)malloc(sizeof(t_states));
-	if (state == NULL)
-		return ((void)free(step));
+	// state = (t_states *)malloc(sizeof(t_states));
+	// if (state == NULL)
+	// 	return ((void)free(step));
 
 	step->step_nbr = (*c_step)->step_nbr + 1;
 	step->state_nbr = option->next_state;
@@ -120,6 +120,7 @@ void	ret_to_prev(t_step **c_step)
 	prev_step = (*c_step)->prev;
 	prev_step->tree_stack = (*c_step)->tree_stack;
 	prev_step->input = (*c_step)->input;
+	
 	free(*c_step);
 	*c_step = prev_step;
 }

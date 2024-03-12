@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 12:58:13 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:34:50 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+void print_step_list(t_step *step)
+{
+	printf("------------START------------\n");
+	while (step != NULL)
+	{
+
+		printf("Step address: %p\n", (void *)step);
+		printf("Step number: %d\n", step->step_nbr);
+		printf("State number: %d\n", step->state_nbr);
+		printf("Option number: %d\n", step->option_nbr);
+		printf("Next step address: %p\n", (void *)step->next);
+		printf("Previous step address: %p\n", (void *)step->prev);
+		if (step->next)
+			printf("-------------------------\n");
+		step = step->next;
+	}
+	printf("-----------END--------------\n\n");
+}
 
 void remove_quotes_aux(char **cmd_ptr)
 {
@@ -51,6 +70,9 @@ void remove_quotes_aux(char **cmd_ptr)
 	
 	if (end == -1)
 	{
+		free(before);
+		free(mid);
+		free(after);
 		return;
 	}
 		
@@ -82,7 +104,6 @@ void remove_quotes(t_var_parsed_table **head)
 	}
 	*head = first;
 }
-
 
 //Prints the parsed table content
 void print_cmd_contents(t_var_parsed_table **head)
@@ -180,14 +201,14 @@ t_step	*init_first_step(t_input **struct_input, t_token *input_token)
 	first_step = (t_step *)malloc(sizeof(t_step));
 	if (first_step == NULL)
 		return (first_step);
-	state = (t_states *)malloc(sizeof(t_states));
-	if (state == NULL)
-		return (free(first_step), first_step);
+	// state = (t_states *)malloc(sizeof(t_states));
+	// if (state == NULL)
+	// 	return (free(first_step), first_step);
 	first_step->step_nbr = 0;
 	first_step->state_nbr = 0;
 	if (find_state((*struct_input)->parsing_table, 0, &state) == FALSE)
 	{
-		free(state);
+		//free(state);
 		free(first_step);
 		return (first_step);
 	}
@@ -227,6 +248,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		// printf("-----STACK:-----\n");
 		// print_token_list(c_step->tree_stack);
 		// printf("\n");
+		//print_step_list(step);
 
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
@@ -274,7 +296,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 
 	if ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2))
 	{
-		printf("\033[0;31mKO\033[0m\n");
+		return (free_steps(step), printf("\033[0;31mKO\033[0m\n"), FALSE);
 	}
 	else
 	{
@@ -286,13 +308,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		config_parsed_table(&(*struct_input)->parsed_table);
 		
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
-		
+		remove_quotes(&(*struct_input)->parsed_table);
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
-	
-
-		//expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		
 		pipex((*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
+		return (free_steps(step), TRUE);
 	}
+	return (FALSE);
 }

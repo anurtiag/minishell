@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/12 12:56:51 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:41:11 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 {
 	size_t	i;
 	char	*str;
-
+	char	*str_tmp;
 	i = -1;
 	while(paths[++i])
 	{
-		str = ft_strjoin("/", cmd->cmd_splited[0]);
+		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
 		// printf("el comando es: %s\nel path %s\n", str, paths[i]);
-		str = ft_strjoin(paths[i], str);
-		printf("despues del join comando es: %s\n", str);
+		str = ft_strjoin(paths[i], str_tmp);
+		free(str_tmp);
+		//printf("despues del join comando es: %s\n", str);
 		if (access(str, X_OK) == 0)
 		{
 			cmd->path = str;
 			return ;
 		}
 	}
+	free(str);
 	printf("command %s not found\n", cmd->cmd_splited[0]);
 }
 
@@ -76,7 +78,6 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		cmd->cmd_splited = ft_split(cmd->cmd, ' ');
 		if (cmd->cmd_splited[0][0] == '/')
 		{
 			// printf("La ruta es %s\n", cmd->cmd_splited[0]);
@@ -96,4 +97,5 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 		}
 		cmd = cmd->next;
 	}
+	free_double(posible_paths);
 }

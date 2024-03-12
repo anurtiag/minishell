@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 11:57:07 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:34:56 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void free_options(t_options *options)
 		free(current_option);
 	}
 }
+
 void free_states(t_states *states)
 {
 	t_states *current_state;
@@ -36,15 +37,33 @@ void free_states(t_states *states)
 	}
 }
 
+void free_double(char **double_ptr)
+{
+	char	**temp;
+
+	if (double_ptr == NULL)
+		return;
+
+	temp = double_ptr;
+
+	while (*double_ptr != NULL)
+	{
+		free(*double_ptr);
+		double_ptr++;
+	}
+	free(temp); // Liberamos la memoria del puntero doble en sí
+}
+
 //Function to clear all
 void	free_all(t_input *struct_input, char *history)
 {
-	t_var_list *tmp_env;
+	t_var_list	*tmp_env;
+	t_var_parsed_table	*tmp_parsed;
 
-	//load historial // add historial
+	//free history
 	free(history);
 
-	//save env
+	//free env variables
 	while ((struct_input)->ent_var)
 	{
 		tmp_env = (struct_input)->ent_var->next;
@@ -54,9 +73,48 @@ void	free_all(t_input *struct_input, char *history)
 		(struct_input)->ent_var = tmp_env;
 	}
 
-	//tabla comandos
+	//free parsed table
+	//printf("free_parsed_table\n");
+	free_parsed_table(&(struct_input)->parsed_table);
+	
+	//free parsing table
+	//printf("free_parsing_table\n");
 	free_states((struct_input)->parsing_table);
 
-	//prepare program
+	//free token raw
+	//printf("free_token_raw\n");
+	free_double((struct_input)->token_raw);
+	
+	//free main structure
+	//printf("free_main_structure\n");
 	free(struct_input);
+}
+
+void	free_tokens(t_token *token)
+{
+	t_token		*tmp_token;
+
+	while (token != NULL)
+	{
+		tmp_token = token->next;
+		free(token->data);
+		free(token);
+		token = tmp_token;
+	}
+}
+void	free_steps(t_step *steps)
+{
+	t_step		*tmp_step;
+
+	free_tokens(steps->input);
+	//free_tokens(steps->tree_stack);
+	while (steps != NULL)
+	{
+		//printf("free-ing steps %i\n", steps->step_nbr);
+		if (steps->state)
+			//printf("state is not null, %p\n", steps->state);
+		tmp_step = steps->next;
+		free(steps);
+		steps = tmp_step;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 13:03:08 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 13:08:16 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,16 +188,11 @@ int	check_input(char **line, t_input **struct_input)
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 
-		//printf("el input es:--->%s<----\n", input);
-
-		// printf("salimos de los built in?\n");
 		if (check_input(&input, &struct_input) == TRUE)
-		{	
+		{
 			//ft_built_in(ft_split(input, ' '), &struct_input);
 			create_tokens_analyzer(&struct_input);
 		}
-			
-
 		save_history(input);
 	}
 	free_all(struct_input, input);

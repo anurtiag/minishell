@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 11:54:54 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:50:19 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 	}
 	else if (options->nbr_red == 2)
 	{
-		
+
 		start_stack = (*c_step)->tree_stack;
 		
 		join_token = (t_token *)malloc(sizeof(t_token));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 12:57:28 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:42:04 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ void free_parsed_table(t_var_parsed_table **table)
 {
 	t_var_parsed_table *temp;
 
-	while (*table != NULL)
+	while ((*table) != NULL)
 	{
-		temp = *table;
-		*table = (*table)->next;
-		free(temp);
+		//printf("cleaning parsed table %s\n", (*table)->cmd);
+		temp = (*table)->next;
+		free_double((*table)->cmd_splited);
+		free((*table)->path);
+		free(*table);
+		(*table) = temp;
 	}
 }
 
