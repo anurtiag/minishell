@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 14:50:19 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:28:10 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		if (join_token == NULL)
 			return;
 		//Asignamos data a joined token
-		join_token->data = "Joined token";
+		join_token->data = ft_strdup("Joined token");
 		join_token->type = options->next_state;
 		join_token->left = NULL;
 		join_token->right = NULL;

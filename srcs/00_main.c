@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 13:08:16 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 16:47:21 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int		analyze_input(char **input)
 void	prepare_program(t_input **struct_input, char **envp)
 {
 	*struct_input = (t_input *)malloc(sizeof(t_input));
+
 	load_history();
 	save_env(envp, struct_input);
 	signal_receiver();
@@ -181,7 +182,6 @@ int	check_input(char **line, t_input **struct_input)
 	(void)argv;
 	input = NULL;
 	prepare_program(&struct_input, envp);
-
 	while (1)
 	{
 		input = readline("Minishell>>");
@@ -196,5 +196,6 @@ int	check_input(char **line, t_input **struct_input)
 		save_history(input);
 	}
 	free_all(struct_input, input);
+	
 	return (0);
 }

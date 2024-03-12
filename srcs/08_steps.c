@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 16:34:50 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:52:54 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ void remove_quotes_aux(char **cmd_ptr)
 	char				*before;
 	char				*mid;
 	char				*after;
-	
+	char				*tmp;
+
+	tmp = NULL;
 	before = NULL;
 	mid = NULL;
 	after = NULL;
@@ -75,10 +77,14 @@ void remove_quotes_aux(char **cmd_ptr)
 		free(after);
 		return;
 	}
-		
-	*cmd_ptr = ft_strjoin(before, mid);
-	*cmd_ptr = ft_strjoin(*cmd_ptr, after);
-
+	
+	free(*cmd_ptr);
+	tmp = ft_strjoin(before, mid);
+	*cmd_ptr = ft_strjoin(tmp, after);
+	free(tmp);
+	free(before);
+	free(mid);
+	free(after);
 }
 
 //Removes the quotes
@@ -303,13 +309,16 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		printf("\033[0;32mOK\033[0m\n");
 
 		//display_structure_tree(c_step->tree_stack, 0);
+		//print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		
+		//print_cmd_contents(&(*struct_input)->parsed_table);
+
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
+		
 		
 		pipex((*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
