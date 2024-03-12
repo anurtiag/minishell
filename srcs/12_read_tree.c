@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/06 09:58:24 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:05:39 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		read_tree(tree->right, table_node, 0);
 	
 	//Is the type of data we are looking for
-	if (((tree->type == 0 || tree->type == 102 || tree->type == 103 || tree->type == 105 || tree->type == 100) && (tree->left == NULL && tree->middle == NULL && tree->right == NULL)))
+	if (((tree->type == 0 || tree->type == 102 || tree->type == 103 || tree->type == 105 || tree->type == 100 || tree->type == 101) && (tree->left == NULL && tree->middle == NULL && tree->right == NULL)))
 	{		
 		if ((*table_node)->cmd == NULL)
 			(*table_node)->cmd = strdup(tree->data);

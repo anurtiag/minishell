@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/06 10:09:58 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:20:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_son_process(t_var_parsed_table *arg)
 	fdout = 0;
 	control_fdin = 0;
 	control_fdout = 0;
+	printf("la ruta del comando es: %s\n", arg->path);
 	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como salida estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);

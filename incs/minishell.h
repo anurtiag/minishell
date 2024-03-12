@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/06 10:21:58 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:24:30 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_input
 }				t_input;
 
 //linked list for the enviroment variables
-typedef struct s_var_list
+typedef struct	s_var_list
 {
 	char				*name;
 	int					is_printed;
@@ -199,44 +199,26 @@ char	**ft_bash_split(char const *s, char c, int *control);
 int	tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
-void	cmd_handle(t_var_parsed_table **cmd_list);
+void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
 
 //BUILT_IN
 void	ft_echo(char **args, int fd);
 
 int	ft_pwd(void);
 
-int	get_path(char *args);
-
-int	ft_cd(char **args);
+int	ft_cd(char **args, t_input **env);
 
 void add_var(char *name, t_var_list **env, char *content);
 
 void ft_empty_export(t_var_list **env);
 
-int ft_export(char	*var, t_var_list **env);
+int ft_export(char	*var, t_input **struct_input);
 
-int	ft_built_in(char **env, char **argv);
+int	ft_built_in(char **argv, t_input **struct_input);
 
-
-
-
+int	get_path(char *args, t_input **env);
 
 
-
-
-
-
-// # include "minishell.h"
-// # include <stdio.h>
-// # include <stdlib.h>
-// # include <unistd.h>
-// # include <string.h>
-// # include <sys/wait.h>
-// # include <fcntl.h>
-// # include <errno.h>
-// # include "../libs/Libft/libft.h"
-// # include "../libs/GNL/get_next_line.h"
 
 
 
@@ -245,7 +227,6 @@ void	ft_exit(int i);
 void	error_handle(int argc, char **argv);
 char	*ft_get_path(char **env, char *cmd);
 char	**ft_get_cmd(char *s1);
-void    cmd_handle(t_var_parsed_table **cmd_list);
 char	*ft_get_path_line(char **env);
 void	ft_son_process(t_var_parsed_table *arg);
 // void	freeall(char **str);

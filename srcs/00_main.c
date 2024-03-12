@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/06 11:09:23 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:29:24 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,10 +184,11 @@ int	check_input(char **line, t_input **struct_input)
 			break ;
 
 		//printf("el input es:--->%s<----\n", input);
-		// ft_built_in(envp, &input);
+		ft_built_in(ft_split(input, ' '), &struct_input);
+		// printf("salimos de los built in?\n");
 		if (check_input(&input, &struct_input) == TRUE)
 			create_tokens_analyzer(&struct_input);
-		
+
 		save_history(input);
 		free(input);
 	}
