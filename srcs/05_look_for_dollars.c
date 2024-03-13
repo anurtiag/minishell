@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 15:48:13 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:13:18 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 		}
 		current = current->next;
 	}
-	(*content) = "";
+	//(*content) = ft_strdup("");
 	return (FALSE);
 }
 

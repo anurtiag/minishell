@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 12:32:16 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:13:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@
 # endif
 # ifndef WRITE
 #  define WRITE 1
+# endif
+
+# ifndef ALLOW_WRITE
+#  define ALLOW_WRITE 0
 # endif
 
 //Options of a state
@@ -107,6 +111,7 @@ typedef struct s_input
 	struct s_var_list	*ent_var;
 	struct s_states		*parsing_table;
 	struct s_var_parsed_table	*parsed_table;
+	int							allow_input;
 }				t_input;
 
 //linked list for the enviroment variables
