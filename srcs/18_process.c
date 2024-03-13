@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 12:50:44 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:59:22 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_son_process(t_var_parsed_table *arg)
 		}
 	}
 	// printf("vamos a ejecutar %s\nfdin %d\nfdout %d\n", arg->cmd, fdin, fdout);
+	// printf("\n\nPUTA\n\n");
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
 	{
 		printf("son process 5\n");
@@ -97,11 +98,11 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 	}
 	else
 		close(fd[READ]);
-	if (waitpid(pid, NULL, 0) == -1)
-	{
-		printf("father process 3\n");
-		ft_exit(1);
-	}
+	// if (waitpid(pid, NULL, 0) == -1)
+	// {
+	// 	printf("father process 3\n");
+	// 	ft_exit(1);
+	// }
 	cmd = cmd->next;
 	return (cmd);
 }

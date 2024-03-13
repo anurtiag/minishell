@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/12 13:10:55 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:01:37 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void	ft_unset(char *name, t_input **struct_input)
 		return ;
 	}
 	current = (*struct_input)->ent_var;
-	printf("Vamos a intentar quitar el primero a ver si funtxiona\n%s\n", name);
+	// printf("Vamos a intentar quitar el primero a ver si funtxiona\n%s\n", name);
 	printf("La primera variable es %s\n", current->name);
 	if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)//seria para verificar si el primero 
 	{

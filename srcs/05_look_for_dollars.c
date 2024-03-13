@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 13:52:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:48:13 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 	char **cmd;
 
 	current = *table;
+	if (!current->cmd)
+		return ;
 	while (current != NULL)
 	{
 		index = 0;

@@ -6,48 +6,12 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 12:20:18 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:11:16 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-// char	**ft_get_cmd(char *s1)
-// {
-// 	char	**cmd;
-
-// 	cmd = ft_split(s1, ' ');
-// 	if (!cmd)
-// 		ft_exit(1);
-// 	return (cmd);
-// }
-
-// t_data	*set_data(int argc, char **argv, char **env, t_data *cmd)
-// {
-// 	int		i;
-// 	t_data	*tmp;
-
-// 	i = -1;
-// 	tmp = NULL;
-// 	while (++i < (argc - 3))
-// 	{
-// 		if (!cmd)
-// 		{
-// 			cmd = cmd_handle(argv, env, i, cmd);
-// 			cmd->fd = fd_handle(i, argc, argv);
-// 			cmd->next = NULL;
-// 			tmp = cmd;
-// 		}
-// 		else
-// 		{
-// 			cmd->next = cmd_handle(argv, env, i, tmp);
-// 			cmd = cmd->next;
-// 			cmd->fd = fd_handle(i, argc, argv);
-// 		}
-// 	}
-// 	cmd->next = NULL;
-// 	return (tmp);
-// }
 
 void	ft_exit(int i)
 {
@@ -57,6 +21,24 @@ void	ft_exit(int i)
 		exit(1);
 	}
 }
+
+// int	ft_built_in(char **argv, t_input **struct_input)
+// {
+// 	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0 && ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0)
+// 		ft_echo(argv, 1);
+// 	else if(ft_strncmp(argv[0], "pwd", ft_strlen(argv[0])) == 0)
+// 		ft_pwd();
+// 	else if(ft_strncmp(argv[0], "cd", ft_strlen(argv[0])) == 0)
+// 		ft_cd(argv, struct_input);
+// 	else if(ft_strncmp(argv[0], "export", ft_strlen(argv[0])) == 0)
+// 		ft_export(argv[1], struct_input);
+// 	else if(ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
+// 		ft_unset(argv[1], struct_input);
+// 	else if(ft_strncmp(argv[0], "env", ft_strlen(argv[0])) == 0)
+// 		ft_print_var(*struct_input);
+// 	return (0);	
+// }
+
 
 void	freeall(char **str)
 {

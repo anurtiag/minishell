@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 12:52:16 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:25:59 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,30 +114,30 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			error_flag = 1;
 	}
 	
-	// if (tree->type == 108)
-	// 	fd = open(tree->data, O_RDWR);
-	// if (tree->type == 106)//infiles
-	// {
-	// 	printf("el arbol tiene %s\n", tree->data);
-	// 	if (tree->left)
-	// 		printf("a la izquierda hay %s\n", tree->left->data);
-	// 	if (tree->middle)
-	// 		printf("en medio hay %s\n", tree->middle->data);
-	// 	if (tree->right)
-	// 		printf("a la derecha hay %s\n", tree->right->data);
-	// }
+	if (tree->type == 108)
+		fd = open(tree->data, O_RDWR);
+	if (tree->type == 106)//infiles
+	{
+		printf("el arbol tiene %s\n", tree->data);
+		if (tree->left)
+			printf("a la izquierda hay %s\n", tree->left->data);
+		if (tree->middle)
+			printf("en medio hay %s\n", tree->middle->data);
+		if (tree->right)
+			printf("a la derecha hay %s\n", tree->right->data);
+	}
 	
 	if (tree->type == 106)
 	{
 		if (ft_strncmp(tree->left->data, ">>", 2) == 0)
 		{
 			// printf("Entramos a abrir en modo append\n");
-			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND);
+			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (ft_strncmp(tree->left->data, ">", 1) == 0)
 		{
 			// printf("entramos a modo output normal\n");
-			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC);
+			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (ft_strncmp(tree->left->data, "<<", 2) == 0)
 		{

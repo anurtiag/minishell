@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 12:53:45 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:59:55 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 			cmd->path = str;
 			return ;
 		}
-	}
 	free(str);
+	}
 	printf("command %s not found\n", cmd->cmd_splited[0]);
 }
 
@@ -74,6 +74,8 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	char				**posible_paths;
 
 	cmd = *cmd_list;
+	if (!cmd->cmd)
+		return ;
 	path_env = getenv("PATH");
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
@@ -128,7 +130,6 @@ int	ft_here_doc(char *end, int fd)
 		free(tmp);
 	}
 	outfile = open(".tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// printf("el fd es de %d\n", outfile);
 	if (outfile < 0)
 		return(1);
 	free_here_doc(delimiter, output, line, outfile);

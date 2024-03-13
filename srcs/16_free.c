@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 12:50:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:15:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,6 @@ void	free_all(t_input *struct_input, char *history)
 	free_states((struct_input)->parsing_table);
 
 	free_double((struct_input)->token_raw);
-		
+
 	free(struct_input);
 }
