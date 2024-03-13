@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 18:01:24 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:35:56 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ int	check_input(char **line, t_input **struct_input)
 {
 	char	*input;
 	t_input *struct_input;
-
 	if (argc > 1)
 		return (printf("Invalid input\n"), 2);
 	(void)argv;
@@ -184,10 +183,10 @@ int	check_input(char **line, t_input **struct_input)
 	prepare_program(&struct_input, envp);
 	while (1)
 	{
-		input = readline("Minishell>>");
+			input = readline("Minishell>>");
+		
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
-
 		if (check_input(&input, &struct_input) == TRUE)
 		{
 			//ft_built_in(ft_split(input, ' '), &struct_input);

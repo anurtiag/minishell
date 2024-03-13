@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 12:53:45 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 14:20:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 			cmd->path = str;
 			return ;
 		}
+		free(str);
 	}
-	free(str);
 	printf("command %s not found\n", cmd->cmd_splited[0]);
 }
 
@@ -40,6 +40,7 @@ void	relative_path(t_var_parsed_table *cmd, t_input **env)
 	char		**path;
 	char		*tmp;
 	char		*route;
+	char		*route_tmp;
 	size_t		i;
 	t_var_list	*current;
 
@@ -55,8 +56,10 @@ void	relative_path(t_var_parsed_table *cmd, t_input **env)
 		}
 		else if (!(path[i][0] == '.' && ft_strlen(path[i]) == 1))
 		{
-			route = ft_strjoin(route, "/");
-			route = ft_strjoin(route, path[i]);
+			route_tmp = ft_strjoin(route, "/");
+			free(route);
+			route = ft_strjoin(route_tmp, path[i]);
+			free(route_tmp);
 			if (access(route, X_OK) != 0)
 			{
 				printf("no such file or directory: %s\n", cmd->cmd_splited[0]);
@@ -64,6 +67,7 @@ void	relative_path(t_var_parsed_table *cmd, t_input **env)
 			}
 		}
 	}
+	free_double(path);
 	cmd->path = route;
 }
 

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 13:52:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:54:06 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 		}
 		current = current->next;
 	}
-	(*content) = "";
+	//(*content) = ft_strdup("");
 	return (FALSE);
 }
 
