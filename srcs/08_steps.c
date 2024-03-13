@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 12:58:13 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:25:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	{
 		printf("\033[0;32mOK\033[0m\n");
 
-		//display_structure_tree(c_step->tree_stack, 0);
+		// display_structure_tree(c_step->tree_stack, 0);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
@@ -288,7 +288,8 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
-	
+
+		// print_cmd_contents(&(*struct_input)->parsed_table);
 
 		//expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		

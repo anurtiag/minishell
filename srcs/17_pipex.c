@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   17_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/05 15:24:36 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:20:18 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@ int	pipex(t_var_parsed_table *cmd_list)
 	pid = 0;
 	fd[READ] = 0;
 	fd[WRITE] = 0;
-	// error_handle(argc, argv);
-	// cmd = set_data(argc, argv, env, cmd);
-	// tmp = cmd;
 	ft_make_process(cmd_list, fd, pid);
+	if(access(".tempfile.txt", F_OK) == 0)
+		unlink(".tempfile.txt");
 	return (0);
 }

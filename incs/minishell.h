@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 12:58:31 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 08:28:59 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,8 @@ int			tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
 void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
+int		ft_here_doc(char *end, int fd);
+void	free_here_doc(char *delimiter, char *output, char *line, int outfile);
 
 //BUILT_IN
 void	ft_echo(char **args, int fd);
@@ -230,7 +232,6 @@ char	*ft_get_path(char **env, char *cmd);
 char	**ft_get_cmd(char *s1);
 char	*ft_get_path_line(char **env);
 void	ft_son_process(t_var_parsed_table *arg);
-// void	freeall(char **str);
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid);
 void		ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
 void		file_permissions(char *name, int type);

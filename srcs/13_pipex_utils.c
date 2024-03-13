@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/12 12:56:51 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:01:38 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 		str = ft_strjoin("/", cmd->cmd_splited[0]);
 		// printf("el comando es: %s\nel path %s\n", str, paths[i]);
 		str = ft_strjoin(paths[i], str);
-		printf("despues del join comando es: %s\n", str);
+		// printf("despues del join comando es: %s\n", str);
 		if (access(str, X_OK) == 0)
 		{
 			cmd->path = str;
@@ -76,7 +76,6 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		cmd->cmd_splited = ft_split(cmd->cmd, ' ');
 		if (cmd->cmd_splited[0][0] == '/')
 		{
 			// printf("La ruta es %s\n", cmd->cmd_splited[0]);
@@ -96,4 +95,52 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 		}
 		cmd = cmd->next;
 	}
+}
+
+int	ft_here_doc(char *end, int fd)
+{
+	char	*delimiter;
+	char	*line;
+	int		outfile;
+	char	*output;
+	char	*tmp;
+
+	if (end == NULL)
+	{
+		printf("no valid limiter\n");
+		return (1);
+	}
+	output = (char *)malloc(sizeof(char) * 1);
+	output[0] = '\0';
+	delimiter = ft_strjoin(end, "\n");
+	while (1)
+	{
+		write(1,"Minishell heredoc> ", 19);
+		line = get_next_line(fd);
+		if (ft_strncmp(delimiter, line, ft_strlen(delimiter)) == 0)
+			break ;
+		tmp = output;
+		output = ft_strjoin(output, line);
+		free(line);
+		free(tmp);
+	}
+	outfile = open(".tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	printf("el fd es de %d\n", outfile);
+	if (outfile < 0)
+		return(1);
+	free_here_doc(delimiter, output, line, outfile);
+	outfile = open(".tempfile.txt", O_RDONLY);
+	return (outfile);
+}
+
+void	free_here_doc(char *delimiter, char *output, char *line, int outfile)
+{
+	if (write(outfile, output, ft_strlen(output)) == -1)
+		return ;
+	free(delimiter);
+	free(output);
+	free(line);
+	line = NULL;
+	if (close(outfile) < 0)
+		return ;
 }

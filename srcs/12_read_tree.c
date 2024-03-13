@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 12:57:28 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:26:14 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	static int first_time = 1;
 	static int red_to_flag = 0;
 	static int red_from_flag = 0;
+	static int here_doc = 0;
+	static int append = 0;
 	static int error_flag = 0;
 	static int fd = -1;
 
@@ -94,6 +96,11 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	
 	if (tree->type == 2)
 		red_from_flag = 1;
+
+	if (tree->type == 3)
+		here_doc = 1;
+	if (tree->type == 4)
+		append = 1;
 	
 	if (tree->type == 1)
 	{
@@ -102,8 +109,44 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			error_flag = 1;
 	}
 	
-	if (tree->type == 108)
-		fd = open(tree->data, O_RDWR);
+	// if (tree->type == 108)
+	// 	fd = open(tree->data, O_RDWR);
+	if (tree->type == 106)//infiles
+	{
+		printf("el arbol tiene %s\n", tree->data);
+		if (tree->left)
+			printf("a la izquierda hay %s\n", tree->left->data);
+		if (tree->middle)
+			printf("en medio hay %s\n", tree->middle->data);
+		if (tree->right)
+			printf("a la derecha hay %s\n", tree->right->data);
+	}
+	
+	if (tree->type == 106)
+	{
+		if (ft_strncmp(tree->left->data, ">>", 2) == 0)
+		{
+			printf("Entramos a abrir en modo append\n");
+			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND);
+		}
+		else if (ft_strncmp(tree->left->data, ">", 1) == 0)
+		{
+			printf("entramos a modo output normal\n");
+			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC);
+		}
+		if (ft_strncmp(tree->left->data, "<<", 2) == 0)
+		{
+			printf("Entramos a abrir en modo here doc\n");
+			fd = ft_here_doc(tree->right->data, 0);
+		}
+		else if (ft_strncmp(tree->left->data, "<", 1) == 0)
+		{
+			printf("entramos a modo input normal\n");
+			fd = open(tree->right->data, O_RDONLY);
+		}
+		if (fd < 0)
+			printf("Algo se ha hecho mal abriendo los archivos\n");
+	}
 	
 	// Process left child
 	if (tree->left != NULL)
@@ -129,12 +172,16 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
 	}
-	
-	if (red_from_flag == 1)
-		(*table_node)->fd_in = fd;
-	
-	if (red_to_flag == 1)
+	if (red_from_flag == 1 || here_doc == 1)
 	{
+		printf("entramos a guardar el input\n");
+		(*table_node)->fd_in = fd;
+		printf("el fd es de %d con la direccion de memoria %p\n", (*table_node)->fd_in, (*table_node));
+	}
+	
+	if (red_to_flag == 1 || append == 1)
+	{
+		printf("entramos a guardar el output\n");
 		if (error_flag == 1)
 			(*table_node)->fd_error = fd;
 		else

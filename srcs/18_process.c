@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   18_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/12 12:20:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:48:02 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_son_process(t_var_parsed_table *arg)
 	fdout = 0;
 	control_fdin = 0;
 	control_fdout = 0;
-	printf("la ruta del comando es: %s\n", arg->path);
 	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como salida estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);
@@ -111,7 +110,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 {
 	while (cmd_list)
 	{
-		// printf("el comando %s tiene un fdin de %d y un fdout de %d\n", cmd_list->cmd_splited[0], cmd_list->fd_in, cmd_list->fd_out);
+		printf("el comando %s tiene un fdin de %d y un fdout de %d\n", cmd_list->cmd_splited[0], cmd_list->fd_in, cmd_list->fd_out);
 		if (pipe(fd) < 0)
 		{
 			printf("make process 1\n");
