@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 08:28:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:32:16 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct	s_step
 	struct s_states *state;			//ptr to the current state
 	int				option_nbr;			//nbr of the current option of the state
 	struct s_token	*tree_stack;		//ptr to the tree/ stack
-	struct s_token	*input;			//ptr to the input
+	struct s_token	*input;				//ptr to the input
 
 	struct s_step	*next;			//ptr to the next step
 	struct s_step	*prev;			//ptr to the prev step
@@ -239,5 +239,8 @@ int			pipex(t_var_parsed_table *cmd_list);
 
 //FREE
 void		free_all(t_input *struct_input, char *history);
+void		free_steps(t_step *steps);
+void		free_double(char **double_ptr);
+void		free_parsed_table(t_var_parsed_table **table);
 
 #endif

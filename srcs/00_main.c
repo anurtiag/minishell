@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 13:03:08 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:01:24 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int		analyze_input(char **input)
 void	prepare_program(t_input **struct_input, char **envp)
 {
 	*struct_input = (t_input *)malloc(sizeof(t_input));
+
 	load_history();
 	save_env(envp, struct_input);
 	signal_receiver();
@@ -181,25 +182,22 @@ int	check_input(char **line, t_input **struct_input)
 	(void)argv;
 	input = NULL;
 	prepare_program(&struct_input, envp);
-
 	while (1)
 	{
 		input = readline("Minishell>>");
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
 
-		//printf("el input es:--->%s<----\n", input);
-
-		// printf("salimos de los built in?\n");
 		if (check_input(&input, &struct_input) == TRUE)
-		{	
+		{
 			//ft_built_in(ft_split(input, ' '), &struct_input);
 			create_tokens_analyzer(&struct_input);
 		}
-			
-
 		save_history(input);
+		free(input);
 	}
+	free(input);
 	free_all(struct_input, input);
+	
 	return (0);
 }

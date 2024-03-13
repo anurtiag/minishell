@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/01 11:54:54 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:48:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void	ft_reduce(t_options *options, t_step **c_step)
 	}
 	else if (options->nbr_red == 2)
 	{
-		
+
 		start_stack = (*c_step)->tree_stack;
 		
 		join_token = (t_token *)malloc(sizeof(t_token));
 		if (join_token == NULL)
 			return;
 		//Asignamos data a joined token
-		join_token->data = "Joined token";
+		join_token->data = ft_strdup("Joined token");
 		join_token->type = options->next_state;
 		join_token->left = NULL;
 		join_token->right = NULL;
@@ -82,7 +82,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		if (join_token == NULL)
 			return;
 		//Asignamos data a joined token
-		join_token->data = "Joined token";
+		join_token->data = ft_strdup("Joined token");
 		join_token->type = options->next_state;
 		join_token->left = NULL;
 		join_token->right = NULL;

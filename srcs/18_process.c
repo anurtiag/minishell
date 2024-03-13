@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 11:48:02 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:50:44 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 {
 	while (cmd_list)
 	{
-		printf("el comando %s tiene un fdin de %d y un fdout de %d\n", cmd_list->cmd_splited[0], cmd_list->fd_in, cmd_list->fd_out);
+		// printf("el comando %s tiene un fdin de %d y un fdout de %d\n", cmd_list->cmd_splited[0], cmd_list->fd_in, cmd_list->fd_out);
 		if (pipe(fd) < 0)
 		{
 			printf("make process 1\n");
