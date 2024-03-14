@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 14:05:16 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:13:55 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,5 @@ int	check_input(char **line, t_input **struct_input)
 	}
 	free(input);
 	free_all(struct_input, input);
-	free((t_input *)struct_input);
 	return (0);
 }

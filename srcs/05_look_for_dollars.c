@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/13 17:13:18 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:05:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	int		size;
 	int		size1;
 	int 	size2;
+	int		sizea;
+	int		sizem;
+	int		sizeb;
 
 	size2 = 0;
 	size1 = 0;
@@ -46,22 +49,31 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	before = NULL;
 	after = NULL;
 
-	while (token[size] && (token[size] != '$'))
+	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
+	while (token[size] && !(token[size] == '$' && isalpha(token[size + 1])))
 		size++;
 	before = malloc(sizeof(char) * size + 1);
-	
-	while (token[size1] && (token[size1] != '$'))
+	sizeb = size;
+	//---------------------------------------------------------------CARGAR INFORMACION EN BEFORE
+
+	while (size1 < size)
 	{
 		before[size1] = token[size1];
 		size1++;
 	}
 	before[size1] = '\0';
 
-	while (token[size1] && ((token[size1] != 34) && token[size1] != 39))
+	//---------------------------------------------------------------
+	//&& (token[size1] != '$'))
+	size1++;
+	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$')))
+	{
 		size1++;
-	
+	}
+	//---------------------------------------------------------------
 	after = malloc(sizeof(char) * (ft_strlen(token) - size1 + 1));
-
+	sizea = ft_strlen(token) - size1;
+	
 	while (token[size1])
 	{
 		after[size2] = token[size1];
@@ -69,8 +81,14 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 		size2++;
 	}
 	after[size2] = '\0';
+	//---------------------------------------------------------------
+	match_var_name = strndup(token + size + 1, (size1 - size - size2 - 1));
+	sizem = (size1 - size - size2 - 1);
 
-	match_var_name = strndup(ft_strchr(token, '$') + 1, (size1 - size - size2 - 1));
+	// printf("b %s\n", before);
+	// printf("m %s\n",match_var_name);
+	// printf("a %s\n\n",after);
+	
 	
 	if (ft_find_variable(match_var_name, variable_list, content) == TRUE)
 	{
@@ -78,30 +96,36 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 		(*content) = ft_strjoin(before, (*content));
 		return (TRUE);
 	}
+
 	return (FALSE);
 }
+
+
 
 //Check in the given input if a variable call is detected
 int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content)
 {
 	int i;
 	int max;
-	int	quotes_flag;
+	int quotes_flag;
 
+	
 	quotes_flag = 0;
 	max = ft_strlen(token);
+	
 	i = 0;
 	while (i < max)
 	{
-		if (token[i] == '\'')
+		if (token[i] == '\'' && quotes_flag == 0)
 			quotes_flag = 1;
-
+		else if (token[i] == '\'' && quotes_flag == 1)
+			quotes_flag = 0;
+		
 		//((token[i - 1] == SPACE_M) || (!token[i - 1])) &&
 		if ((quotes_flag == 0) && ((token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z')))))
 		{
-			if (ft_trim_var_dollar((char *)token, variable_list, content) == TRUE)
-				return (TRUE);
-			return(FALSE);
+			//printf("el token es %s size %i\n", *content, max);
+			ft_trim_var_dollar(*content, variable_list, content);
 		}
 		i++;
 	}

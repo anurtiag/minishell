@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/14 13:52:25 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:02:48 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 	}
 	cmd = cmd->next;
 	return (cmd);
+	
 }
 
 void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
