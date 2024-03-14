@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 09:40:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:42:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,16 @@ void remove_quotes_aux(char **cmd_ptr)
 	mid = ft_substr(*cmd_ptr, start + 1, end - start - 1);
 	after = ft_substr(*cmd_ptr, end + 1, ft_strlen(*cmd_ptr) - end);
 
+	// printf("%s\n", *cmd_ptr);
+	// printf("------------------\n");
+	// printf("start %i\n", start);
+	// printf("end %i\n", end);
 	// printf("b %s\n", before);
 	// printf("m %s\n", mid);
 	// printf("a %s\n", after);
+
 	
-	// printf("start %i\n", start);
-	// printf("end %i\n", end);
-	
-	if (end == -1)
+	if (end == -1 || (end == 0 && start == 0))
 	{
 		free(before);
 		free(mid);
@@ -101,8 +103,8 @@ void remove_quotes(t_var_parsed_table **head)
 		{
 			while ((*head)->cmd_splited[i] != NULL)
 			{
+				//printf("%i %s\n",i, (*head)->cmd_splited[i]);
 				remove_quotes_aux(&((*head)->cmd_splited[i]));
-				//printf("%s\n", (*head)->cmd_splited[i]);
 				i++;
 			}
 		}
@@ -115,7 +117,7 @@ void remove_quotes(t_var_parsed_table **head)
 void print_cmd_contents(t_var_parsed_table **head)
 {
 	t_var_parsed_table *current = *head;
-
+	int i;
 	if (current == NULL)
 		printf("NO TENGO NADA\n");
 	while (current != NULL)
@@ -127,10 +129,12 @@ void print_cmd_contents(t_var_parsed_table **head)
 			{
 				printf("cmd_splited: ");
 				char **cmd_ptr = current->cmd_splited;
+				i = 0;
 				while (*cmd_ptr != NULL)
 				{
-					printf("%s ", *cmd_ptr);
+					printf("%s %i", *cmd_ptr, i);
 					cmd_ptr++;
+					i++;
 				}
 				printf("\n");
 			}
@@ -149,10 +153,13 @@ void config_parsed_table(t_var_parsed_table **current)
 {
 	int i;
 	int max;
+	int		control[2];
 	t_var_parsed_table *first_node;
 
 	i = 0;
 	max = 0;
+	control[0] = TRUE;
+	control[1] = TRUE;
 	// Avanzar al primer nodo de la lista
 	while ((*current)->prev != NULL)
 	{
@@ -167,7 +174,7 @@ void config_parsed_table(t_var_parsed_table **current)
 			first_node->fd_in = 0;
 		
 		if (first_node->cmd != NULL)
-			first_node->cmd_splited = ft_split(first_node->cmd, ' ');
+			first_node->cmd_splited = ft_bash_split(first_node->cmd, SPACE_M, control);
 
 		if (i == max && first_node->fd_out == -1)
 			first_node->fd_out = 1;
@@ -308,8 +315,8 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	else
 	{
 		printf("\033[0;32mOK\033[0m\n");
-		// display_structure_tree(c_step->tree_stack, 0);
-		// print_token_list(c_step->tree_stack);
+		//display_structure_tree(c_step->tree_stack, 0);
+		//print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
