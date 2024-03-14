@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 16:59:22 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:06:55 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,15 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 		cmd->next->fd_in = fd[READ];
 	}
 	else
+	{
 		close(fd[READ]);
-	// if (waitpid(pid, NULL, 0) == -1)
-	// {
-	// 	printf("father process 3\n");
-	// 	ft_exit(1);
-	// }
+		// waitpid(-1, NULL, 0);
+	}
+	if (waitpid(pid, NULL, WNOHANG) == -1)
+	{
+		printf("father process 3\n");
+		ft_exit(1);
+	}
 	cmd = cmd->next;
 	return (cmd);
 }
@@ -154,6 +157,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 		else
 			cmd_list = father_process(cmd_list, fd, pid);
 	}
+	// waitpid(pid, NULL, 0);
 }
 
 // t_fd	*fd_handle(int i, int argc, char **argv)
