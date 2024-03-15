@@ -6,12 +6,12 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 11:03:54 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:13:55 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-int		main_loop;
+int		g_main_loop;
 
 //If a pipe is the last char opens a here doc to complete it
 void	beyond_pipe(char *input, size_t *control)
@@ -182,19 +182,19 @@ int	check_input(char **line, t_input **struct_input)
 		return (printf("Invalid input\n"), 2);
 	(void)argv;
 	input = NULL;
-	main_loop = 1;
+	g_main_loop = 1;
 	prepare_program(&struct_input, envp);
 	while (1)
 	{
 		input = readline("Minishell>>");
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
-		main_loop = 0;
+		g_main_loop = 0;
 		if (check_input(&input, &struct_input) == TRUE)
 			create_tokens_analyzer(&struct_input);
 		save_history(input);
 		free(input);
-		main_loop = 1;
+		g_main_loop = 1;
 	}
 	free(input);
 	free_all(struct_input, input);

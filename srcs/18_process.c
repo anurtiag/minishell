@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 07:39:36 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 07:41:02 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,21 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 		printf("father process 3\n");
 		ft_exit(1);
 	}
+	if (cmd->next && cmd->next->fd_in == -1)
+	{
+		// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
+		cmd->next->fd_in = fd[READ];
+	}
+	else
+		close(fd[READ]);
+	if (waitpid(pid, NULL, 0) == -1)
+	{
+		printf("father process 3\n");
+		ft_exit(1);
+	}
 	cmd = cmd->next;
 	return (cmd);
+	
 }
 
 void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
