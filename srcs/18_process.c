@@ -6,23 +6,25 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 10:33:46 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 12:58:59 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-void	ft_son_process(t_var_parsed_table *arg)
+void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 {
 	int	fdin;
 	int	fdout;
 	int control_fdin;
 	int control_fdout;
+	int	control;
 
 	fdin = 0;
 	fdout = 0;
 	control_fdin = 0;
 	control_fdout = 0;
+	control = TRUE;
 	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como salida estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);
@@ -66,6 +68,13 @@ void	ft_son_process(t_var_parsed_table *arg)
 			printf("son process 4\n");
 			ft_exit(1);
 		}
+	}
+	ft_built_in(arg->cmd_splited, struct_input, &control);
+	if (control == FALSE)
+	{
+		// printf("salimos por el buit in\n");
+		write(2, "salimos por el buit in\n", 23);
+		exit(0);
 	}
 	// printf("vamos a ejecutar %s\nfdin %d\nfdout %d\n", arg->cmd, fdin, fdout);
 	// printf("\n\nPUTA\n\n");
@@ -127,7 +136,7 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 	
 }
 
-void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2])
+void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_input)
 {
 	while (cmd_list)
 	{
@@ -174,7 +183,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2])
 					ft_exit(1);
 				}
 			}
-			ft_son_process(cmd_list);
+			ft_son_process(cmd_list, struct_input);
 		}
 		else if (cmd_list->pid == 0)
 		{
@@ -188,7 +197,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2])
 				// printf("entramos a asignar fd de esctritura del pipe para %s\n", cmd_list->cmd);
 				cmd_list->fd_out = fd[WRITE];
 			}
-			ft_son_process(cmd_list);
+			ft_son_process(cmd_list, struct_input);
 		}
 		else
 			cmd_list = father_process(cmd_list, fd);

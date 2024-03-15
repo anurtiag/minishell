@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 16:01:37 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 12:46:10 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,19 +237,37 @@ void	ft_unset(char *name, t_input **struct_input)
 	}
 }
 
-int	ft_built_in(char **argv, t_input **struct_input)
+int	ft_built_in(char **argv, t_input **struct_input, int *control)
 {
 	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0 && ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0)
+	{
+		*control = FALSE;
 		ft_echo(argv, 1);
+	}
 	else if(ft_strncmp(argv[0], "pwd", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
 		ft_pwd();
+	}
 	else if(ft_strncmp(argv[0], "cd", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
 		ft_cd(argv, struct_input);
+	}
 	else if(ft_strncmp(argv[0], "export", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
 		ft_export(argv[1], struct_input);
+	}
 	else if(ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
 		ft_unset(argv[1], struct_input);
+	}
 	else if(ft_strncmp(argv[0], "env", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
 		ft_print_var(*struct_input);
+	}
 	return (0);	
 }
