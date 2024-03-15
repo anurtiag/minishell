@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 10:33:15 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 11:12:37 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,9 @@ void	freeall(char **str)
 
 int	pipex(t_var_parsed_table *cmd_list)
 {
-	// t_data	*cmd;
-	// t_data	*tmp;
 	int		fd[2];
-	// int		pid;
 
-	// cmd = NULL;
-	// tmp = NULL;
-	// pid = 0;
+	
 	fd[READ] = 0;
 	fd[WRITE] = 0;
 	ft_make_process(cmd_list, fd);
