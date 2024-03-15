@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/14 11:06:55 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 07:39:36 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,32 @@ void	ft_son_process(t_var_parsed_table *arg)
 
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 {
-	if ((cmd->fd_in != 0 && cmd->fd_in != -1))
+	if(waitpid(-1, NULL, 0))
 	{
-		// printf("el fdin en el padre es de %d\n", cmd->fd_in);
-		if (close(cmd->fd_in) < 0)
+		if ((cmd->fd_in != 0 && cmd->fd_in != -1))
 		{
-			printf("father process 1\n");
+			// printf("el fdin en el padre es de %d\n", cmd->fd_in);
+			if (close(cmd->fd_in) < 0)
+			{
+				printf("father process 1\n");
+				ft_exit(1);
+			}
+		}
+		if (close(fd[WRITE]) < 0)
+		{
+			printf("father process 2\n");
 			ft_exit(1);
 		}
-	}
-	if (close(fd[WRITE]) < 0)
-	{
-		printf("father process 2\n");
-		ft_exit(1);
-	}
-	if (cmd->next && cmd->next->fd_in == -1)
-	{
-		// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
-		cmd->next->fd_in = fd[READ];
-	}
-	else
-	{
-		close(fd[READ]);
-		// waitpid(-1, NULL, 0);
+		if (cmd->next && cmd->next->fd_in == -1)
+		{
+			// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
+			cmd->next->fd_in = fd[READ];
+		}
+		else
+		{
+			close(fd[READ]);
+			// waitpid(-1, NULL, 0);
+		}
 	}
 	if (waitpid(pid, NULL, WNOHANG) == -1)
 	{
@@ -157,7 +160,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 		else
 			cmd_list = father_process(cmd_list, fd, pid);
 	}
-	// waitpid(pid, NULL, 0);
+	// waitpid(-1, NULL, 0);
 }
 
 // t_fd	*fd_handle(int i, int argc, char **argv)
