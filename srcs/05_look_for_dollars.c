@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 18:05:44 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/15 12:10:05 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 		}
 		current = current->next;
 	}
-	//(*content) = ft_strdup("");
+	free(*content);
+	(*content) = ft_strdup("");
 	return (FALSE);
 }
 
-static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **content)
+static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **content, int index)
 {
 	char	*match_var_name;
 	char	*before;
@@ -50,8 +51,14 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	after = NULL;
 
 	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
-	while (token[size] && !(token[size] == '$' && isalpha(token[size + 1])))
+	
+	while (token[size] && size != index)
+	{
+		if (token[size] == '$' && isalpha(token[size + 1] && size == index))
+			break;
 		size++;
+	}
+
 	before = malloc(sizeof(char) * size + 1);
 	sizeb = size;
 	//---------------------------------------------------------------CARGAR INFORMACION EN BEFORE
@@ -90,13 +97,12 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	// printf("a %s\n\n",after);
 	
 	
-	if (ft_find_variable(match_var_name, variable_list, content) == TRUE)
-	{
+	ft_find_variable(match_var_name, variable_list, content);
+
 		(*content) = ft_strjoin((*content), after);
 		(*content) = ft_strjoin(before, (*content));
-		return (TRUE);
-	}
 
+	
 	return (FALSE);
 }
 
@@ -111,21 +117,24 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 
 	
 	quotes_flag = 0;
-	max = ft_strlen(token);
-	
+	max = ft_strlen(*content);
 	i = 0;
 	while (i < max)
 	{
-		if (token[i] == '\'' && quotes_flag == 0)
+		//printf("content %s\n", *content);
+
+		if ((*content)[i] == '\'' && quotes_flag == 0)
 			quotes_flag = 1;
-		else if (token[i] == '\'' && quotes_flag == 1)
+		else if ((*content)[i] == '\'' && quotes_flag == 1)
 			quotes_flag = 0;
-		
-		//((token[i - 1] == SPACE_M) || (!token[i - 1])) &&
-		if ((quotes_flag == 0) && ((token[i] == '$') && (((token[i + 1] >= 'a') && (token[i + 1] <= 'z')) || ((token[i + 1] >= 'A') && (token[i + 1] <= 'Z')))))
+		//printf("%c %i\n", (*content)[i], i);
+		//(((*content)[i - 1] == SPACE_M) || (!(*content)[i - 1])) &&
+		if ((quotes_flag == 0) && (((*content)[i] == '$') && ((((*content)[i + 1] >= 'a') && ((*content)[i + 1] <= 'z')) || (((*content)[i + 1] >= 'A') && ((*content)[i + 1] <= 'Z')))))
 		{
-			//printf("el token es %s size %i\n", *content, max);
-			ft_trim_var_dollar(*content, variable_list, content);
+			//printf("el token es %s position %i max %i\n", *content, i, max);
+			ft_trim_var_dollar(*content, variable_list, content, i);
+			i = -1;
+			max = ft_strlen(*content);
 		}
 		i++;
 	}
