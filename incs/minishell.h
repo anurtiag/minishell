@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 07:41:10 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 10:34:05 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct s_var_parsed_table
 	int							fd_in;
 	int							fd_out; 
 	int							fd_error;
+	pid_t						pid;
 	struct	s_var_parsed_table	*next;
 	struct	s_var_parsed_table	*prev;
 }				t_var_parsed_table;
@@ -225,8 +226,8 @@ char	*ft_get_path(char **env, char *cmd);
 char	**ft_get_cmd(char *s1);
 char	*ft_get_path_line(char **env);
 void	ft_son_process(t_var_parsed_table *arg);
-t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid);
-void		ft_make_process(t_var_parsed_table *cmd, int fd[2], int pid);
+t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2]);
+void		ft_make_process(t_var_parsed_table *cmd, int fd[2]);
 void		file_permissions(char *name, int type);
 int			pipex(t_var_parsed_table *cmd_list);
 

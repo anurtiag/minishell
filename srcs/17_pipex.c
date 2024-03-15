@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/14 10:54:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 10:33:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	pipex(t_var_parsed_table *cmd_list)
 	// t_data	*cmd;
 	// t_data	*tmp;
 	int		fd[2];
-	int		pid;
+	// int		pid;
 
 	// cmd = NULL;
 	// tmp = NULL;
-	pid = 0;
+	// pid = 0;
 	fd[READ] = 0;
 	fd[WRITE] = 0;
-	ft_make_process(cmd_list, fd, pid);
+	ft_make_process(cmd_list, fd);
 	if(access(".tempfile.txt", F_OK) == 0)
 		unlink(".tempfile.txt");
 	return (0);

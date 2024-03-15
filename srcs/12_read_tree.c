@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 07:36:58 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 08:02:39 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 		node->fd_out = -1;
 		node->next = NULL;
 		node->path = NULL;
+		node->pid = 0;
 		node->prev = prev_table;
 	}
 	return (node);

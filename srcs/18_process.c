@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 07:41:02 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 10:33:46 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	ft_son_process(t_var_parsed_table *arg)
 		fdin = arg->fd_in;
 	if (fdin < 0)
 	{
-		printf("el fdin en el hijo es de %d\n", arg->fd_in);
+		printf("el fdin en el hijo es de %d\n", fdin);
+		printf("el fdin que viene de la estructura en el hijo es de %d\n", arg->fd_in);
 		printf("son process 1\n");
 		ft_exit(1);
 	}
@@ -75,10 +76,10 @@ void	ft_son_process(t_var_parsed_table *arg)
 	}
 }
 
-t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
+t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 {
-	if(waitpid(-1, NULL, 0))
-	{
+	// if(waitpid(-1, NULL, 0))
+	// {
 		if ((cmd->fd_in != 0 && cmd->fd_in != -1))
 		{
 			// printf("el fdin en el padre es de %d\n", cmd->fd_in);
@@ -103,30 +104,30 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2], int pid)
 			close(fd[READ]);
 			// waitpid(-1, NULL, 0);
 		}
-	}
-	if (waitpid(pid, NULL, WNOHANG) == -1)
-	{
-		printf("father process 3\n");
-		ft_exit(1);
-	}
-	if (cmd->next && cmd->next->fd_in == -1)
-	{
-		// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
-		cmd->next->fd_in = fd[READ];
-	}
-	else
-		close(fd[READ]);
-	if (waitpid(pid, NULL, 0) == -1)
-	{
-		printf("father process 3\n");
-		ft_exit(1);
-	}
+	// }
+	// if (waitpid(pid, NULL, WNOHANG) == -1)
+	// {
+	// 	printf("father process 3\n");
+	// 	ft_exit(1);
+	// }
+	// if (cmd->next && cmd->next->fd_in == -1)
+	// {
+	// 	// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
+	// 	cmd->next->fd_in = fd[READ];
+	// }
+	// else
+	// 	close(fd[READ]);
+	// if (waitpid(-1, NULL, WNOHANG) == -1)
+	// {
+	// 	printf("father process 3\n");
+	// 	ft_exit(1);
+	// }
 	cmd = cmd->next;
 	return (cmd);
 	
 }
 
-void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
+void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2])
 {
 	while (cmd_list)
 	{
@@ -136,27 +137,46 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 			printf("make process 1\n");
 			ft_exit(1);
 		}
-		pid = fork();
-		if (pid < 0)
+		cmd_list->pid = fork();
+		if (cmd_list->pid < 0)
 		{
 			printf("make process 2\n");
 			ft_exit(1);
 		}
-		else if (pid == 0 && !cmd_list->next)
+		else if (cmd_list->pid == 0 && !cmd_list->next)
 		{
-			if (close(fd[READ]) < 0)
+			if (cmd_list->prev)
 			{
-				printf("make process 3\n");
-				ft_exit(1);
+				if (waitpid(cmd_list->prev->pid, NULL, 0) == 0)
+				{
+					if (close(fd[READ]) < 0)
+					{
+						printf("make process 3\n");
+						ft_exit(1);
+					}
+					if (close(fd[WRITE]) < 0)
+					{
+						printf("make process 4\n");
+						ft_exit(1);
+					}
+				}
 			}
-			if (close(fd[WRITE]) < 0)
+			else
 			{
-				printf("make process 4\n");
-				ft_exit(1);
+				if (close(fd[READ]) < 0)
+				{
+					printf("make process 3\n");
+					ft_exit(1);
+				}
+				if (close(fd[WRITE]) < 0)
+				{
+					printf("make process 4\n");
+					ft_exit(1);
+				}
 			}
 			ft_son_process(cmd_list);
 		}
-		else if (pid == 0)
+		else if (cmd_list->pid == 0)
 		{
 			if (close(fd[READ]) < 0)
 			{
@@ -171,9 +191,10 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], int pid)
 			ft_son_process(cmd_list);
 		}
 		else
-			cmd_list = father_process(cmd_list, fd, pid);
+			cmd_list = father_process(cmd_list, fd);
 	}
-	// waitpid(-1, NULL, 0);
+	while(waitpid(-1, NULL, 0) > 0)
+		;
 }
 
 // t_fd	*fd_handle(int i, int argc, char **argv)
