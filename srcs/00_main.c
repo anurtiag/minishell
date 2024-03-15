@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 14:13:55 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/15 13:30:03 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ int	check_input(char **line, t_input **struct_input)
 		input = readline("Minishell>>");
 		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
 			break ;
+		if (ft_strncmp(input, "clear", 5) == 0)
+			printf("\033[H\033[2J");
 		g_main_loop = 0;
 		if (check_input(&input, &struct_input) == TRUE)
 			create_tokens_analyzer(&struct_input);
