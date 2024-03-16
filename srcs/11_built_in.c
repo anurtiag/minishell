@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 13:27:52 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/16 15:09:12 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void add_var(char *name, t_var_list **env, char *content)
 	current = *env;
 	while(current)
 	{
-		if (ft_strncmp(name, current->name, ft_strlen(current->name)) == 0)
+		if (ft_strncmp(name, current->name, ft_strlen(name)) == 0)
 		{
 			if(content)
 				current->content = ft_strdup(content);
@@ -143,11 +143,16 @@ void add_var(char *name, t_var_list **env, char *content)
 	new->name = ft_strdup(name);
 	if (content)
 		new->content = ft_strdup(content);
+	else
+		new->content = NULL;
 	current->next = new;
+	new->next = NULL;
+	new->is_printed = 0;
 }
 
 void ft_empty_export(t_var_list **env)
 {
+	t_var_list 	*save;
 	t_var_list	*current;
 	t_var_list	*name;
 	int			size;
@@ -159,18 +164,28 @@ void ft_empty_export(t_var_list **env)
 		size++;
 		current = current->next;
 	}
-	while(size > 0)
+	// printf("size vale %d\n", size);
+	while(size > 1)
 	{
 		current = *env;
+		// printf("\n\n%s\n\n", current->name);
 		name = current;
+		while(name->is_printed == 1 && name->next)
+			name = name->next;
 		while(current)
 		{
-			if(ft_strncmp(name->name, current->name, ft_strlen(name->name)) > 0 && current->is_printed == 0)
+			// printf("comparamos %s con %s\n", name->name, current->name);
+			// printf("name is printed -->%d<-- current is printed --->%d<----\n",name->is_printed, current->is_printed);
+			if(ft_strncmp(name->name, current->name, ft_strlen(current->name)) > 0 && current->is_printed == 0)
 				name = current;
 			current = current->next;
 		}
+		// printf("\n\n\n");
 		name->is_printed = 1;
-		printf("declare -x %s=%s\n", name->name, name->content);
+		if (name->content)
+			printf("declare -x %s=%s\n", name->name, name->content);
+		else
+			printf("declare -x %s\n", name->name);
 		size--;
 	}
 	current = *env;
