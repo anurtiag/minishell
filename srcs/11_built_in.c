@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 12:46:10 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/15 13:27:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,8 @@ void	ft_unset(char *name, t_input **struct_input)
 
 int	ft_built_in(char **argv, t_input **struct_input, int *control)
 {
+	// printf("el argv es -->%s<--\n", argv[0]);
+	// printf("el argv es -->%s<--\n", argv[1]);
 	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0 && ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0)
 	{
 		*control = FALSE;
