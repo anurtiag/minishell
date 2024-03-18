@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:47:53 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:03:26 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,6 +342,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		remove_quotes(&(*struct_input)->parsed_table);
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
 		pipex(struct_input);
+		printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(c_step), TRUE);
 	}
