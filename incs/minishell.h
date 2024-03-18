@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 12:55:16 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:56:23 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void		save_env(char **envp, t_input **struct_input);
 void		ft_print_var(t_input *input);
 static void	ft_add_var(t_var_list **list, char *name, char *content,int id);
 static int	ft_var_found(t_var_list **list, char *name, char *content);
-static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
+void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
 int			ft_look_4_equal(char const *token, t_var_list **variable_list,int id);
 
 //LOOK FOR DOLLARS

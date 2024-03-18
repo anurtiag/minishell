@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 12:03:43 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:27:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,12 +257,19 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	
 	while (end_flag == FALSE)
 	{
-		// printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
-		// print_token_list(c_step->input);
-		// printf("-----STACK:-----\n");
-		// print_token_list(c_step->tree_stack);
-		// printf("\n");
-		//print_step_list(step);
+		printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
+		print_token_list(c_step->input);
+		printf("-----STACK:-----\n");
+		print_token_list(c_step->tree_stack);
+		printf("\n");
+		print_step_list(step);
+
+		// if (c_token->type == -2)
+		// {
+		// 	printf("breaking\n");
+		// 	break;
+		// }
+			
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
 		available_option = find_option(c_step->state, c_token->type);
@@ -308,14 +315,18 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 				c_token = c_step->input;
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
-			break;
+			{
+				printf("SYNTAX ERROR\n");
+				break;
+			}
+			
 		end++;
 	}
 
-	if ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2))
+	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		//printf("LLegamos aqui?\n");
-		return (free_steps(step), printf("\033[0;31mKO\033[0m\n"), FALSE);
+		free_steps(step);
+		return (printf("\033[0;31mKO\033[0m\n"), FALSE);
 	}
 	else
 	{

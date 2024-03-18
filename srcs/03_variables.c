@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:23:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 14:06:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:04:42 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void	save_env(char	**env, t_input **struct_input)
 		env++;
 	}
 	(*struct_input)->ent_var = variable_list;
+	
+	ft_trim_var_equal("?=\"0\"",1, &(*struct_input)->ent_var, 0);
 	//ft_print_var(*struct_input);
 }
