@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:27:15 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:47:53 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,12 +257,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	
 	while (end_flag == FALSE)
 	{
-		printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
-		print_token_list(c_step->input);
-		printf("-----STACK:-----\n");
-		print_token_list(c_step->tree_stack);
-		printf("\n");
-		print_step_list(step);
+		// printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
+		// print_token_list(c_step->input);
+		// printf("-----STACK:-----\n");
+		// print_token_list(c_step->tree_stack);
+		// printf("\n");
+		//print_step_list(step);
 
 		// if (c_token->type == -2)
 		// {
@@ -325,7 +325,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 
 	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		free_steps(step);
+		free_steps(c_step);
 		return (printf("\033[0;31mKO\033[0m\n"), FALSE);
 	}
 	else
@@ -343,7 +343,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
 		pipex(struct_input);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
-		return (free_steps(step), TRUE);
+		return (free_steps(c_step), TRUE);
 	}
 	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:43:10 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:47:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void free_token_tree(t_token *head)
 	int		flag;
 
 	flag = 0;
-
 	while (head != NULL && flag != 1)
 	{
 		temp = head->next;
@@ -104,11 +103,8 @@ void	free_steps(t_step *steps)
 {
 	t_step		*tmp_step;
 
-	printf("pete1\n");
-	free_tokens(steps->input);
-	printf("pete2\n");
+	free_tokens(steps->input);	
 	free_token_tree(steps->tree_stack);
-	printf("pete3\n");
 	while (steps != NULL)
 	{
 		//printf("free-ing steps %i\n", steps->step_nbr);
