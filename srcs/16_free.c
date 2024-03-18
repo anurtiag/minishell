@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 14:22:43 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:46:10 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,12 @@ void free_tree(t_token *root)
 		return;
 
 	free_tree(root->left);
-	printf("1\n");
 	free_tree(root->middle);
-	printf("2\n");
 	free_tree(root->right);
-	printf("3\n");
-	printf("data %s\n", root->data);
-	if (root->data)
-		free(root->data);
-	printf("4\n");
+	free(root->data);
 	root->data = NULL;
-	printf("5\n");
 	free(root);
-	printf("6\n");
 	root = NULL;
-	printf("7\n");
 }
 
 void free_token_tree(t_token *head)
@@ -42,7 +33,6 @@ void free_token_tree(t_token *head)
 	int		flag;
 
 	flag = 0;
-
 	while (head != NULL && flag != 1)
 	{
 		temp = head->next;
@@ -113,11 +103,8 @@ void	free_steps(t_step *steps)
 {
 	t_step		*tmp_step;
 
-	printf("pete1\n");
-	free_tokens(steps->input);
-	printf("pete2\n");
+	free_tokens(steps->input);	
 	free_token_tree(steps->tree_stack);
-	printf("pete3\n");
 	while (steps != NULL)
 	{
 		//printf("free-ing steps %i\n", steps->step_nbr);
