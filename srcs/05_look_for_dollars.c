@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 12:10:05 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:41:57 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	//---------------------------------------------------------------
 	//&& (token[size1] != '$'))
 	size1++;
-	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$')))
+	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$') && (token[size1] != '/')))
 	{
 		size1++;
 	}

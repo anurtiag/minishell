@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/18 08:21:14 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:38:01 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	pipex(t_input **struct_input)
 	t_var_parsed_table	*cmd_list;
 	int		control;
 
-	printf("ENTRAMOS A PIPEX\n\n\n");
 	control = TRUE;
 	cmd_list = (*struct_input)->parsed_table;
 	if (!cmd_list->next)
@@ -53,7 +52,7 @@ int	pipex(t_input **struct_input)
 		return(0);
 	fd[READ] = 0;
 	fd[WRITE] = 0;
-	// ft_make_process(struct_input, fd);
+	printf("ENTRAMOS A PIPEX\n\n\n");
 	ft_make_process(cmd_list, fd, struct_input);
 	if(access(".tempfile.txt", F_OK) == 0)
 		unlink(".tempfile.txt");

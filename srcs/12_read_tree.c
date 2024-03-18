@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 08:02:39 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:29:03 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			printf("a la derecha hay %s\n", tree->right->data);
 	}
 	
-	if (tree->type == 106)
+	if (tree->type == 106)//aqui 
 	{
 		if (ft_strncmp(tree->left->data, ">>", 2) == 0)
 		{

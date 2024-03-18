@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 13:30:03 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:47:51 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,8 @@ int	check_input(char **line, t_input **struct_input)
 	prepare_program(&struct_input, envp);
 	while (1)
 	{
-		input = readline("Minishell>>");
-		if (input == NULL || ft_strncmp(input, "exit", 5) == 0)
+		input = readline("Patata>>");
+		if (input == NULL)
 			break ;
 		if (ft_strncmp(input, "clear", 5) == 0)
 			printf("\033[H\033[2J");

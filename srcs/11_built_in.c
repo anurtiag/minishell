@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/18 08:18:12 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:04:39 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 void	ft_echo(char **args, int fd)
 {
 	size_t	i;
+	int		control;
 
-	i = 1;
+	i = 0;
+	control = FALSE;
+	if (args[1] && ft_strncmp(args[1], "-n", ft_strlen(args[1])) == 0)
+	{
+		printf("entramos aqui\n");
+		control = TRUE;
+		i++;
+	}
 	while(args[++i])
 	{
-		// printf("lo que hay para escirbir es %s\ni vale %zu\n", args[i], i);
 		if (i != 2)
 			ft_putchar_fd(' ', fd);
 		ft_putstr_fd(args[i], fd);
 	}
+	if (control == FALSE)
+		printf("\n");
 }
 
 int	ft_pwd(void)
@@ -214,6 +223,32 @@ int ft_export(char	*var, t_input **struct_input)
 		add_var(var, &(*struct_input)->ent_var, NULL);
 }
 
+void	ft_eexit(char **arg)
+{
+	int num;
+	int i;
+
+	i = -1;
+	if (!arg[1])
+		exit(0);
+	while (arg[1][++i])
+	{
+		if (!ft_isdigit((int)arg[1][i]))
+		{
+			printf("exit: %s: numeric argument required\n", arg[1]);
+			exit(0);
+		}
+	}
+	num = ft_atoi(arg[1]);
+	if (num >= 0 && num <= 255)
+		exit(num);
+	else
+	{
+		printf("exit\n");
+		exit(0);
+	}
+}
+
 void	ft_unset(char *name, t_input **struct_input)
 {
 	t_var_list *current;
@@ -252,9 +287,7 @@ void	ft_unset(char *name, t_input **struct_input)
 
 int	ft_built_in(char **argv, t_input **struct_input, int *control)
 {
-	// printf("el argv es -->%s<--\n", argv[0]);
-	// printf("el argv es -->%s<--\n", argv[1]);
-	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0 && ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0)
+	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0 && ( argv[1] && ft_strncmp(argv[1], "-n", ft_strlen(argv[1])) == 0))
 	{
 		*control = FALSE;
 		ft_echo(argv, 1);
@@ -283,6 +316,11 @@ int	ft_built_in(char **argv, t_input **struct_input, int *control)
 	{
 		*control = FALSE;
 		ft_print_var(*struct_input);
+	}
+	else if(ft_strncmp(argv[0], "exit", ft_strlen(argv[0])) == 0)
+	{
+		*control = FALSE;
+		ft_eexit(argv);
 	}
 	return (0);	
 }
