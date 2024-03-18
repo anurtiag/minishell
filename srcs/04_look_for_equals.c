@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/11 12:44:39 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:55:39 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	ft_var_found(t_var_list **list, char *name, char *content)
 }
 
 //Trim the token into name and content
-static void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id)
+void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id)
 {
 	char	*var_name;
 	char	*var_content;

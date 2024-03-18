@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/15 12:10:05 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:12:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 
 	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
 	
+	printf("token %s\n", token);
 	while (token[size] && size != index)
 	{
-		if (token[size] == '$' && isalpha(token[size + 1] && size == index))
+		if (token[size] == '$' && ((isalpha(token[size + 1]) && size == index)))
+		{
+			printf("a;lskdjfa;lsdkjf;aljksdf\n");
 			break;
+		}
+			
 		size++;
 	}
 
@@ -129,7 +134,7 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 			quotes_flag = 0;
 		//printf("%c %i\n", (*content)[i], i);
 		//(((*content)[i - 1] == SPACE_M) || (!(*content)[i - 1])) &&
-		if ((quotes_flag == 0) && (((*content)[i] == '$') && ((((*content)[i + 1] >= 'a') && ((*content)[i + 1] <= 'z')) || (((*content)[i + 1] >= 'A') && ((*content)[i + 1] <= 'Z')))))
+		if ((quotes_flag == 0) && (((*content)[i] == '$') && ((((*content)[i + 1] >= 'a') && ((*content)[i + 1] <= 'z')) || (((*content)[i + 1] >= 'A') && ((*content)[i + 1] <= 'Z')) || ((*content)[i + 1] >= '_' || ((*content)[i + 1] >= '?')))))
 		{
 			//printf("el token es %s position %i max %i\n", *content, i, max);
 			ft_trim_var_dollar(*content, variable_list, content, i);
