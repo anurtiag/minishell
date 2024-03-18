@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 09:14:11 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 12:00:42 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,27 +257,28 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	
 	while (end_flag == FALSE)
 	{
-		// printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
-		// print_token_list(c_step->input);
-		// printf("-----STACK:-----\n");
-		// print_token_list(c_step->tree_stack);
-		// printf("\n");
+		printf("\n\033[0;33m-----INPUT:---%i---\033[0m\n", end);
+		print_token_list(c_step->input);
+		printf("-----STACK:-----\n");
+		print_token_list(c_step->tree_stack);
+		printf("\n");
 		//print_step_list(step);
 		//conseguimos la opcion default siempre que la tengamos y la opcion disponible depende de nuestro c_token
 		def_option = find_option(c_step->state, -1);
 		available_option = find_option(c_step->state, c_token->type);
-		// printf("\033[0;32mevaluate node ->%s<- type ->%i<- \033[0m\n", c_token->data, c_token->type);
+		printf("\033[0;32mevaluate node ->%s<- type ->%i<- \033[0m\n", c_token->data, c_token->type);
+		
 		if (def_option && (def_option->next_state == c_token->type))
 		{
 			//Volvemos a un estado anterior en el que el reduce del default es ya nuestro token
 			//apply_action(def_option, &c_step, c_token, &end_flag);
-			// printf("\n\033[0;35mRETURNING TO %i WITH DEFAULT\n\033[0m\n", c_step->prev->state_nbr);
+			printf("\n\033[0;35mRETURNING TO %i WITH DEFAULT\n\033[0m\n", c_step->prev->state_nbr);
 			ret_to_prev(&c_step);
 		}
 		else if ((available_option == NULL) && (def_option == NULL) && (c_token->type >= 100) && (c_step->state_nbr != 0))
 		{
 			//El estado no tiene default ni avail option y tenemos un token compuesto
-			// printf("\n\033[0;35mRETURNING TO %i\n\033[0m\n", c_step->prev->state_nbr);
+			printf("\n\033[0;35mRETURNING TO %i\n\033[0m\n", c_step->prev->state_nbr);
 			ret_to_prev(&c_step);
 		}
 		else if ((available_option != NULL))
@@ -295,11 +296,15 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		{
 			//si no coincide con ningun tipo de token, y tenemos default, hacemos default (volvemos al paso anterior)
 			//aplicamos accion
+			
+			// printf("state nbr %i, input type %i\n", c_step->state_nbr, c_step->input->type);
+				
 			apply_action(def_option, &c_step, c_token, &end_flag);
+
 			if (last_node_stack(c_step->tree_stack)->type >= 100)
 				c_token = last_node_stack(c_step->tree_stack);
 
-			if (c_step->state_nbr == 22 && c_step->input->type == 0)
+			if ((c_step->state_nbr == 22 && c_token->type == 105 && c_step->input->type == 1) || c_step->state_nbr == 22 && c_token->type == 105)
 				c_token = c_step->input;
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
