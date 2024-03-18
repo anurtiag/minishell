@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 14:06:42 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:22:43 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,26 @@
 
 // Función para liberar un árbol de tokens recursivamente
 void free_tree(t_token *root)
-	{
+{
 	if (root == NULL)
 		return;
 
 	free_tree(root->left);
+	printf("1\n");
 	free_tree(root->middle);
+	printf("2\n");
 	free_tree(root->right);
-
-	free(root->data);
+	printf("3\n");
+	printf("data %s\n", root->data);
+	if (root->data)
+		free(root->data);
+	printf("4\n");
 	root->data = NULL;
+	printf("5\n");
 	free(root);
+	printf("6\n");
 	root = NULL;
+	printf("7\n");
 }
 
 void free_token_tree(t_token *head)
@@ -34,10 +42,11 @@ void free_token_tree(t_token *head)
 	int		flag;
 
 	flag = 0;
+
 	while (head != NULL && flag != 1)
 	{
 		temp = head->next;
-		if (temp->type == -2)
+		if (temp && temp->type && (temp->type == -2))
 			flag = 1;
 		free_tree(head);
 		head = temp;
@@ -104,8 +113,11 @@ void	free_steps(t_step *steps)
 {
 	t_step		*tmp_step;
 
+	printf("pete1\n");
 	free_tokens(steps->input);
+	printf("pete2\n");
 	free_token_tree(steps->tree_stack);
+	printf("pete3\n");
 	while (steps != NULL)
 	{
 		//printf("free-ing steps %i\n", steps->step_nbr);
