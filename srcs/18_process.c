@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/15 12:58:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:39:53 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	control_fdin = 0;
 	control_fdout = 0;
 	control = TRUE;
-	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como salida estandar
+	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como entrada estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);
 		control_fdin = 1;
@@ -41,8 +41,11 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	}
 	if (arg->fd_error != -1)
 		fdout = dup2(arg->fd_out, STDERR_FILENO);
-	else if (arg->fd_out != 1)
+	else if (arg->fd_out != 1)//si no es la salida estandar redirigimos lo que sea como salida estandar
 	{
+		printf("el fd del outfile es %d\n", arg->fd_out);
+		if(fcntl(arg->fd_out, F_GETFD) != -1)
+			printf("se trata de un fd valido\n");
 		fdout = dup2(arg->fd_out, STDOUT_FILENO);
 		control_fdout = 1;
 	}
@@ -72,12 +75,9 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	ft_built_in(arg->cmd_splited, struct_input, &control);
 	if (control == FALSE)
 	{
-		// printf("salimos por el buit in\n");
 		write(2, "salimos por el buit in\n", 23);
 		exit(0);
 	}
-	// printf("vamos a ejecutar %s\nfdin %d\nfdout %d\n", arg->cmd, fdin, fdout);
-	// printf("\n\nPUTA\n\n");
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
 	{
 		printf("son process 5\n");
@@ -87,50 +87,27 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 {
-	// if(waitpid(-1, NULL, 0))
-	// {
-		if ((cmd->fd_in != 0 && cmd->fd_in != -1))
+		if ((cmd->fd_in != 0 && cmd->fd_in != -1))//si no es ni la entrada estandar ni -1 (hay que asignarle pipe)
 		{
-			// printf("el fdin en el padre es de %d\n", cmd->fd_in);
 			if (close(cmd->fd_in) < 0)
 			{
 				printf("father process 1\n");
 				ft_exit(1);
 			}
 		}
-		if (close(fd[WRITE]) < 0)
+		if (close(fd[WRITE]) < 0)//cerramos el pipe de escritura (ya se le a asignado el hijo)
 		{
 			printf("father process 2\n");
 			ft_exit(1);
 		}
-		if (cmd->next && cmd->next->fd_in == -1)
+		if (cmd->next)//si existe el siguiente y no tiene un fd asignado (que pasa si hay un siguiente pero si tiene un fd asignado?)
 		{
-			// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
 			cmd->next->fd_in = fd[READ];
 		}
 		else
 		{
 			close(fd[READ]);
-			// waitpid(-1, NULL, 0);
 		}
-	// }
-	// if (waitpid(pid, NULL, WNOHANG) == -1)
-	// {
-	// 	printf("father process 3\n");
-	// 	ft_exit(1);
-	// }
-	// if (cmd->next && cmd->next->fd_in == -1)
-	// {
-	// 	// printf("entramos a asignar fd de lectura del pipe para %s\n", cmd->cmd);
-	// 	cmd->next->fd_in = fd[READ];
-	// }
-	// else
-	// 	close(fd[READ]);
-	// if (waitpid(-1, NULL, WNOHANG) == -1)
-	// {
-	// 	printf("father process 3\n");
-	// 	ft_exit(1);
-	// }
 	cmd = cmd->next;
 	return (cmd);
 	
@@ -140,23 +117,22 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 {
 	while (cmd_list)
 	{
-		// printf("el comando %s tiene un fdin de %d y un fdout de %d\n", cmd_list->cmd_splited[0], cmd_list->fd_in, cmd_list->fd_out);
-		if (pipe(fd) < 0)
+		if (pipe(fd) < 0)//hacemos el pipe
 		{
 			printf("make process 1\n");
 			ft_exit(1);
 		}
-		cmd_list->pid = fork();
+		cmd_list->pid = fork();//forkeamos
 		if (cmd_list->pid < 0)
 		{
 			printf("make process 2\n");
 			ft_exit(1);
 		}
-		else if (cmd_list->pid == 0 && !cmd_list->next)
+		else if (cmd_list->pid == 0 && !cmd_list->next)//en el proceso hijo si es el ultimo nodo...
 		{
-			if (cmd_list->prev)
+			if (cmd_list->prev)//si exite uno anterior...
 			{
-				if (waitpid(cmd_list->prev->pid, NULL, 0) == 0)
+				if (waitpid(cmd_list->prev->pid, NULL, 0) == 0)//... y el proceso anterior a terminado
 				{
 					if (close(fd[READ]) < 0)
 					{
@@ -170,7 +146,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 					}
 				}
 			}
-			else
+			else//si no existe uno anterior ni siguiente cerramos todos los pipes
 			{
 				if (close(fd[READ]) < 0)
 				{
@@ -183,21 +159,20 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 					ft_exit(1);
 				}
 			}
-			ft_son_process(cmd_list, struct_input);
+			ft_son_process(cmd_list, struct_input);// y entramos al hijo
 		}
-		else if (cmd_list->pid == 0)
+		else if (cmd_list->pid == 0)// si estamos en el hijo pero si existe un siguiente...
 		{
-			if (close(fd[READ]) < 0)
+			if (close(fd[READ]) < 0)//cerramos el pipe de escritura
 			{
 				printf("make process 5\n");
 				ft_exit(1);
 			}
-			if(cmd_list->fd_out == -1)
+			if(cmd_list->fd_out == -1)//si no tiene un fd asignado le damos el pipe de escritura
 			{
-				// printf("entramos a asignar fd de esctritura del pipe para %s\n", cmd_list->cmd);
 				cmd_list->fd_out = fd[WRITE];
 			}
-			ft_son_process(cmd_list, struct_input);
+			ft_son_process(cmd_list, struct_input);// y entramos al hijo
 		}
 		else
 			cmd_list = father_process(cmd_list, fd);
@@ -205,38 +180,3 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 	while(waitpid(-1, NULL, 0) > 0)
 		;
 }
-
-// t_fd	*fd_handle(int i, int argc, char **argv)
-// {
-// 	t_fd	*fds;
-
-// 	fds = (t_fd *)malloc(sizeof(t_fd));
-// 	if (i == 0)
-// 	{
-// 		fds->fdin = open(argv[1], O_RDONLY);
-// 		if (fds->fdin < 0)
-// 			ft_exit(1);
-// 	}
-// 	else if (i == argc - 4)
-// 	{
-// 		fds->fdout = open(argv[argc - 1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
-// 		if (fds->fdout < 0)
-// 			ft_exit(1);
-// 	}
-// 	return (fds);
-// }
-
-// void	free_nodes(t_data *cmd)
-// {
-// 	t_data	*tmp;
-
-// 	while (cmd)
-// 	{
-// 		tmp = cmd->next;
-// 		freeall(cmd->cmd);
-// 		free(cmd->path);
-// 		free(cmd->fd);
-// 		free(cmd);
-// 		cmd = tmp;
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/16 15:09:12 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 08:18:12 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,6 @@ void ft_empty_export(t_var_list **env)
 			name = name->next;
 		while(current)
 		{
-			// printf("comparamos %s con %s\n", name->name, current->name);
-			// printf("name is printed -->%d<-- current is printed --->%d<----\n",name->is_printed, current->is_printed);
 			if(ft_strncmp(name->name, current->name, ft_strlen(current->name)) > 0 && current->is_printed == 0)
 				name = current;
 			current = current->next;
