@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 16:03:26 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:26:32 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,9 +340,10 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
+
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
 		pipex(struct_input);
-		printf("salimos del pipex?\n");
+		//printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(c_step), TRUE);
 	}
