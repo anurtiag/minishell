@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 13:41:50 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:42:39 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,5 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 	}
 	while(waitpid(-1, &status, 0) > 0)
 		;
-	// printf("el estatus es : %d\n", status); 
 	ft_var_found(&(*struct_input)->ent_var, "?", ft_itoa(status));
 }

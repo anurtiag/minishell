@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:19 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:57:43 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			printf("entramos a modo output normal\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
-		// if (ft_strncmp(tree->left->data, "<<", 2) == 0)
-		// {
-		// 	// printf("Entramos a abrir en modo here doc\n");
-		// 	fd = ft_here_doc(tree->right->data, 0);
-		// }
 		if (ft_strncmp(tree->left->data, "<", 1) == 0)
 		{
 			// printf("entramos a modo input normal\n");
