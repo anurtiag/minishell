@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 08:23:31 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:59 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 		}
 	free(str);
 	}
-	printf("command %s not found\n", cmd->cmd_splited[0]);
+	printf("ERROR: command %s not found\n", cmd->cmd_splited[0]);
 }
 
 void	relative_path(t_var_parsed_table *cmd, t_input **env)
@@ -62,7 +62,7 @@ void	relative_path(t_var_parsed_table *cmd, t_input **env)
 			free(route_tmp);
 			if (access(route, X_OK) != 0)
 			{
-				printf("no such file or directory: %s\n", cmd->cmd_splited[0]);
+				printf("ERROR: no such file or directory: %s\n", cmd->cmd_splited[0]);
 				return ;
 			}
 		}
@@ -89,7 +89,7 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			// printf("La ruta es %s\n", cmd->cmd_splited[0]);
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
-				printf("command %s not found\n", cmd->cmd_splited[0]);
+				printf("ERROR: command %s not found\n", cmd->cmd_splited[0]);
 				return ;
 			}
 			cmd->path = cmd->cmd_splited[0];
@@ -116,11 +116,11 @@ int	ft_here_doc(char *end, int fd)
 
 	if (end == NULL)
 	{
-		printf("no valid limiter\n");
+		printf("ERROR: no valid limiter\n");
 		return (1);
 	}
 	remove_quotes_aux(&end);
-	printf("el limitador es : %s\n", end);
+	//printf("el limitador es : %s\n", end);
 	output = (char *)malloc(sizeof(char) * 1);
 	output[0] = '\0';
 	delimiter = ft_strjoin(end, "\n");

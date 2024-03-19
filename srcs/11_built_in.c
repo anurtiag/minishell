@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:06 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:49:50 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	get_path(char *args, t_input **env)
 	if(args[0] == '/')//rutas absolutas
 	{
 		if (access(args, X_OK) != 0)
-			return(printf("no such file or directory: %s\n", args), 1);
+			return(printf("ERROR: no such file or directory: %s\n", args), 1);
 		chdir(args);
 		ft_pwd();
 		current->content = ft_strdup(args);
@@ -84,7 +84,7 @@ int	get_path(char *args, t_input **env)
 			route = ft_strjoin(route, "/");
 			route = ft_strjoin(route, path[i]);
 			if (access(route, X_OK) != 0)
-				return(printf("no such file or directory: %s\n", args), 1);
+				return(printf("ERROR: no such file or directory: %s\n", args), 1);
 		}
 	}
 	chdir(route);
@@ -256,12 +256,12 @@ void	ft_unset(char *name, t_input **struct_input)
 
 	if (!name)
 	{
-		printf("No se hace nada\n");
+		//printf("No se hace nada\n");
 		return ;
 	}
 	current = (*struct_input)->ent_var;
 	// printf("Vamos a intentar quitar el primero a ver si funtxiona\n%s\n", name);
-	printf("La primera variable es %s\n", current->name);
+	//printf("La primera variable es %s\n", current->name);
 	if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)//seria para verificar si el primero 
 	{
 		// printf("Llegamos a entrar aqui?\n");

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 15:42:39 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:59:21 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	ft_built_in(arg->cmd_splited, struct_input, &control);
 	if (control == FALSE)
 	{
-		write(2, "salimos por el buit in\n", 23);
+		//write(2, "salimos por el buit in\n", 23);
 		exit(0);
 	}
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
