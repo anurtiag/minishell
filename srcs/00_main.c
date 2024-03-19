@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:44:26 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	open_quotes(char *input)
 	}
 	if (s_quote == FALSE || d_quote == FALSE)
 	{
-		printf("\033[0;31mERROR: open quotes\033[0m\n");
+		printf("ERROR: open quotes\n");
 		return (FALSE);
 	}
 	return (TRUE);		
@@ -156,6 +156,7 @@ void	prepare_program(t_input **struct_input, char **envp)
 	save_env(envp, struct_input);
 	signal_receiver();
 	read_table(struct_input);
+	ft_var_found(&(*struct_input)->ent_var, "?", "1");
 }
 
 //Checks the input 
@@ -170,7 +171,7 @@ int	check_input(char **line, t_input **struct_input)
 	//ft_print_var(*struct_input);
 	if (tokenization(*line, struct_input) == FALSE)
 	{
-		return (printf("\033[0;31mSYNTAX ERROR TOKENIZATION\033[0m\n"), FALSE);
+		return (printf("ERROR: syntax error tokenization\n"), FALSE);
 	}
 	return (TRUE);
 }
@@ -181,14 +182,14 @@ int	check_input(char **line, t_input **struct_input)
 	t_input *struct_input;
 
 	if (argc > 1)
-		return (printf("Invalid input\n"), 2);
+		return (printf("ERROR: Invalid input\n"), 2);
 	(void)argv;
 	input = NULL;
 	g_main_loop = 1;
 	prepare_program(&struct_input, envp);
 	while (1)
 	{
-		input = readline("Patata>>");
+		input = readline("custom_bash$");
 		if (input == NULL)
 			break ;
 		if (ft_strncmp(input, "clear", 5) == 0)

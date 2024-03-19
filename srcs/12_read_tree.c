@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:19 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:56 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		}
 		else if (ft_strncmp(tree->left->data, ">", 1) == 0)
 		{
-			printf("entramos a modo output normal\n");
+			//printf("entramos a modo output normal\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		// if (ft_strncmp(tree->left->data, "<<", 2) == 0)
@@ -149,7 +149,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			fd = open(tree->right->data, O_RDONLY);
 		}
 		if (fd < 0)
-			printf("Algo se ha hecho mal abriendo los archivos\n");
+			printf("ERROR: failed opening the files\n");
 	}
 	if (tree->type == 110)
 	{
@@ -157,7 +157,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	}
 	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
 	{
-		printf("entramos a modo output normal\n");
+		//printf("entramos a modo output normal\n");
 		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	

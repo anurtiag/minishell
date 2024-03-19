@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:33:58 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 11:54:15 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:43 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void print_options_for_state(t_states *states_list, int state_number)
 {
 	t_states *current_state = states_list;
 
-	printf("current state: %i\n", current_state->state);
+	//printf("current state: %i\n", current_state->state);
 	// Busca el estado con el número especificado
 	while (current_state != NULL && current_state->state != state_number) {
 		current_state = current_state->next;
@@ -26,7 +26,7 @@ void print_options_for_state(t_states *states_list, int state_number)
 	// Si se encontró el estado
 	if (current_state != NULL)
 	{
-		printf("Opciones para el estado %d:\n", current_state->state);
+		//printf("Opciones para el estado %d:\n", current_state->state);
 		t_options *current_option = current_state->options;
 		while (current_option != NULL)
 		{
@@ -36,8 +36,6 @@ void print_options_for_state(t_states *states_list, int state_number)
 			current_option = current_option->next;
 		}
 	}
-	else
-		printf("No se encontró el estado %d\n", state_number);
 }
 
 // Función para crear un nuevo nodo de opción
@@ -111,7 +109,7 @@ void read_table(t_input **struct_input)
 	option_index = 0;
 	fd = open("parsing_table", O_RDONLY);
 	if (fd == -1)
-		return((void)printf("Error reading the file(parsing table)\n"));
+		return((void)printf("ERROR: reading the file(parsing table)\n"));
 
 	line = get_next_line(fd);
 	while (line != NULL)

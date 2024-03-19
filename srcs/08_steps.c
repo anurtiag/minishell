@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:44:51 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:48 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	c_step = init_first_step(struct_input, input_token);
 	step = c_step;
 	if (step == NULL)
-		return (printf("ERROR INIT THE FIRST STEP\n"), FALSE);
+		return (printf("ERROR: init the first failed\n"), FALSE);
 
 	//cogemos el primer nodo de input como nuestro token a evaluar
 	c_token = step->input;
@@ -316,7 +316,6 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		}
 		else if ((available_option == NULL) && (def_option == NULL))
 			{
-				printf("SYNTAX ERROR\n");
 				break;
 			}
 			
@@ -326,11 +325,13 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
 		free_steps(c_step);
-		return (printf("\033[0;31mKO\033[0m\n"), FALSE);
+		ft_var_found(&(*struct_input)->ent_var, "?", "258");
+		printf("ERROR: syntax error near unexpected token\n");
+		return (FALSE);
 	}
 	else
 	{
-		printf("\033[0;32mOK\033[0m\n");
+		//printf("\033[0;32mOK\033[0m\n");
 		// display_structure_tree(c_step->tree_stack, 0);
 		// print_token_list(c_step->tree_stack);
 		
