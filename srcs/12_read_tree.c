@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 12:08:16 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:45:19 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		fd = open(tree->data, O_RDWR);
 	if (tree->type == 106)//el 110 es para cat << lim a ver si tira
 	{
-		printf("el arbol tiene %s\n", tree->data);
-		if (tree->left)
-			printf("a la izquierda hay %s\n", tree->left->data);
-		if (tree->middle)
-			printf("en medio hay %s\n", tree->middle->data);
-		if (tree->right)
-			printf("a la derecha hay %s\n", tree->right->data);
+		//printf("el arbol tiene %s\n", tree->data);
+		//if (tree->left)
+			//printf("a la izquierda hay %s\n", tree->left->data);
+		//if (tree->middle)
+			//printf("en medio hay %s\n", tree->middle->data);
+		//if (tree->right)
+			//printf("a la derecha hay %s\n", tree->right->data);
 	}
 	if (tree->type == 106)//aqui 
 	{

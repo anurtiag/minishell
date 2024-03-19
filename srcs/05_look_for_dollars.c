@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:26:53 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:41:05 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+void del_char(char **cadena, int position)
+{
+	char	*before;
+	char	*after;
+	int		size1;
+	int		size2;
+	int		tmp;
+
+	size1 = 0;
+	size2 = 0;
+	tmp = 0;
+	before = NULL;
+	after = NULL;
+	while (size1 != position)
+		size1++;
+		
+	before = malloc(sizeof(char) * size1 + 1);
+	before = strndup((*cadena), size1);
+	tmp = size1;
+	while ((*cadena)[++size1] != '\0')
+		size2++;
+		
+	after = malloc(sizeof(char) * size2 + 1);
+	after = strndup((*cadena + (tmp + 1)), size2);
+
+	free((*cadena));
+	*cadena = ft_strjoin(before, after);
+}
 
 //Looks for a variable with the name vien
 static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content)
@@ -52,12 +81,10 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 
 	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
 	
-	printf("token %s\n", token);
 	while (token[size] && size != index)
 	{
 		if (token[size] == '$' && ((isalpha(token[size + 1]) && size == index)))
 		{
-			printf("a;lskdjfa;lsdkjf;aljksdf\n");
 			break;
 		}
 			
@@ -78,7 +105,7 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	//---------------------------------------------------------------
 	//&& (token[size1] != '$'))
 	size1++;
-	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$') && (token[size1] != '/')))
+	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$') && (token[size1] != '/') && (token[size1] != ' ')))
 	{
 		size1++;
 	}
@@ -111,32 +138,37 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	return (FALSE);
 }
 
-
-
 //Check in the given input if a variable call is detected
 int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content)
 {
 	int i;
 	int max;
 	int quotes_flag;
+	int	quotes_flag2;
 
-	
+	quotes_flag2 = 0;
 	quotes_flag = 0;
 	max = ft_strlen(*content);
 	i = 0;
 	while (i < max)
 	{
 		//printf("content %s\n", *content);
+		//$'$'
+		
+		if ((*content)[i] == '\'')
+			quotes_flag = !quotes_flag;
 
-		if ((*content)[i] == '\'' && quotes_flag == 0)
-			quotes_flag = 1;
-		else if ((*content)[i] == '\'' && quotes_flag == 1)
-			quotes_flag = 0;
-		//printf("%c %i\n", (*content)[i], i);
-		//(((*content)[i - 1] == SPACE_M) || (!(*content)[i - 1])) &&
-		if ((quotes_flag == 0) && (((*content)[i] == '$') && ((((*content)[i + 1] >= 'a') && ((*content)[i + 1] <= 'z')) || (((*content)[i + 1] >= 'A') && ((*content)[i + 1] <= 'Z')) || ((*content)[i + 1] >= '_' || ((*content)[i + 1] >= '?')))))
+		if ((*content)[i] == '\"')
+			quotes_flag2 = !quotes_flag2;
+
+
+		if (!quotes_flag2 && !quotes_flag && (*content)[i] == '$' && ((*content)[i + 1] == '\'' || (*content)[i + 1] == '\"'))
 		{
-			//printf("el token es %s position %i max %i\n", *content, i, max);
+			del_char(content, i);
+			i = -1;
+		}
+		else if ((quotes_flag == 0) && (((*content)[i] == '$') && ((((*content)[i + 1] >= 'a') && ((*content)[i + 1] <= 'z')) || (((*content)[i + 1] >= 'A') && ((*content)[i + 1] <= 'Z')) || ((*content)[i + 1] >= '_' || ((*content)[i + 1] >= '?')))))
+		{
 			ft_trim_var_dollar(*content, variable_list, content, i);
 			i = -1;
 			max = ft_strlen(*content);

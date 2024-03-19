@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/18 17:13:31 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:45:06 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_echo(char **args, int fd)
 	control = FALSE;
 	if (args[1] && (ft_strncmp(args[1], "-n", 2) == 0))
 	{
-		printf("entramos aqui uuuuuuuuuuu\n");
+		//printf("entramos aqui\n");
 		control = TRUE;
 		i++;
 	}
