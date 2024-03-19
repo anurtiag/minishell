@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 15:49:50 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:52:03 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	get_path(char *args, t_input **env)
 	if(args[0] == '/')//rutas absolutas
 	{
 		if (access(args, X_OK) != 0)
-			return(printf("ERROR: no such file or directory: %s\n", args), 1);
+			return(print_error(8, NULL, NULL), 1);
 		chdir(args);
 		ft_pwd();
 		current->content = ft_strdup(args);
@@ -79,12 +79,12 @@ int	get_path(char *args, t_input **env)
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
 			chdir(route);
 		}
-		else if (!(path[i][0] == '.' && ft_strlen(path[i]) == 1))
+		else if (!(path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
 		{
 			route = ft_strjoin(route, "/");
 			route = ft_strjoin(route, path[i]);
 			if (access(route, X_OK) != 0)
-				return(printf("ERROR: no such file or directory: %s\n", args), 1);
+				return(print_error(8, NULL, NULL), 1);
 		}
 	}
 	chdir(route);
@@ -117,7 +117,6 @@ int	ft_cd(char **args, t_input **env)
 		{
 			if (chdir(home) != 0)
 			{
-				printf("error\n");
 				return(1);
 			}
 		}

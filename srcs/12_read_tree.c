@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 15:59:10 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:44:31 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			fd = open(tree->right->data, O_RDONLY);
 		}
 		if (fd < 0)
-			printf("ERROR: failed opening the files\n");
+			print_error(9, NULL, NULL);
 	}
 	if (tree->type == 110)
 	{

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 15:54:35 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:42:23 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	load_history(void)
 	fd = open(".history.txt", O_RDONLY);
 	if (fd == -1)
 	{
-		printf("ERROR: opening history file");
+		print_error(4, NULL, NULL);
 		return;
 	}
 	while ((tmp = get_next_line(fd)) != NULL)

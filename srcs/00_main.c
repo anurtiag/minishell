@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 16:30:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:42:07 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*add_space(char *input, char c)
 		return (input);
 	if(*(s + 1) == c)
 		s++;
-	while (s && ((s + 1) && ((s + 1) != ' ' && (s + 1) != '\t')))
+	while (s && (*(s + 1) && (*(s + 1) != ' ' && *(s + 1) != '\t')))
 	{
 		first = ft_substr(input, 0, (s - input + 1));
 		last = ft_strdup(s + 1);
@@ -119,7 +119,7 @@ int	open_quotes(char *input)
 	}
 	if (s_quote == FALSE || d_quote == FALSE)
 	{
-		printf("ERROR: open quotes\n");
+		print_error(3, NULL, NULL);
 		return (FALSE);
 	}
 	return (TRUE);		
@@ -171,7 +171,7 @@ int	check_input(char **line, t_input **struct_input)
 	//ft_print_var(*struct_input);
 	if (tokenization(*line, struct_input) == FALSE)
 	{
-		return (printf("ERROR: syntax error tokenization\n"), FALSE);
+		return (print_error(2, NULL, NULL), FALSE);
 	}
 	return (TRUE);
 }
@@ -182,7 +182,7 @@ int	check_input(char **line, t_input **struct_input)
 	t_input *struct_input;
 
 	if (argc > 1)
-		return (printf("ERROR: Invalid input\n"), 2);
+		return (print_error(1, NULL, NULL), 2);
 	(void)argv;
 	input = NULL;
 	g_main_loop = 1;

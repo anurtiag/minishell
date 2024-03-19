@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   17_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 13:45:30 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:02:41 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_exit(int i)
 {
 	if (i == 1)
 	{
-		perror(NULL);
+		//perror(NULL);
 		exit(1);
 	}
 }

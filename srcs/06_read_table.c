@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:33:58 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 15:54:43 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:42:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void read_table(t_input **struct_input)
 	option_index = 0;
 	fd = open("parsing_table", O_RDONLY);
 	if (fd == -1)
-		return((void)printf("ERROR: reading the file(parsing table)\n"));
+		return(print_error(5, NULL, NULL));
 
 	line = get_next_line(fd);
 	while (line != NULL)
