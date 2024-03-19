@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/18 16:04:56 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:58:46 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	pipex(t_input **struct_input)
 	t_var_parsed_table	*cmd_list;
 	int		control;
 
-	printf("ENTRAMOS A PIPEX\n\n\n");
 	control = TRUE;
 	cmd_list = (*struct_input)->parsed_table;
 	// printf("madarikatua\n");

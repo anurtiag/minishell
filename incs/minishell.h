@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 12:56:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:31:10 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void		save_env(char **envp, t_input **struct_input);
 //LOOK FOR EQUALS
 void		ft_print_var(t_input *input);
 static void	ft_add_var(t_var_list **list, char *name, char *content,int id);
-static int	ft_var_found(t_var_list **list, char *name, char *content);
-void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
+int			ft_var_found(t_var_list **list, char *name, char *content);
+void		ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
 int			ft_look_4_equal(char const *token, t_var_list **variable_list,int id);
 
 //LOOK FOR DOLLARS
@@ -178,8 +178,9 @@ void		print_token_list(t_token *tokens);
 
 
 //STEPS
-int		start_anaylizer(t_input **struct_input, t_token *input_token);
-void	print_cmd_contents(t_var_parsed_table **head);
+int			start_anaylizer(t_input **struct_input, t_token *input_token);
+void		print_cmd_contents(t_var_parsed_table **head);
+void 		remove_quotes_aux(char **cmd_ptr);
 
 //STEPS UTILS
 int			find_state(t_states *states_list, int state_number, t_states **state);

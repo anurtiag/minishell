@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/18 16:01:32 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:13:31 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	ft_echo(char **args, int fd)
 
 	i = 0;
 	control = FALSE;
-	if (args[1] && ft_strncmp(args[1], "-n", ft_strlen(args[1])) == 0)
+	if (args[1] && (ft_strncmp(args[1], "-n", 2) == 0))
 	{
-		printf("entramos aqui\n");
+		printf("entramos aqui uuuuuuuuuuu\n");
 		control = TRUE;
 		i++;
 	}
@@ -264,7 +264,7 @@ void	ft_unset(char *name, t_input **struct_input)
 	printf("La primera variable es %s\n", current->name);
 	if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)//seria para verificar si el primero 
 	{
-		printf("Llegamos a entrar aqui?\n");
+		// printf("Llegamos a entrar aqui?\n");
 		(*struct_input)->ent_var = current->next;
 		free(current);
 		return ;

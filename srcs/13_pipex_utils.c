@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/13 17:13:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 08:23:31 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	ft_here_doc(char *end, int fd)
 		printf("no valid limiter\n");
 		return (1);
 	}
+	remove_quotes_aux(&end);
+	printf("el limitador es : %s\n", end);
 	output = (char *)malloc(sizeof(char) * 1);
 	output[0] = '\0';
 	delimiter = ft_strjoin(end, "\n");

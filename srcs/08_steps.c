@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 16:03:26 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:37:49 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void remove_quotes_aux(char **cmd_ptr)
 	free(*cmd_ptr);
 	tmp = ft_strjoin(before, mid);
 	*cmd_ptr = ft_strjoin(tmp, after);
-	free(tmp);
+	// free(tmp);
 	free(before);
 	free(mid);
 	free(after);
@@ -262,7 +262,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		// printf("-----STACK:-----\n");
 		// print_token_list(c_step->tree_stack);
 		// printf("\n");
-		//print_step_list(step);
+		// print_step_list(step);
 
 		// if (c_token->type == -2)
 		// {
@@ -331,8 +331,8 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	else
 	{
 		printf("\033[0;32mOK\033[0m\n");
-		//display_structure_tree(c_step->tree_stack, 0);
-		//print_token_list(c_step->tree_stack);
+		// display_structure_tree(c_step->tree_stack, 0);
+		// print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
@@ -342,7 +342,6 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		remove_quotes(&(*struct_input)->parsed_table);
 		cmd_handle(&(*struct_input)->parsed_table, struct_input);
 		pipex(struct_input);
-		printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(c_step), TRUE);
 	}

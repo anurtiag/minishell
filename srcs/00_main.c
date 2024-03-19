@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:54:36 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:54:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*add_space(char *input, char c)
 	char	*tmp;
 
 
-	printf("el input es %s\nel caraacter %c\n", input, c);
 	s = ft_strchr(input, c);
 	if (!s)
 		return (input);

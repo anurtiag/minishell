@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 12:55:39 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:30:31 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	ft_add_var(t_var_list **list, char *name, char *content, int id)
 }
 
 //looks for a node with the same name and overwrites its content
-static int	ft_var_found(t_var_list **list, char *name, char *content)
+int	ft_var_found(t_var_list **list, char *name, char *content)
 {
 	t_var_list	*current;
 

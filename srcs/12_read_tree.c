@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 12:29:03 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:08:16 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	static int append = 0;
 	static int error_flag = 0;
 	static int fd = -1;
-
 	if (tree == NULL)
 		return;
 	
@@ -117,7 +116,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDWR);
-	if (tree->type == 106)//infiles
+	if (tree->type == 106)//el 110 es para cat << lim a ver si tira
 	{
 		printf("el arbol tiene %s\n", tree->data);
 		if (tree->left)
@@ -127,7 +126,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		if (tree->right)
 			printf("a la derecha hay %s\n", tree->right->data);
 	}
-	
 	if (tree->type == 106)//aqui 
 	{
 		if (ft_strncmp(tree->left->data, ">>", 2) == 0)
@@ -137,21 +135,30 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		}
 		else if (ft_strncmp(tree->left->data, ">", 1) == 0)
 		{
-			// printf("entramos a modo output normal\n");
+			printf("entramos a modo output normal\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
-		if (ft_strncmp(tree->left->data, "<<", 2) == 0)
-		{
-			// printf("Entramos a abrir en modo here doc\n");
-			fd = ft_here_doc(tree->right->data, 0);
-		}
-		else if (ft_strncmp(tree->left->data, "<", 1) == 0)
+		// if (ft_strncmp(tree->left->data, "<<", 2) == 0)
+		// {
+		// 	// printf("Entramos a abrir en modo here doc\n");
+		// 	fd = ft_here_doc(tree->right->data, 0);
+		// }
+		if (ft_strncmp(tree->left->data, "<", 1) == 0)
 		{
 			// printf("entramos a modo input normal\n");
 			fd = open(tree->right->data, O_RDONLY);
 		}
 		if (fd < 0)
 			printf("Algo se ha hecho mal abriendo los archivos\n");
+	}
+	if (tree->type == 110)
+	{
+		fd = ft_here_doc(tree->data, 0);
+	}
+	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
+	{
+		printf("entramos a modo output normal\n");
+		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	
 	// Process left child
