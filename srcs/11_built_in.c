@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 16:54:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:14:41 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_echo(char **args, int fd)
 	size_t	i;
 	int		control;
 
-	ft_putstr_fd("puta\n", 2);
+	// ft_putstr_fd("puta\n", 2);
 	i = -1;
 	control = FALSE;
 	args++;
@@ -286,11 +286,14 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 {
 	if (ft_strncmp(cmd_list->cmd_splited[0], "echo", 4) == 0)
 	{
-		ft_putstr_fd("hoola desde echo\n", 2);
+		// ft_putstr_fd("hoola desde echo\n", 2);
 		if(mode == 0)
 			return(TRUE);
+		else if(mode == 2)
+			ft_echo(cmd_list->cmd_splited, cmd_list->fd_out);
+		else
+			ft_echo(cmd_list->cmd_splited, 1);
 		*control = FALSE;
-		ft_echo(cmd_list->cmd_splited, cmd_list->fd_out);
 		
 	}
 	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", ft_strlen(cmd_list->cmd_splited[0])) == 0)

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 16:49:13 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:11:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 // 	printf("entramos al hijo?\n");
 // 	printf("la ruta del comandos es: %s\n", arg->path);
 	// printf("el fdin es %d el fdout es %d\n", arg->fd_in, arg->fd_out);
-	ft_built_in(arg, struct_input, &control, 1);
 	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como entrada estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);
@@ -75,13 +74,14 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 		}
 	}
 	// fprintf(2, "%s\n", arg->cmd_splited[0]);
+	ft_built_in(arg, struct_input, &control, 1);
 	if (control == FALSE)
 	{
-		ft_putstr_fd(ft_itoa(control), 2);
+		// ft_putstr_fd(ft_itoa(control), 2);
 		//write(2, "salimos por el buit in\n", 23);
 		exit(0);
 	}
-	ft_putstr_fd("hoola\n", 2);
+	// ft_putstr_fd("hoola\n", 2);
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
 	{
 		//write(2, "execve falla\n", 13);
