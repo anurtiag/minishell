@@ -3,23 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   17_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 17:02:41 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:48:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+// int	ft_var_found(t_var_list **list, char *name, char *content)
+// {
+// 	t_var_list	*current;
 
-void	ft_exit(int i)
+// 	current = *list;
+// 	while (current != NULL)
+// 	{
+// 		if (strcmp(current->name, name) == 0)
+// 		{
+// 			current->content = content;
+// 			return (TRUE);
+// 		}
+// 		current = current->next;
+// 	}
+// 	return (FALSE);
+// }
+
+char	*ft_getenv(t_var_list **list, char *name)
 {
-	if (i == 1)
+	t_var_list	*current;
+	char		*content;
+
+	current = *list;
+	content = NULL;
+	while (current != NULL)
 	{
-		//perror(NULL);
-		exit(1);
+		if (strcmp(current->name, name) == 0)
+		{
+			content = ft_strdup(current->content);
+			return (content);
+		}
+		current = current->next;
 	}
+	return (NULL);
 }
 
 void	freeall(char **str)
@@ -48,11 +74,10 @@ int	pipex(t_input **struct_input)
 	control = TRUE;
 	cmd_list = (*struct_input)->parsed_table;
 	// printf("madarikatua\n");
-	// printf("%s\n", cmd_list->cmd);
 	if (!cmd_list->cmd)
 		return (0);
 	if (!cmd_list->next)
-		ft_built_in(cmd_list->cmd_splited, struct_input, &control);
+		ft_built_in(cmd_list->cmd_splited, struct_input, &control, 1);
 	if (control == FALSE)
 		return(0);
 	fd[READ] = 0;

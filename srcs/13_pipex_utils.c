@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 07:01:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:06:51 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,35 +78,41 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	t_var_parsed_table	*cmd;
 	char				*path_env;
 	char				**posible_paths;
+	int					control;
 
 	cmd = *cmd_list;
 	if (!cmd->cmd)
 		return (FALSE);
-	path_env = getenv("PATH");
+	control = TRUE;
+	path_env = ft_getenv(&(*env)->ent_var, "PATH");
+	if (!path_env)
+		return(FALSE);
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		if (cmd->cmd_splited[0][0] == '/')
+		if (ft_built_in(cmd->cmd_splited, env, NULL, 0) == TRUE)
+			control = TRUE;
+		else if (cmd->cmd_splited[0][0] == '/')
 		{
-			// printf("La ruta es %s\n", cmd->cmd_splited[0]);
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
 				print_error(10, cmd->cmd_splited[0], env);
-				return (FALSE);
+				control = FALSE;
 			}
 			cmd->path = cmd->cmd_splited[0];
 		}
 		else if (cmd->cmd_splited[0][0] == '.')
 		{
 			if (relative_path(cmd, env) == FALSE)
-				return (FALSE);
+				control = FALSE;
 		}
-			
 		else
 		{
 			if (ft_verify_cmd(posible_paths, cmd, env) == FALSE)
-				return (FALSE);
+				control = FALSE;
 		}
+		if (control == FALSE)
+			return(FALSE);
 		cmd = cmd->next;
 	}
 	free_double(posible_paths);
