@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 15:54:48 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:43:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	c_step = init_first_step(struct_input, input_token);
 	step = c_step;
 	if (step == NULL)
-		return (printf("ERROR: init the first failed\n"), FALSE);
+		return (print_error(6, NULL, NULL), FALSE);
 
 	//cogemos el primer nodo de input como nuestro token a evaluar
 	c_token = step->input;
@@ -325,8 +325,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
 		free_steps(c_step);
-		ft_var_found(&(*struct_input)->ent_var, "?", "258");
-		printf("ERROR: syntax error near unexpected token\n");
+		print_error(7, NULL, struct_input);
 		return (FALSE);
 	}
 	else
@@ -342,8 +341,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
 
-		cmd_handle(&(*struct_input)->parsed_table, struct_input);
-		pipex(struct_input);
+		if (cmd_handle(&(*struct_input)->parsed_table, struct_input) == TRUE)
+		{
+			printf("hacemos el pipex\n");
+			pipex(struct_input);
+		}
+			
 		//printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(c_step), TRUE);

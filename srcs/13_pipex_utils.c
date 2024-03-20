@@ -6,13 +6,13 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 16:55:59 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 07:01:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
+int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 {
 	size_t	i;
 	char	*str;
@@ -28,14 +28,15 @@ void	ft_verify_cmd(char **paths, t_var_parsed_table *cmd)
 		if (access(str, X_OK) == 0)
 		{
 			cmd->path = str;
-			return ;
+			return (TRUE);
 		}
 	free(str);
 	}
-	printf("ERROR: command %s not found\n", cmd->cmd_splited[0]);
+	print_error(10, cmd->cmd_splited[0], env);
+	return (FALSE);
 }
 
-void	relative_path(t_var_parsed_table *cmd, t_input **env)
+int	relative_path(t_var_parsed_table *cmd, t_input **env)
 {
 	char		**path;
 	char		*tmp;
@@ -62,16 +63,17 @@ void	relative_path(t_var_parsed_table *cmd, t_input **env)
 			free(route_tmp);
 			if (access(route, X_OK) != 0)
 			{
-				printf("ERROR: no such file or directory: %s\n", cmd->cmd_splited[0]);
-				return ;
+				print_error(8, cmd->cmd_splited[0], env);
+				return (FALSE);
 			}
 		}
 	}
 	free_double(path);
 	cmd->path = route;
+	return (TRUE);
 }
 
-void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
+int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 {
 	t_var_parsed_table	*cmd;
 	char				*path_env;
@@ -79,7 +81,7 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 
 	cmd = *cmd_list;
 	if (!cmd->cmd)
-		return ;
+		return (FALSE);
 	path_env = getenv("PATH");
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
@@ -89,20 +91,26 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			// printf("La ruta es %s\n", cmd->cmd_splited[0]);
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
-				printf("ERROR: command %s not found\n", cmd->cmd_splited[0]);
-				return ;
+				print_error(10, cmd->cmd_splited[0], env);
+				return (FALSE);
 			}
 			cmd->path = cmd->cmd_splited[0];
 		}
 		else if (cmd->cmd_splited[0][0] == '.')
-			relative_path(cmd, env);
+		{
+			if (relative_path(cmd, env) == FALSE)
+				return (FALSE);
+		}
+			
 		else
 		{
-			ft_verify_cmd(posible_paths, cmd);
+			if (ft_verify_cmd(posible_paths, cmd, env) == FALSE)
+				return (FALSE);
 		}
 		cmd = cmd->next;
 	}
 	free_double(posible_paths);
+	return (TRUE);
 }
 
 int	ft_here_doc(char *end, int fd)
@@ -115,7 +123,7 @@ int	ft_here_doc(char *end, int fd)
 
 	if (end == NULL)
 	{
-		printf("ERROR: no valid limiter\n");
+		print_error(11, NULL, NULL);
 		return (1);
 	}
 	remove_quotes_aux(&end);

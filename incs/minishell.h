@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:31:10 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:37:05 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ char		**ft_bash_split(char const *s, char c, int *control);
 int			tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
-void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
+int		cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
 int		ft_here_doc(char *end, int fd);
 void	free_here_doc(char *delimiter, char *output, char *line, int outfile);
 
@@ -237,5 +237,8 @@ void		free_all(t_input *struct_input, char *history);
 void		free_steps(t_step *steps);
 void		free_double(char **double_ptr);
 void		free_parsed_table(t_var_parsed_table **table);
+
+//ERROR
+void		print_error(int id, char *args, t_input **struct_input);
 
 #endif
