@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 12:38:04 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:37:14 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,37 +69,38 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control, t_input **s
 }
 
 //If the redirect and the filename are joined adds a space
-char	*add_space(char *input, char c, t_input **struct_input)
+int		add_space(char **input, char c, t_input **struct_input)
 {
 	char	*s;
 	char	*s1;
 	char	*first;
 	char	*last;
 	char	*tmp;
-	s = ft_strchr(input, c);
+
+	s = ft_strchr(*input, c);
 	if (!s)
-		return (input);
-	s1 = ft_strrchr(input, c);
+		return (TRUE);
+	s1 = ft_strrchr(*input, c);
 	if (*(s1 + 1) == '\0')
-		print_error(7, NULL, struct_input);
+		return(print_error(7, NULL, struct_input), FALSE);
 	while(*(s + 1) == c)
 		s++;
 	while (s && (*(s + 1) && (*(s + 1) != ' ' && *(s + 1) != '\t')))
 	{
-		first = ft_substr(input, 0, (s - input + 1));
+		first = ft_substr(*input, 0, (s - *input + 1));
 		last = ft_strdup(s + 1);
-		free(input);
+		free(*input);
 		tmp = first;
 		first = ft_strjoin(first, " ");
 		free(tmp);
-		input = ft_strjoin(first, last);
+		*input = ft_strjoin(first, last);
 		free(first);
 		free(last);
 		s = ft_strchr((s + 1), c);
 		if(s && *(s + 1) == c)
 			s++;
 	}
-	return (input);
+	return (TRUE);
 }
 
 //Checks if there are any open quotes
@@ -147,8 +148,10 @@ int		analyze_input(char **input, t_input **struct_input)
 		if (!(*input))
 			return (FALSE);
 	}
-	*input = add_space(*input, '>', struct_input);
-	*input = add_space(*input, '<', struct_input);
+	if (add_space(input, '>', struct_input) == FALSE)
+		return (FALSE);
+	if	(add_space(input, '<', struct_input) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 14:09:18 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:36:25 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	cmd = *cmd_list;
 	// if (!cmd->cmd)
 	// {
-	// 	printf("garbanzo\n");
+	//printf("garbanzo\n");
 	// 	return (FALSE);
 	// }
 	control = TRUE;
@@ -104,7 +104,6 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	{
 		if (!cmd->cmd)
 		{
-			// printf("garbanzo\n");
 			cmd = cmd->next;
 		}
 		if (ft_built_in(cmd, env, NULL, 0) == TRUE)
