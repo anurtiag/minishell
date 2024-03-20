@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 09:06:51 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:29:09 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	char	*str;
 	char	*str_tmp;
 	i = -1;
+
+	if (strcmp(cmd->cmd_splited[0], ".") == 0)
+		return(print_error(12, cmd->cmd_splited[0], env), FALSE);
+	else if (strcmp(cmd->cmd_splited[0], "..") == 0)
+		return(print_error(10, cmd->cmd_splited[0], env), FALSE);
 	while(paths[++i])
 	{
 		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
-		// printf("el comando es: %s\nel path %s\n", str, paths[i]);
+		//printf("el comando es: %s\nel path %s\n", str, paths[i]);
 		str = ft_strjoin(paths[i], str_tmp);
 		free(str_tmp);
 		//printf("despues del join comando es: %s\n", str);
@@ -101,7 +106,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			}
 			cmd->path = cmd->cmd_splited[0];
 		}
-		else if (cmd->cmd_splited[0][0] == '.')
+		else if (cmd->cmd_splited[0][0] == '.' && cmd->cmd_splited[0][1] == '/')
 		{
 			if (relative_path(cmd, env) == FALSE)
 				control = FALSE;

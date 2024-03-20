@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   18_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 07:52:00 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:56:56 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	control_fdin = 0;
 	control_fdout = 0;
 	control = TRUE;
-	printf("entramos al hijo?\n");
+	//printf("entramos al hijo?\n");
 	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como entrada estandar
 	{
 		fdin = dup2(arg->fd_in, STDIN_FILENO);
@@ -52,14 +52,14 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 		fdout = arg->fd_out;
 	if (fdout < 0)
 	{
-		write(2, "cerrar fdin falla\n", 18);
+		//write(2, "cerrar fdin falla\n", 18);
 		exit(1);
 	}
 	if (control_fdin == 1)
 	{
 		if (close(arg->fd_in) < 0)
 		{
-			write(2, "cerrar fdin falla\n", 18);
+			//write(2, "cerrar fdin falla\n", 18);
 			exit(1);
 		}
 	}
@@ -67,19 +67,19 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 	{
 		if (close(arg->fd_out) < 0)
 		{
-			write(2, "cerrar fdout falla\n", 19);
+			//write(2, "cerrar fdout falla\n", 19);
 			exit(1);
 		}
 	}
 	ft_built_in(arg->cmd_splited, struct_input, &control, 1);
 	if (control == FALSE)
 	{
-		write(2, "salimos por el buit in\n", 23);
+		//write(2, "salimos por el buit in\n", 23);
 		exit(0);
 	}
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
 	{
-		write(2, "execve falla\n", 13);
+		//write(2, "execve falla\n", 13);
 		exit(1);
 	}
 }
