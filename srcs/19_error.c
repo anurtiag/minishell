@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   19_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:04:36 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 12:22:45 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:49:59 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void	print_error(int id, char *args, t_input **input)
 	else if (id == 13)
 	{
 		printf("ERROR: unexpected end of file\n");
+	}
+	else if (id == 14)
+	{
+		ft_var_found(&(*input)->ent_var, "?", "126");
+		printf("ERROR: is a directory\n");
 	}
 	
 }

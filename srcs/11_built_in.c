@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:14:41 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:28:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,35 +296,36 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 		*control = FALSE;
 		
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", 3) == 0)
 	{
+		printf("putuka\n");
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_pwd();
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "cd", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "cd", 2) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_cd(cmd_list->cmd_splited, struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "export", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "export", 6) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_export(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "unset", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "unset", 5) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_unset(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "env", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "env", 3) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);

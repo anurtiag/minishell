@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:13:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:26:24 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	pipex(t_input **struct_input)
 	// 	cmd_list = cmd_list->next;
 	if (!cmd_list->next)
 	{
-		printf("no entraras por aqui putito de mierda\n");
+		// printf("no entraras por aqui putito de mierda\n");
 		ft_built_in(cmd_list, struct_input, &control, 2);
 	}
 	if (control == FALSE)

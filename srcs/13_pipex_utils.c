@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 16:54:05 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:50:04 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,15 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	char				*path_env;
 	char				**posible_paths;
 	int					control;
+	struct stat			statbuf;
 
 	cmd = *cmd_list;
-	if (!cmd->cmd)
+	if (ft_strlen(cmd->cmd_splited[0]) == 0)
+	{
+		print_error(10, cmd->cmd_splited[0], env);
+		return (FALSE);
+	}
+	else if (!cmd->cmd)
 	{
 		return (FALSE);
 	}
@@ -106,11 +112,16 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
 		{
+			if (stat(cmd->cmd_splited[0], &statbuf) == -1)
+				return (FALSE);
+			
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
 				print_error(10, cmd->cmd_splited[0], env);
 				control = FALSE;
 			}
+			if (S_ISDIR(statbuf.st_mode))
+				return(print_error(14, NULL, env), FALSE);
 			cmd->path = ft_strdup(cmd->cmd_splited[0]);
 		}
 		else if (cmd->cmd_splited[0][0] == '.' && cmd->cmd_splited[0][1] == '/')

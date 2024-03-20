@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 14:01:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 17:43:42 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "../libs/GNL/get_next_line.h"
 # include <stdint.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 # define TRUE 1
 # define FALSE 0
