@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/19 15:54:59 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:55:59 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			relative_path(cmd, env);
 		else
 		{
-			// printf("Entramos aqui?\n");
 			ft_verify_cmd(posible_paths, cmd);
 		}
 		cmd = cmd->next;

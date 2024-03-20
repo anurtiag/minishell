@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 16:30:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:51:19 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*add_space(char *input, char c)
 		return (input);
 	if(*(s + 1) == c)
 		s++;
-	while (s && ((s + 1) && ((s + 1) != ' ' && (s + 1) != '\t')))
+	while (s && ((s + 1) && (*(s + 1) != ' ' && *(s + 1) != '\t')))
 	{
 		first = ft_substr(input, 0, (s - input + 1));
 		last = ft_strdup(s + 1);
