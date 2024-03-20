@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 12:31:52 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:48:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ void	ft_echo(char **args, int fd)
 	size_t	i;
 	int		control;
 
-	i = 0;
+	i = -1;
 	control = FALSE;
-	if (args[1] && (ft_strncmp(args[1], "-n", 2) == 0))
+	args++;
+	if (args[0] && (ft_strncmp(args[0], "-n", 2) == 0))
 	{
 		//printf("entramos aqui\n");
 		control = TRUE;
-		i++;
+		args++;
 	}
 	while(args[++i])
 	{
-		printf("el arg es --->%s<----\n", args[i]);
-		if (i != 2)
+		// printf("el arg es --->%s<----\n", args[i]);
+		if (i != 0)
 			ft_putchar_fd(' ', fd);
 		ft_putstr_fd(args[i], fd);
 	}
