@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 14:10:54 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:51:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		printf("entramos a modo output normal\n");
 		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	if(tree && (tree->type == 100 && (tree->left && tree->left->type == 1)))//ESTA ES LA TRAMPA PARA >tmp_out | echo 1
-		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	// Process left child
 	if (tree->left != NULL)
 		read_tree(tree->left, table_node, 0);

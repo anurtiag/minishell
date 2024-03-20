@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 14:09:18 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:15:44 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	int					control;
 
 	cmd = *cmd_list;
-	// if (!cmd->cmd)
-	// {
-	// 	printf("garbanzo\n");
-	// 	return (FALSE);
-	// }
+	if (!cmd->cmd)
+	{
+		return (FALSE);
+	}
 	control = TRUE;
 	//printf("%s\n", cmd->cmd_splited[0]);
 	path_env = ft_getenv(&(*env)->ent_var, "PATH");
@@ -102,11 +101,6 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		if (!cmd->cmd)
-		{
-			// printf("garbanzo\n");
-			cmd = cmd->next;
-		}
 		if (ft_built_in(cmd, env, NULL, 0) == TRUE)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
@@ -116,7 +110,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 				print_error(10, cmd->cmd_splited[0], env);
 				control = FALSE;
 			}
-			cmd->path = cmd->cmd_splited[0];
+			cmd->path = ft_strdup(cmd->cmd_splited[0]);
 		}
 		else if (cmd->cmd_splited[0][0] == '.' && cmd->cmd_splited[0][1] == '/')
 		{
@@ -150,7 +144,6 @@ int	ft_here_doc(char *end, int fd)
 		return (1);
 	}
 	remove_quotes_aux(&end);
-	//printf("el limitador es : %s\n", end);
 	output = (char *)malloc(sizeof(char) * 1);
 	output[0] = '\0';
 	delimiter = ft_strjoin(end, "\n");
