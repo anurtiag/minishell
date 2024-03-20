@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 12:34:48 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:38:43 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	
 	control = TRUE;
 	i = -1;
-	if (ft_strncmp(cmd->cmd, "..", ft_strlen(cmd->cmd)) == 0)
-	{
-		print_error(10, cmd->cmd_splited[0], env);
-		return (FALSE);
-	}
+
+	if (strcmp(cmd->cmd_splited[0], ".") == 0)
+		return(print_error(12, cmd->cmd_splited[0], env), FALSE);
+	else if (strcmp(cmd->cmd_splited[0], "..") == 0)
+		return(print_error(10, cmd->cmd_splited[0], env), FALSE);
 	while(paths[++i])
 	{
 		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
-		// printf("el comando es: %s\nel path %s\n", str, paths[i]);
+		//printf("el comando es: %s\nel path %s\n", str, paths[i]);
 		str = ft_strjoin(paths[i], str_tmp);
 		free(str_tmp);
 		//printf("despues del join comando es: %s\n", str);

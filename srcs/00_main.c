@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 11:36:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:38:04 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	beyond_pipe(char *input, size_t *control)
 }
 
 //If the last char is a pipe generates a line and joins it
-char	*join_line(char *input, char *tmp, char *line, size_t *control)
+char	*join_line(char *input, char *tmp, char *line, size_t *control, t_input **struct_input)
 {
 	write(1,">", 1);
 	tmp = input;
@@ -48,7 +48,11 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control)
 	free(tmp);
 	line = get_next_line(0);
 	if (!line)
+	{
+		*control = TRUE;
+		print_error(13, NULL, struct_input);
 		return (NULL);
+	}
 	tmp = line;
 	line = ft_strtrim(line, "\n");
 	if (!line)
@@ -65,20 +69,19 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control)
 }
 
 //If the redirect and the filename are joined adds a space
-char	*add_space(char *input, char c)
+char	*add_space(char *input, char c, t_input **struct_input)
 {
 	char	*s;
 	char	*s1;
 	char	*first;
 	char	*last;
 	char	*tmp;
-
 	s = ft_strchr(input, c);
 	if (!s)
 		return (input);
 	s1 = ft_strrchr(input, c);
 	if (*(s1 + 1) == '\0')
-		printf("boniato unexpected token\n");
+		print_error(7, NULL, struct_input);
 	while(*(s + 1) == c)
 		s++;
 	while (s && (*(s + 1) && (*(s + 1) != ' ' && *(s + 1) != '\t')))
@@ -128,7 +131,7 @@ int	open_quotes(char *input)
 }
 
 //Analize the input looking for errors
-int		analyze_input(char **input)
+int		analyze_input(char **input, t_input **struct_input)
 {
 	char	*tmp;
 	char	*line;
@@ -140,12 +143,12 @@ int		analyze_input(char **input)
 		return (FALSE);
 	while (control == FALSE)
 	{
-		*input = join_line(*input, tmp, line, &control);
-		if (!input)
+		*input = join_line(*input, tmp, line, &control, struct_input);
+		if (!(*input))
 			return (FALSE);
 	}
-	*input = add_space(*input, '>');
-	*input = add_space(*input, '<');
+	*input = add_space(*input, '>', struct_input);
+	*input = add_space(*input, '<', struct_input);
 	return (TRUE);
 }
 
@@ -167,7 +170,7 @@ int	check_input(char **line, t_input **struct_input)
 	if (ft_strlen(*line) == 0)
 		return (FALSE);
 		
-	if (analyze_input(line) == FALSE)
+	if (analyze_input(line, struct_input) == FALSE)
 		return (FALSE);
 	
 	//ft_print_var(*struct_input);
@@ -199,8 +202,11 @@ int	check_input(char **line, t_input **struct_input)
 		g_main_loop = 0;
 		if (check_input(&input, &struct_input) == TRUE)
 			create_tokens_analyzer(&struct_input);
-		save_history(input);
-		free(input);
+		if (input)
+		{
+			save_history(input);
+			free(input);
+		}
 		g_main_loop = 1;
 	}
 	free(input);

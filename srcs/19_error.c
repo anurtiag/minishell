@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:04:36 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 17:40:32 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:22:45 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ void	print_error(int id, char *args, t_input **input)
 	else if (id == 11)
 	{
 		printf("ERROR: no valid limiter\n");
+	}
+	else if (id == 12)
+	{
+		ft_var_found(&(*input)->ent_var, "?", "2");
+		printf("ERROR: filename argument required\n");
+	}
+	else if (id == 13)
+	{
+		printf("ERROR: unexpected end of file\n");
 	}
 	
 }
