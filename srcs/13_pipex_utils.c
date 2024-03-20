@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 09:06:51 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:34:48 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,15 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	size_t	i;
 	char	*str;
 	char	*str_tmp;
+	int control;
+	
+	control = TRUE;
 	i = -1;
+	if (ft_strncmp(cmd->cmd, "..", ft_strlen(cmd->cmd)) == 0)
+	{
+		print_error(10, cmd->cmd_splited[0], env);
+		return (FALSE);
+	}
 	while(paths[++i])
 	{
 		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
@@ -84,6 +92,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	if (!cmd->cmd)
 		return (FALSE);
 	control = TRUE;
+	//printf("%s\n", cmd->cmd_splited[0]);
 	path_env = ft_getenv(&(*env)->ent_var, "PATH");
 	if (!path_env)
 		return(FALSE);
@@ -101,7 +110,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 			}
 			cmd->path = cmd->cmd_splited[0];
 		}
-		else if (cmd->cmd_splited[0][0] == '.')
+		else if (cmd->cmd_splited[0][0] == '.' && cmd->cmd_splited[0][1] == '/')
 		{
 			if (relative_path(cmd, env) == FALSE)
 				control = FALSE;

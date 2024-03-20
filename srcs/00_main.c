@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 07:02:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:36:09 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,18 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control)
 char	*add_space(char *input, char c)
 {
 	char	*s;
+	char	*s1;
 	char	*first;
 	char	*last;
 	char	*tmp;
 
-
-	//printf("el input es %s\nel caraacter %c\n", input, c);
 	s = ft_strchr(input, c);
 	if (!s)
 		return (input);
-	if(*(s + 1) == c)
+	s1 = ft_strrchr(input, c);
+	if (*(s1 + 1) == '\0')
+		printf("boniato unexpected token\n");
+	while(*(s + 1) == c)
 		s++;
 	while (s && (*(s + 1) && (*(s + 1) != ' ' && *(s + 1) != '\t')))
 	{

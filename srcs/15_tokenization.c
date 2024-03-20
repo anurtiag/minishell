@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   15_tokenization.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 07:08:36 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/07 11:00:26 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 10:52:06 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	tokenization(char *input, t_input **struct_input)
 	int		control[2];
 	char	**tokens;
 	static t_var_list *variable_list;
-	int i = -1;
+	int 	i = -1;
 	char	*tmp;
 
 	control[0] = TRUE;

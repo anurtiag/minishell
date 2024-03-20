@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 08:19:27 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:31:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_echo(char **args, int fd)
 	}
 	while(args[++i])
 	{
+		printf("el arg es --->%s<----\n", args[i]);
 		if (i != 2)
 			ft_putchar_fd(' ', fd);
 		ft_putstr_fd(args[i], fd);
@@ -202,7 +203,7 @@ void ft_empty_export(t_var_list **env)
 	}
 }
 
-int ft_export(char	*var, t_input **struct_input)
+int ft_export(char *var, t_input **struct_input)
 {
 	char		*equal;
 	char		*name;
@@ -288,7 +289,7 @@ int	ft_built_in(char **argv, t_input **struct_input, int *control, int mode)
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_echo(argv, 1);
+		ft_echo(argv, (*struct_input)->parsed_table->fd_out);
 	}
 	else if(ft_strncmp(argv[0], "pwd", ft_strlen(argv[0])) == 0)
 	{
