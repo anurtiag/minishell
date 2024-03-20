@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 14:36:25 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:14:57 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		if (!cmd->cmd)
-		{
-			cmd = cmd->next;
-		}
+		// if (!cmd->cmd)
+		// {
+		// 	cmd = cmd->next;
+		// }
 		if (ft_built_in(cmd, env, NULL, 0) == TRUE)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
@@ -115,7 +115,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 				print_error(10, cmd->cmd_splited[0], env);
 				control = FALSE;
 			}
-			cmd->path = cmd->cmd_splited[0];
+			cmd->path = ft_strdup(cmd->cmd_splited[0]);
 		}
 		else if (cmd->cmd_splited[0][0] == '.' && cmd->cmd_splited[0][1] == '/')
 		{

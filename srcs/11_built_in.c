@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 14:08:52 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:17:23 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-
 
 void	ft_echo(char **args, int fd)
 {
@@ -21,7 +20,7 @@ void	ft_echo(char **args, int fd)
 	i = -1;
 	control = FALSE;
 	args++;
-	// printf("el fd es %d\n", fd);
+	//printf("el fd es %d\n", fd);
 	while (args[0] && (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0))
 	{
 		//printf("entramos aqui\n");
@@ -291,6 +290,7 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 			return(TRUE);
 		*control = FALSE;
 		ft_echo(cmd_list->cmd_splited, cmd_list->fd_out);
+		
 	}
 	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{

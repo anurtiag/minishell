@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   17_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 13:57:55 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:53:59 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	pipex(t_input **struct_input)
 	control = TRUE;
 	cmd_list = (*struct_input)->parsed_table;
 	// printf("madarikatua\n");
-	while (!cmd_list->cmd && cmd_list->next)
-		cmd_list = cmd_list->next;
+	// while (!cmd_list->cmd && cmd_list->next)
+	// 	cmd_list = cmd_list->next;
 	if (!cmd_list->next)
 		ft_built_in(cmd_list, struct_input, &control, 1);
 	if (control == FALSE)

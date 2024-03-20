@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 14:36:32 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:13:26 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,7 +336,6 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		// print_cmd_contents(&(*struct_input)->parsed_table);
 
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
@@ -345,6 +344,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		{	
 			pipex(struct_input);
 		}
+		//print_cmd_contents(&(*struct_input)->parsed_table);
 		// printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(c_step), TRUE);
