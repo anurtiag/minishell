@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 12:38:43 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:09:18 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,11 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	int					control;
 
 	cmd = *cmd_list;
-	if (!cmd->cmd)
-		return (FALSE);
+	// if (!cmd->cmd)
+	// {
+	// 	printf("garbanzo\n");
+	// 	return (FALSE);
+	// }
 	control = TRUE;
 	//printf("%s\n", cmd->cmd_splited[0]);
 	path_env = ft_getenv(&(*env)->ent_var, "PATH");
@@ -99,7 +102,12 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		if (ft_built_in(cmd->cmd_splited, env, NULL, 0) == TRUE)
+		if (!cmd->cmd)
+		{
+			// printf("garbanzo\n");
+			cmd = cmd->next;
+		}
+		if (ft_built_in(cmd, env, NULL, 0) == TRUE)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
 		{

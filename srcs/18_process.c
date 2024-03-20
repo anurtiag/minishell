@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   18_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 10:56:56 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:01:56 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 			exit(1);
 		}
 	}
-	ft_built_in(arg->cmd_splited, struct_input, &control, 1);
+	ft_built_in(arg, struct_input, &control, 1);
 	if (control == FALSE)
 	{
 		//write(2, "salimos por el buit in\n", 23);

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 10:48:20 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:57:55 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ int	pipex(t_input **struct_input)
 	control = TRUE;
 	cmd_list = (*struct_input)->parsed_table;
 	// printf("madarikatua\n");
-	if (!cmd_list->cmd)
-		return (0);
+	while (!cmd_list->cmd && cmd_list->next)
+		cmd_list = cmd_list->next;
 	if (!cmd_list->next)
-		ft_built_in(cmd_list->cmd_splited, struct_input, &control, 1);
+		ft_built_in(cmd_list, struct_input, &control, 1);
 	if (control == FALSE)
 		return(0);
 	fd[READ] = 0;

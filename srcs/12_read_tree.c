@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 10:53:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:10:54 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,17 +130,17 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	{
 		if (strcmp(tree->left->data, ">>") == 0)
 		{
-			// printf("Entramos a abrir en modo append\n");
+			printf("Entramos a abrir en modo append\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (strcmp(tree->left->data, ">") == 0)
 		{
-			//printf("entramos a modo output normal\n");
+			printf("entramos a modo output normal\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		if (strcmp(tree->left->data, "<") == 0)
 		{
-			// printf("entramos a modo input normal\n");
+			printf("entramos a modo input normal\n");
 			fd = open(tree->right->data, O_RDONLY);
 		}
 		if (fd < 0)
@@ -148,14 +148,16 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	}
 	if (tree->type == 110)
 	{
+		printf("entramos a modo output normal\n");
 		fd = ft_here_doc(tree->data, 0);
 	}
 	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
 	{
-		//printf("entramos a modo output normal\n");
+		printf("entramos a modo output normal\n");
 		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
-	
+	if(tree && (tree->type == 100 && (tree->left && tree->left->type == 1)))//ESTA ES LA TRAMPA PARA >tmp_out | echo 1
+		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	// Process left child
 	if (tree->left != NULL)
 		read_tree(tree->left, table_node, 0);

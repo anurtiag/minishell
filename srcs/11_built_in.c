@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 12:48:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:08:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_echo(char **args, int fd)
 	i = -1;
 	control = FALSE;
 	args++;
-	if (args[0] && (ft_strncmp(args[0], "-n", 2) == 0))
+	// printf("el fd es %d\n", fd);
+	while (args[0] && (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0))
 	{
 		//printf("entramos aqui\n");
 		control = TRUE;
@@ -29,7 +30,6 @@ void	ft_echo(char **args, int fd)
 	}
 	while(args[++i])
 	{
-		// printf("el arg es --->%s<----\n", args[i]);
 		if (i != 0)
 			ft_putchar_fd(' ', fd);
 		ft_putstr_fd(args[i], fd);
@@ -283,56 +283,56 @@ void	ft_unset(char *name, t_input **struct_input)
 	}
 }
 
-int	ft_built_in(char **argv, t_input **struct_input, int *control, int mode)
+int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode)
 {
-	if (ft_strncmp(argv[0], "echo", ft_strlen(argv[0])) == 0)
+	if (ft_strncmp(cmd_list->cmd_splited[0], "echo", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_echo(argv, (*struct_input)->parsed_table->fd_out);
+		ft_echo(cmd_list->cmd_splited, cmd_list->fd_out);
 	}
-	else if(ft_strncmp(argv[0], "pwd", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_pwd();
 	}
-	else if(ft_strncmp(argv[0], "cd", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "cd", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_cd(argv, struct_input);
+		ft_cd(cmd_list->cmd_splited, struct_input);
 	}
-	else if(ft_strncmp(argv[0], "export", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "export", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_export(argv[1], struct_input);
+		ft_export(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "unset", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_unset(argv[1], struct_input);
+		ft_unset(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(argv[0], "env", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "env", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_print_var(*struct_input);
 	}
-	else if(ft_strncmp(argv[0], "exit", ft_strlen(argv[0])) == 0)
+	else if(ft_strncmp(cmd_list->cmd_splited[0], "exit", ft_strlen(cmd_list->cmd_splited[0])) == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_eexit(argv);
+		ft_eexit(cmd_list->cmd_splited);
 	}
 	return (0);	
 }
