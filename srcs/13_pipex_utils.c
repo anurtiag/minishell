@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:50:04 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:04:50 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 		return (FALSE);
 	}
 	control = TRUE;
-	//printf("%s\n", cmd->cmd_splited[0]);
 	path_env = ft_getenv(&(*env)->ent_var, "PATH");
 	if (!path_env)
 		return(FALSE);
@@ -113,7 +112,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 		else if (cmd->cmd_splited[0][0] == '/')
 		{
 			if (stat(cmd->cmd_splited[0], &statbuf) == -1)
-				return (FALSE);
+				return (print_error(8, cmd->cmd_splited[0], env), FALSE);
 			
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 16:54:21 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:22:44 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,31 +116,32 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	
 	if (tree->type == 108)
 		fd = open(tree->data, O_RDWR);
-	if (tree->type == 106)//el 110 es para cat << lim a ver si tira
-	{
-		//printf("el arbol tiene %s\n", tree->data);
-		//if (tree->left)
-			//printf("a la izquierda hay %s\n", tree->left->data);
-		//if (tree->middle)
-			//printf("en medio hay %s\n", tree->middle->data);
-		//if (tree->right)
-			//printf("a la derecha hay %s\n", tree->right->data);
-	}
-	if (tree->type == 106)//aqui 
+	// if (tree->type == 106)//el 110 es para cat << lim a ver si tira
+	// {
+	// 	//printf("el arbol tiene %s\n", tree->data);
+	// 	//if (tree->left)
+	// 		//printf("a la izquierda hay %s\n", tree->left->data);
+	// 	//if (tree->middle)
+	// 		//printf("en medio hay %s\n", tree->middle->data);
+	// 	//if (tree->right)
+	// 		//printf("a la derecha hay %s\n", tree->right->data);
+	// }
+	if (tree->type == 106)
 	{
 		if (strcmp(tree->left->data, ">>") == 0)
 		{
-			printf("Entramos a abrir en modo append\n");
+			// printf("Entramos a abrir en modo append\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (strcmp(tree->left->data, ">") == 0)
 		{
-			printf("entramos a modo output normal\n");
+			// printf("entramos a modo output normal\n");
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			// printf("el archivo %s tiene un fd %d\n", tree->right->data, fd);
 		}
 		if (strcmp(tree->left->data, "<") == 0)
 		{
-			printf("entramos a modo input normal\n");
+			// printf("entramos a modo input normal\n");
 			fd = open(tree->right->data, O_RDONLY);
 		}
 		if (fd < 0)
@@ -148,12 +149,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	}
 	if (tree->type == 110)
 	{
-		printf("entramos a modo output normal\n");
+		// printf("entramos a modo output normal\n");
 		fd = ft_here_doc(tree->data, 0);
 	}
 	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
 	{
-		printf("entramos a modo output normal\n");
+		// printf("entramos a modo output normal\n");
 		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	// Process left child
@@ -193,7 +194,9 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		if (error_flag == 1)
 			(*table_node)->fd_error = fd;
 		else
+		{
 			(*table_node)->fd_out = fd;
+		}
 	}
 }
 

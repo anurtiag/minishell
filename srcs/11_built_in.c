@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:28:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:04:41 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_echo(char **args, int fd)
 	args++;
 	while (args[0] && (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0))
 	{
-		printf("entramos aqui\n");
 		control = TRUE;
 		args++;
 	}
@@ -286,7 +285,6 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 {
 	if (ft_strncmp(cmd_list->cmd_splited[0], "echo", 4) == 0)
 	{
-		// ft_putstr_fd("hoola desde echo\n", 2);
 		if(mode == 0)
 			return(TRUE);
 		else if(mode == 2)
@@ -298,7 +296,6 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 	}
 	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", 3) == 0)
 	{
-		printf("putuka\n");
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
