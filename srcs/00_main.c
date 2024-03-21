@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 16:09:36 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:38:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int	check_input(char **line, t_input **struct_input)
 	while (1)
 	{
 		input = readline("custom_bash$");
+		struct_input->input = input;
 		if (input == NULL)
 			break ;
 		if (ft_strncmp(input, "clear", 5) == 0)
@@ -211,8 +212,7 @@ int	check_input(char **line, t_input **struct_input)
 			free(input);
 		}
 		g_main_loop = 1;
+		free_double(struct_input->token_raw);
 	}
-	free(input);
-	free_all(struct_input, input);
 	return (0);
 }

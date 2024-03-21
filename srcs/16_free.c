@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   16_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 15:47:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:09:17 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ void	free_steps(t_step *steps)
 {
 	t_step		*tmp_step;
 
-	free_tokens(steps->input);	
+	free_tokens(steps->input);
 	free_token_tree(steps->tree_stack);
 	while (steps != NULL)
 	{
-		//printf("free-ing steps %i\n", steps->step_nbr);
+		//printf("free-ing steps %i step nbr %i\n", steps->step_nbr, steps->step_nbr);
 		if (steps->state)
 			//printf("state is not null, %p\n", steps->state);
 		tmp_step = steps->next;
@@ -123,7 +123,7 @@ void	free_all(t_input *struct_input, char *history)
 	t_var_parsed_table	*tmp_parsed;
 
 	//free history
-	//free(history);
+	free(history);
 
 	//free env variables
 	while ((struct_input)->ent_var)
@@ -138,7 +138,7 @@ void	free_all(t_input *struct_input, char *history)
 	free_parsed_table(&(struct_input)->parsed_table);
 	
 	free_states((struct_input)->parsing_table);
-
+	
 	free_double((struct_input)->token_raw);
 
 	free(struct_input);

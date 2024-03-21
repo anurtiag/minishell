@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 12:22:03 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:41:21 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void remove_quotes_aux(char **cmd_ptr)
 	free(*cmd_ptr);
 	tmp = ft_strjoin(before, mid);
 	*cmd_ptr = ft_strjoin(tmp, after);
-	// free(tmp);
+	free(tmp);
 	free(before);
 	free(mid);
 	free(after);
@@ -262,7 +262,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		// printf("-----STACK:-----\n");
 		// print_token_list(c_step->tree_stack);
 		// printf("\n");
-		// print_step_list(step);
+		//print_step_list(step);
 
 		// if (c_token->type == -2)
 		// {
@@ -324,7 +324,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 
 	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		free_steps(c_step);
+		free_steps(step);
 		print_error(7, NULL, struct_input);
 		return (FALSE);
 	}
@@ -346,9 +346,8 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 			pipex(struct_input);
 		}
 		//print_cmd_contents(&(*struct_input)->parsed_table);
-		// printf("salimos del pipex?\n");
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
-		return (free_steps(c_step), TRUE);
+		return (free_steps(step), TRUE);
 	}
 	return (FALSE);
 }

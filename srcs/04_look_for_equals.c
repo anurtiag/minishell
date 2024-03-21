@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 13:30:31 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:34:01 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int	ft_var_found(t_var_list **list, char *name, char *content)
 	{
 		if (strcmp(current->name, name) == 0)
 		{
-			current->content = content;
+			free(current->content);
+			current->content = NULL;
+			current->content = ft_strdup(content);
 			return (TRUE);
 		}
 		current = current->next;

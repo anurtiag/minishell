@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/20 17:43:42 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:38:02 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef struct s_input
 	struct s_states		*parsing_table;
 	struct s_var_parsed_table	*parsed_table;
 	int							allow_input;
+	char				*input;
 }				t_input;
 
 //linked list for the enviroment variables

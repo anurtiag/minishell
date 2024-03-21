@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/21 08:04:41 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:15:30 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_pwd(void)
 	if (!path)
 		return(1);
 	printf("%s\n", path);
+	free(path);
 	return (0);
 }
 
@@ -222,28 +223,36 @@ int ft_export(char *var, t_input **struct_input)
 		add_var(var, &(*struct_input)->ent_var, NULL);
 }
 
-void	ft_eexit(char **arg)
+void	ft_eexit(char **arg, t_input **struct_input)
 {
 	int num;
 	int i;
 
 	i = -1;
 	if (!arg[1])
+	{
+		free_all(*struct_input, (*struct_input)->input);
 		exit(0);
+	}
 	while (arg[1][++i])
 	{
 		if (!ft_isdigit((int)arg[1][i]))
 		{
 			printf("exit: %s: numeric argument required\n", arg[1]);
+			free_all(*struct_input, (*struct_input)->input);
 			exit(0);
 		}
 	}
 	num = ft_atoi(arg[1]);
 	if (num >= 0 && num <= 255)
+	{
+		free_all(*struct_input, (*struct_input)->input);
 		exit(num);
+	}		
 	else
 	{
 		printf("exit\n");
+		free_all(*struct_input, (*struct_input)->input);
 		exit(0);
 	}
 }
@@ -334,7 +343,7 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_eexit(cmd_list->cmd_splited);
+		ft_eexit(cmd_list->cmd_splited, struct_input);
 	}
-	return (0);	
+	return (0);
 }

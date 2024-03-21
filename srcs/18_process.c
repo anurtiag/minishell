@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   18_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:11:34 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:13:50 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 
 void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_input)
 {
-	int status;
+	int		status;
+	char	*tmp;
 	status = 0;
 	while (cmd_list)
 	{
@@ -193,5 +194,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 	}
 	while(waitpid(-1, &status, 0) > 0)
 		;
-	ft_var_found(&(*struct_input)->ent_var, "?", ft_itoa(status));
+	tmp = ft_itoa(status);
+	ft_var_found(&(*struct_input)->ent_var, "?", tmp);
+	free(tmp);
 }
