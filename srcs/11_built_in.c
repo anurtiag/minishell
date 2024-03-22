@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/22 12:45:57 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:58:26 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ int ft_export(char *var, t_input **struct_input)
 	char		*name;
 	char		*content;
 
+	if (var[0] == '_' || ft_isalpha(var[0]) == 0 || var[0] == '?')
+		return(print_error(1, NULL, struct_input), FALSE);
 	if (var)
 		equal = ft_strchr(var, '=');
 	if(!var)
