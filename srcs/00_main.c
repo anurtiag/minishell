@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   00_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 14:38:29 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:58:49 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,5 +214,6 @@ int	check_input(char **line, t_input **struct_input)
 		g_main_loop = 1;
 		free_double(struct_input->token_raw);
 	}
+	free_all(struct_input, input);
 	return (0);
 }

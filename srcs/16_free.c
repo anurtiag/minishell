@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 08:51:43 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:54:42 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void free_tree(t_token *root)
 	free_tree(root->left);
 	free_tree(root->middle);
 	free_tree(root->right);
-	printf("voy a liberar el token %s con una direccion de memoria %p\n\n", root->data, root);
 	free(root->data);
 	root->data = NULL;
 	free(root);
