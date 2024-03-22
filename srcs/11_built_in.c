@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/22 12:20:38 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:45:57 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,15 @@ int ft_export(char *var, t_input **struct_input)
 		name = ft_substr(var, 0, equal - var);
 		// printf("el nombre es %s\nel contenido %s\n", name, (equal + 1));
 		add_var(name, &(*struct_input)->ent_var, (equal + 1));
+		free(name);
 	}
 	else
+	{
 		add_var(var, &(*struct_input)->ent_var, NULL);
+		free(var);
+	}
 	return (TRUE);
+
 }
 
 void	ft_eexit(char **arg, t_input **struct_input, t_step *step)
