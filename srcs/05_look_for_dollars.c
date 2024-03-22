@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/18 17:41:05 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:51:43 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void del_char(char **cadena, int position)
 
 	free((*cadena));
 	*cadena = ft_strjoin(before, after);
+	free(before);
+	free(after);
 }
 
 //Looks for a variable with the name vien
