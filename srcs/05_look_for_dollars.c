@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 12:02:16 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:42:58 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	char	*match_var_name;
 	char	*before;
 	char	*after;
+	char	*tmp;
 	int		size;
 	int		size1;
 	int 	size2;
@@ -78,6 +79,7 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	size = 0;
 	before = NULL;
 	after = NULL;
+	tmp = NULL;
 
 	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
 	
@@ -128,13 +130,15 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	// printf("m %s\n",match_var_name);
 	// printf("a %s\n\n",after);
 	
-	
 	ft_find_variable(match_var_name, variable_list, content);
 
-		(*content) = ft_strjoin((*content), after);
-		(*content) = ft_strjoin(before, (*content));
+	tmp = ft_strjoin((*content), after);
+	(*content) = ft_strjoin(before, tmp);
+	free(tmp);
 
-	
+	free(match_var_name);
+	free(after);
+	free(before);
 	return (FALSE);
 }
 
