@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 14:38:02 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:09:54 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ char		**ft_bash_split(char const *s, char c, int *control);
 int			tokenization(char *input, t_input **struct_input);
 
 //PIPEX_UTILS
-int		cmd_handle(t_var_parsed_table **cmd_list, t_input **env);
+int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step);
 int		ft_here_doc(char *end, int fd);
 void	free_here_doc(char *delimiter, char *output, char *line, int outfile);
 
@@ -221,18 +221,18 @@ int		ft_cd(char **args, t_input **env);
 void	add_var(char *name, t_var_list **env, char *content);
 void	ft_empty_export(t_var_list **env);
 int		ft_export(char	*var, t_input **struct_input);
-int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode);
+int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode, t_step *step);
 int		get_path(char *args, t_input **env);
 void	ft_exit(int i);
 void	error_handle(int argc, char **argv);
 char	*ft_get_path(char **env, char *cmd);
 char	**ft_get_cmd(char *s1);
 char	*ft_get_path_line(char **env);
-void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input);
+void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input, t_step *step);
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2]);
-void		ft_make_process(t_var_parsed_table *cmd, int fd[2], t_input **struct_input);
+void		ft_make_process(t_var_parsed_table *cmd, int fd[2], t_input **struct_input, t_step *step);
 void		file_permissions(char *name, int type);
-int			pipex(t_input **struct_input);
+int			pipex(t_input **struct_input, t_step *step);
 char		*ft_getenv(t_var_list **list, char *name);
 
 //FREE

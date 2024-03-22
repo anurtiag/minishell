@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   16_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 15:09:17 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 08:51:43 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void free_tree(t_token *root)
 	free_tree(root->left);
 	free_tree(root->middle);
 	free_tree(root->right);
+	printf("voy a liberar el token %s con una direccion de memoria %p\n\n", root->data, root);
 	free(root->data);
 	root->data = NULL;
 	free(root);
@@ -89,7 +90,6 @@ void free_double(char **double_ptr)
 void	free_tokens(t_token *token)
 {
 	t_token		*tmp_token;
-
 	while (token != NULL)
 	{
 		tmp_token = token->next;
@@ -121,7 +121,7 @@ void	free_all(t_input *struct_input, char *history)
 {
 	t_var_list	*tmp_env;
 	t_var_parsed_table	*tmp_parsed;
-
+	// printf("he entrado a liberar las cositas\n");
 	//free history
 	free(history);
 
@@ -134,6 +134,7 @@ void	free_all(t_input *struct_input, char *history)
 		free((struct_input)->ent_var);
 		(struct_input)->ent_var = tmp_env;
 	}
+
 
 	free_parsed_table(&(struct_input)->parsed_table);
 	

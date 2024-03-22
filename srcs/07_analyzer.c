@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_analyzer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 13:55:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 08:16:36 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_token *assign_token_types(char *token_raw)
 	else
 		new_token->type = 0;
 	new_token->data = ft_strdup(token_raw);
+	printf("he generado el token %s con la direccion de memoria %p\n\n", new_token->data, new_token);
 	new_token->left = NULL;
 	new_token->right = NULL;
 	new_token->middle = NULL;

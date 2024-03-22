@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/21 15:26:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:05:55 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 	return (TRUE);
 }
 
-int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
+int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 {
 	t_var_parsed_table	*cmd;
 	char				*path_env;
@@ -107,7 +107,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
-		if (ft_built_in(cmd, env, NULL, 0) == TRUE)
+		if (ft_built_in(cmd, env, NULL, 0, step) == TRUE)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
 		{

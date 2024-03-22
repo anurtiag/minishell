@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   18_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/21 15:13:50 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:07:52 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
+void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input, t_step *step)
 {
 	int	fdin;
 	int	fdout;
@@ -74,7 +74,7 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input)
 		}
 	}
 	// fprintf(2, "%s\n", arg->cmd_splited[0]);
-	ft_built_in(arg, struct_input, &control, 1);
+	ft_built_in(arg, struct_input, &control, 1, step);
 	if (control == FALSE)
 	{
 		// ft_putstr_fd(ft_itoa(control), 2);
@@ -125,7 +125,7 @@ t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 	
 }
 
-void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_input)
+void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_input, t_step *step)
 {
 	int		status;
 	char	*tmp;
@@ -174,7 +174,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 					exit(1);
 				}
 			}
-			ft_son_process(cmd_list, struct_input);// y entramos al hijo
+			ft_son_process(cmd_list, struct_input, step);// y entramos al hijo
 		}
 		else if (cmd_list->pid == 0)// si estamos en el hijo pero si existe un siguiente...
 		{
@@ -187,7 +187,7 @@ void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_i
 			{
 				cmd_list->fd_out = fd[WRITE];
 			}
-			ft_son_process(cmd_list, struct_input);// y entramos al hijo
+			ft_son_process(cmd_list, struct_input, step);// y entramos al hijo
 		}
 		else
 			cmd_list = father_process(cmd_list, fd);

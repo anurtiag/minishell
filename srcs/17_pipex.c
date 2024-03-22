@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/20 17:26:24 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:08:00 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	freeall(char **str)
 	str = NULL;
 }
 
-int	pipex(t_input **struct_input)
+int	pipex(t_input **struct_input, t_step *step)
 {
 	int		fd[2];
 	t_var_parsed_table	*cmd_list;
@@ -79,13 +79,13 @@ int	pipex(t_input **struct_input)
 	if (!cmd_list->next)
 	{
 		// printf("no entraras por aqui putito de mierda\n");
-		ft_built_in(cmd_list, struct_input, &control, 2);
+		ft_built_in(cmd_list, struct_input, &control, 2, step);
 	}
 	if (control == FALSE)
 		return(0);
 	fd[READ] = 0;
 	fd[WRITE] = 0;
-	ft_make_process(cmd_list, fd, struct_input);
+	ft_make_process(cmd_list, fd, struct_input, step);
 	if(access(".tempfile.txt", F_OK) == 0)
 		unlink(".tempfile.txt");
 	return (0);

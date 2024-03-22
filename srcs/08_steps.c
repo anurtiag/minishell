@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 14:41:21 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:06:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,12 +341,13 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
 
-		if (cmd_handle(&(*struct_input)->parsed_table, struct_input) == TRUE)
+		if (cmd_handle(&(*struct_input)->parsed_table, struct_input, step) == TRUE)
 		{	
-			pipex(struct_input);
+			pipex(struct_input, step);
 		}
 		//print_cmd_contents(&(*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
+		printf("salimos por aqui?\n");
 		return (free_steps(step), TRUE);
 	}
 	return (FALSE);
