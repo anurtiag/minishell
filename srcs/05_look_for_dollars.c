@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 16:51:43 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:02:16 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ void del_char(char **cadena, int position)
 	while (size1 != position)
 		size1++;
 		
-	before = malloc(sizeof(char) * size1 + 1);
 	before = strndup((*cadena), size1);
 	tmp = size1;
 	while ((*cadena)[++size1] != '\0')
 		size2++;
 		
-	after = malloc(sizeof(char) * size2 + 1);
 	after = strndup((*cadena + (tmp + 1)), size2);
 
 	free((*cadena));

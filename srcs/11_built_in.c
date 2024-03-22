@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/22 11:05:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:12:29 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	ft_cd(char **args, t_input **env)
 				return(1);
 			}
 		}
+		free(current->content);
 		current->content = ft_strdup(home);
 	}
 	ft_pwd();
