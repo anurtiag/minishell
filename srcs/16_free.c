@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 11:54:42 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:18:30 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,6 @@ void	free_steps(t_step *steps)
 	free_token_tree(steps->tree_stack);
 	while (steps != NULL)
 	{
-		//printf("free-ing steps %i step nbr %i\n", steps->step_nbr, steps->step_nbr);
-		if (steps->state)
-			//printf("state is not null, %p\n", steps->state);
 		tmp_step = steps->next;
 		free(steps);
 		steps = tmp_step;
@@ -120,8 +117,6 @@ void	free_all(t_input *struct_input, char *history)
 {
 	t_var_list	*tmp_env;
 	t_var_parsed_table	*tmp_parsed;
-	// printf("he entrado a liberar las cositas\n");
-	//free history
 	free(history);
 
 	//free env variables
@@ -133,7 +128,6 @@ void	free_all(t_input *struct_input, char *history)
 		free((struct_input)->ent_var);
 		(struct_input)->ent_var = tmp_env;
 	}
-
 
 	free_parsed_table(&(struct_input)->parsed_table);
 	
