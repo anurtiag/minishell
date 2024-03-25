@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   16_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 14:08:13 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:06:01 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,8 @@ void	free_all(t_input *struct_input, char *history)
 {
 	t_var_list	*tmp_env;
 	t_var_parsed_table	*tmp_parsed;
-	free(history);
 
-	//free env variables
+	free(history);
 	while ((struct_input)->ent_var)
 	{
 		tmp_env = (struct_input)->ent_var->next;
@@ -131,12 +130,8 @@ void	free_all(t_input *struct_input, char *history)
 		free((struct_input)->ent_var);
 		(struct_input)->ent_var = tmp_env;
 	}
-
 	free_parsed_table(&(struct_input)->parsed_table);
-	
 	free_states((struct_input)->parsing_table);
-	
 	free_double((struct_input)->token_raw);
-
 	free(struct_input);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_read_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:33:58 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 17:42:44 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:20:08 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ void print_options_for_state(t_states *states_list, int state_number)
 {
 	t_states *current_state = states_list;
 
-	//printf("current state: %i\n", current_state->state);
 	// Busca el estado con el número especificado
-	while (current_state != NULL && current_state->state != state_number) {
+	while (current_state != NULL && current_state->state != state_number)
 		current_state = current_state->next;
-	}
-
 	// Si se encontró el estado
 	if (current_state != NULL)
 	{
@@ -110,19 +107,16 @@ void read_table(t_input **struct_input)
 	fd = open("parsing_table", O_RDONLY);
 	if (fd == -1)
 		return(print_error(5, NULL, NULL));
-
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		tokens = ft_split(line, '\t');
-
 		// Convierte cada token en un entero
 		state = ft_atoi(tokens[0]);
 		t_type = ft_atoi(tokens[1]);
 		action = ft_atoi(tokens[2]);
 		next_state = ft_atoi(tokens[3]);
 		nbr_red = ft_atoi(tokens[4]);
-
 		free(tokens[0]);
 		free(tokens[1]);
 		free(tokens[2]);
@@ -137,20 +131,15 @@ void read_table(t_input **struct_input)
 			states_list = current_state;
 			option_index = 0;
 		}
-
 		// Crea un nuevo nodo de opción
 		new_option = create_option_node(option_index++, state, t_type, action, next_state, nbr_red);
-
 		// Agrega la opción al estado actual
 		add_option_to_state(current_state, new_option);
-
 		// Liberar la memoria de la línea leída por get_next_line
 		free(line);
-		
 		line = get_next_line(fd);
 	}
 	close(fd);
 	(*struct_input)->parsing_table = states_list;
-	
 	return;
 }

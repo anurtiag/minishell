@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 16:27:01 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:14:29 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void free_parsed_table(t_var_parsed_table **table)
 		free((*table)->cmd);
 		free((*table)->path);
 		free(*table);
-
 		(*table) = temp;
 	}
 }
@@ -64,14 +63,12 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	static int fd = -1;
 	if (tree == NULL)
 		return;
-	
 	if (mode == 2)
 	{
 		first_time = 1;
 		free_parsed_table(table_node);
 		return;
 	}
-	
 	if (mode == 1)
 	{
 		//reset of the variables
@@ -81,7 +78,6 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		fd = -1;
 		return ;
 	}
-	
 	if (tree->type == 100 || tree->type == 101)
 	{
 		if (first_time == 1)
@@ -98,79 +94,38 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			*table_node = (*table_node)->next;
 		}
 	}
-	
 	if (tree->type == 2)
 		red_from_flag = 1;
-
 	if (tree->type == 3)
 		here_doc = 1;
 	if (tree->type == 4)
 		append = 1;
-	
 	if (tree->type == 1)
 	{
 		red_to_flag = 1;
 		if (strcmp(tree->data, "2>") == 0)
 			error_flag = 1;
 	}
-	
-	// if (tree->type == 108)
-	// {
-	// 	printf("1 entramos a asignar infile\n");
-	// 	fd = open(tree->data, O_RDWR);
-	// 	printf("el archivo tiene un fd de %d\n", fd);
-	// }
-	// if (tree->type == 106)//el 110 es para cat << lim a ver si tira
-	// {
-	// 	printf("el arbol tiene %s\n", tree->data);
-	// 	if (tree->left)
-	// 		printf("a la izquierda hay %s\n", tree->left->data);
-	// 	if (tree->middle)
-	// 		printf("en medio hay %s\n", tree->middle->data);
-	// 	if (tree->right)
-	// 		printf("a la derecha hay %s\n", tree->right->data);
-	// }
 	if(tree && tree->right && (tree->right->type == 108 || tree->right->type == 110))
 	{
 		if(tree->left && tree->left->type == 1)
-		{
-			printf("tenemos un outfile con el filename %s\n", tree->right->data);
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
 		else if (tree->left && tree->left->type == 2)
-		{
-			printf("tenemos un infile con el filename %s\n", tree->right->data);
 			fd = open(tree->right->data, O_RDONLY);
-		}
 		else if (tree->left && tree->left->type == 3)
-		{
-			printf("tenemos un here_doc con el filename %s\n", tree->right->data);
 			fd = ft_here_doc(tree->right->data, 0);
-		}
 		else if (tree->left && tree->left->type == 4)
-		{
-			printf("tenemos un append con el filename %s\n", tree->right->data);
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		}
-	}
-
-	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
-	{
-		// printf("entramos a modo output normal\n");
-		fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	// Process left child
 	if (tree->left != NULL)
 		read_tree(tree->left, table_node, 0);
-	
 	// Process middle child
 	if (tree->middle != NULL)
 		read_tree(tree->middle, table_node, 0);
-	
 	// Process right child
 	if (tree->right != NULL)
 		read_tree(tree->right, table_node, 0);
-	
 	//Is the type of data we are looking for
 	if (((tree->type == 0 || tree->type == 102 || tree->type == 103 || tree->type == 105 || tree->type == 100 || tree->type == 101) && (tree->left == NULL && tree->middle == NULL && tree->right == NULL)))
 	{		
@@ -183,26 +138,15 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
 	}
-	// if (tree->type == 108)
-	// {
-	// 		(*table_node)->cmd = NULL;
-	// }
 	if (red_from_flag == 1 || here_doc == 1)
-	{
-		// printf("entramos a guardar el input\n");
 		(*table_node)->fd_in = fd;
-		// printf("el fd del input es de %d con la direccion de memoria %p\n", (*table_node)->fd_in, (*table_node));
-	}
 	
 	if (red_to_flag == 1 || append == 1)
 	{
-		// printf("entramos a guardar el output\n");
 		if (error_flag == 1)
 			(*table_node)->fd_error = fd;
 		else
-		{
 			(*table_node)->fd_out = fd;
-		}
 	}
 }
 
@@ -214,12 +158,10 @@ void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
 	control = TRUE;	
 	if (tree->left && tree->left->type == 100)
 		walk_tree(parsed_table, tree->left);
-
 	if (tree->left && tree->left->type == 100)
 		read_tree(tree->right, parsed_table, 0);
 	else
 		read_tree(tree, parsed_table, 0);
-	
 	//Calling the function again to clear the static variables (mode 1)
 	read_tree(tree, parsed_table, 1);
 }

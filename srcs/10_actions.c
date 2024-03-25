@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 11:51:46 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:16:17 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ void	ft_reduce(t_options *options, t_step **c_step)
 	}
 	else if (options->nbr_red == 2)
 	{
-
 		start_stack = (*c_step)->tree_stack;
-		
 		join_token = (t_token *)malloc(sizeof(t_token));
 		if (join_token == NULL)
 			return;
@@ -43,41 +41,29 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		join_token->right = NULL;
 		join_token->middle = NULL;
 		join_token->next = NULL;
-	
 		//init los 3 ultimos tokens
 		token_1 = last_node_stack(start_stack);
 		token_2 = start_stack;
 		token_3 = start_stack;
-		
 		while (token_2->next != token_1)
 			token_2 = token_2->next;
 		while ((token_3->next != token_2) && (token_3 != token_2))
 			token_3 = token_3->next;
-
-		
 		join_token->left = token_2;
 		join_token->right = token_1;
-
 		join_token->left->next = NULL;
 		join_token->right->next = NULL;
 		if (token_2 == token_3)
 		{
-			// solo tenemos 2 elemento
 			(*c_step)->tree_stack = NULL;
 			(*c_step)->tree_stack = join_token;
 		}
 		else
-		{
-			// tenemos 3 elementos
 			token_3->next = join_token;
-		}
 	}
 	else if (options->nbr_red == 3)
 	{
-		//printf("tercera opcion de reduce\n");
-
 		start_stack = (*c_step)->tree_stack;
-		
 		join_token = (t_token *)malloc(sizeof(t_token));
 		if (join_token == NULL)
 			return;
@@ -88,25 +74,20 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		join_token->right = NULL;
 		join_token->middle = NULL;
 		join_token->next = NULL;
-
 		//init los 3 ultimos tokens
 		token_1 = last_node_stack(start_stack);
 		token_2 = start_stack;
 		token_3 = start_stack;
 		token_4 = start_stack;
-				
 		while (token_2->next != token_1)
 			token_2 = token_2->next;
 		while ((token_3->next != token_2) && (token_3 != token_2))
 			token_3 = token_3->next;
 		while ((token_4->next != token_3) && (token_4 != token_3) && (token_4 != token_2))
 			token_4 = token_4->next;
-
-		
 		join_token->left = token_3;
 		join_token->middle = token_2;
 		join_token->right = token_1;
-
 		join_token->left->next = NULL;
 		join_token->middle->next = NULL;
 		join_token->right->next = NULL;
@@ -146,7 +127,7 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 	int	action_type;
 
 	action_type = options->action;
-	if (action_type == -1)
+	if (action_type == -1)//PA DEBUGEAR, DE MOEMENTO SE QUEDA 
 	{
 		// go
 		//printf("\n\033[0;35mGO TO %i\n\033[0m\n", options->next_state);

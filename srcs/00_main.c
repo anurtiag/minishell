@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/24 17:16:19 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:24:56 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,8 @@ int	check_input(char **line, t_input **struct_input)
 		return (FALSE);	
 	if (analyze_input(line, struct_input) == FALSE)
 		return (FALSE);
-	
-	//ft_print_var(*struct_input);
 	if (tokenization(*line, struct_input) == FALSE)
-	{
 		return (print_error(2, NULL, NULL), FALSE);
-	}
 	return (TRUE);
 }
 

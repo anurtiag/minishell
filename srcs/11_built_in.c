@@ -6,12 +6,12 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 16:42:53 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:10:34 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-
+//prints a message with or whithout -n option in a fd
 void	ft_echo(char **args, int fd)
 {
 	size_t	i;
@@ -34,7 +34,7 @@ void	ft_echo(char **args, int fd)
 	if (control == FALSE)
 		ft_putstr_fd("\n", fd);
 }
-
+//printf the actual directory
 int	ft_pwd(t_input **env)
 {
 	t_var_list	*current;
@@ -45,19 +45,7 @@ int	ft_pwd(t_input **env)
 	printf("%s\n", current->content);
 	return (0);
 }
-
-// int	ft_pwd(void)
-// {
-// 	char	*path;
-
-// 	path = getcwd(NULL, 0);
-// 	if (!path)
-// 		return(1);
-// 	printf("%s\n", path);
-// 	free(path);
-// 	return (0);
-// }
-
+//Auxiliar of cd, changes directory to an absolute or relative path
 int	get_path(char *args, t_input **env)
 {
 	char		**path;
@@ -115,11 +103,10 @@ int	get_path(char *args, t_input **env)
 	}
 	tmp = current->content;
 	current->content = ft_strdup(route);
-	printf("3la ruta es %s\n", route);
 	chdir(route);
 	return(free(tmp), free(route), free_double(path), 0);
 }
-
+//changes directory to the home or to some path with get path
 int	ft_cd(char **args, t_input **env)
 {
 	size_t		i;

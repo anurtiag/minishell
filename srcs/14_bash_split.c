@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/23 13:48:54 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:12:18 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static	int	ft_count(char const *s, char c, int *control)
 				count++;
 		i++;
 	}
-	//printf("el num de palabras es: %d\n", count);
 	return (count);
 }
 
@@ -66,10 +65,6 @@ static int	check_str(char **str, int j)
 	}
 	return (FALSE);
 }
-
-//size = i - start
-//TRUE = no estamos dentro de comillas
-//FALSE = estamos dentro de las comillas
 char	**ft_bash_split(char const *s, char c, int *control)
 {
 	int		i;
@@ -84,22 +79,15 @@ char	**ft_bash_split(char const *s, char c, int *control)
 	str = ft_calloc(ft_count(s, c, control) + 1, sizeof(char *));
 	if (!s || !str)
 		return (NULL);
-	//while recorriendo el input siempre que las comillas esten cerradas
 	while(s[i] && (control[1] == TRUE && control[0] == TRUE))
 	{
-		//actualizamos el estado de los controles
 		ignore_separator(s, control, &i);
-		
-		//si tenemos espacios al principo nos los saltamos
 		while ((s[i] == c) && (control[1] == TRUE && control[0] == TRUE))
 		{
 			i++;
 			ignore_separator(s, control, &i);
 		}
-
-		//Actualiamos start
 		start = i;
-
 		//Actualizamos end cuando encontramos un espacio que no este entre comillas
 		while ((s[i] != c && s[i]) || (control[1] == FALSE || control[0] == FALSE))
 		{
@@ -107,11 +95,9 @@ char	**ft_bash_split(char const *s, char c, int *control)
 			ignore_separator(s, control, &i);
 		}
 		end = i;
-
 		if (( end > start))
 		{
 			str[j++] = ft_substr(s, start, end - start);
-			// printf("\n\nLO QUE SEA QUE LEAKEA ES %s\n\n", str[j - 1]);
 			if (check_str(str, j))
 				return (NULL);
 		}
