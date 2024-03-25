@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 12:22:44 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:33:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,10 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 
 //Looks for sub_trees in the main tree
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
-{	
+{
+	int control;
+
+	control = TRUE;	
 	if (tree->left && tree->left->type == 100)
 		walk_tree(parsed_table, tree->left);
 

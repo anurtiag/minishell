@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/24 17:40:40 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:21:20 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_echo(char **args, int fd)
 		ft_putstr_fd(args[i], fd);
 	}
 	if (control == FALSE)
-		printf("\n");
+		ft_putstr_fd("\n", fd);
 }
 
 int	ft_pwd(t_input **env)
@@ -115,6 +115,7 @@ int	get_path(char *args, t_input **env)
 	}
 	tmp = current->content;
 	current->content = ft_strdup(route);
+	chdir(route);
 	return(free(tmp), free(route), free_double(path), 0);
 }
 
@@ -161,8 +162,6 @@ void add_var(char *name, t_var_list **env, char *content)
 	{
 		if (ft_strncmp(name, current->name, ft_strlen(name)) == 0)
 		{
-			printf("la variable es : %s\n", current->name);
-			printf("el contenido es : %s\n", current->content);
 			free(current->content);//OTRO APAÑO GUARRO PA LA COLE
 			if(content)
 				current->content = ft_strdup(content);
@@ -276,7 +275,7 @@ void	ft_eexit(char **arg, t_input **struct_input, t_step *step)
 			printf("exit: %s: numeric argument required\n", arg[1]);
 			free_all(*struct_input, (*struct_input)->input);
 			free_steps(step);
-			exit(0);
+			exit(255);
 		}
 	}
 	num = ft_atoi(arg[1]);
