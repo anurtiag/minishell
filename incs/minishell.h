@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 11:09:54 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/24 11:27:49 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,12 @@ void	free_here_doc(char *delimiter, char *output, char *line, int outfile);
 
 //BUILT_IN
 void	ft_echo(char **args, int fd);
-int		ft_pwd(void);
+int		ft_pwd(t_input **env);
 int		ft_cd(char **args, t_input **env);
 void	add_var(char *name, t_var_list **env, char *content);
 void	ft_empty_export(t_var_list **env);
 int		ft_export(char	*var, t_input **struct_input);
-int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode, t_step *step);
+int		ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode, t_step *step);
 int		get_path(char *args, t_input **env);
 void	ft_exit(int i);
 void	error_handle(int argc, char **argv);

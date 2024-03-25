@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   14_bash_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 06:51:35 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/06 15:47:33 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/23 13:48:54 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	**ft_bash_split(char const *s, char c, int *control)
 		if (( end > start))
 		{
 			str[j++] = ft_substr(s, start, end - start);
-				
+			// printf("\n\nLO QUE SEA QUE LEAKEA ES %s\n\n", str[j - 1]);
 			if (check_str(str, j))
 				return (NULL);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 12:42:58 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:20:24 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void del_char(char **cadena, int position)
 
 	free((*cadena));
 	*cadena = ft_strjoin(before, after);
+	printf("LO QUE SEA QUE LEAKEA ES %s\n\n", *cadena);
 	free(before);
 	free(after);
 }
@@ -51,6 +52,7 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 	{
 		if ((strncmp(match_var_name, current->name, INT32_MAX) == 0 && (strlen(match_var_name) == strlen(current->name))))
 		{
+			free(*content);//PRUEBA GUARRA PARA /bin/echo $"HOME"$USER PARECE QUE FUNCIONA DE MOMENTO SE QUEDA
 			(*content) = current->content;
 			return (TRUE);
 		}
@@ -80,7 +82,6 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	before = NULL;
 	after = NULL;
 	tmp = NULL;
-
 	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
 	
 	while (token[size] && size != index)
@@ -131,8 +132,9 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	// printf("a %s\n\n",after);
 	
 	ft_find_variable(match_var_name, variable_list, content);
-
 	tmp = ft_strjoin((*content), after);
+	if (ft_strlen(*content) == 0)
+		free(*content);//OTRA FREE GUARRO PARA CASOS COMO: /bin/echo $TESTNOTFOUND
 	(*content) = ft_strjoin(before, tmp);
 	free(tmp);
 
@@ -179,6 +181,8 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 		}
 		i++;
 	}
+	if (token[0] == '$')//HE HECHO ESTA GUARRADA PORQUE LEAKEABAN LAS VARIABLES ANTES DE EXPANDIRSE, SI ALGO PETA ES POR ESTO
+		free(token);
 	return (FALSE);
 }
 
@@ -203,5 +207,6 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 			index++;
 		}
 		current = current->next;
-    }
+		// printf("DONDE PETAS\n");
+	}
 }

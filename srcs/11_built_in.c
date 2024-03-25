@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/22 12:58:26 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:40:40 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,28 @@ void	ft_echo(char **args, int fd)
 		printf("\n");
 }
 
-int	ft_pwd(void)
+int	ft_pwd(t_input **env)
 {
-	char	*path;
+	t_var_list	*current;
 
-	path = getcwd(NULL, 0);
-	if (!path)
-		return(1);
-	printf("%s\n", path);
-	free(path);
+	current = (*env)->ent_var;
+	while(ft_strncmp(current->name, "PWD", 3) != 0)
+		current = current->next;
+	printf("%s\n", current->content);
 	return (0);
 }
+
+// int	ft_pwd(void)
+// {
+// 	char	*path;
+
+// 	path = getcwd(NULL, 0);
+// 	if (!path)
+// 		return(1);
+// 	printf("%s\n", path);
+// 	free(path);
+// 	return (0);
+// }
 
 int	get_path(char *args, t_input **env)
 {
@@ -65,7 +76,7 @@ int	get_path(char *args, t_input **env)
 		if (access(args, X_OK) != 0)
 			return(print_error(8, NULL, NULL), 1);
 		chdir(args);
-		ft_pwd();
+		ft_pwd(env);
 		current->content = ft_strdup(args);
 		return(0);
 	}
@@ -77,21 +88,34 @@ int	get_path(char *args, t_input **env)
 	{
 		if((ft_strncmp(path[i], "..", 2) == 0) && ft_strlen(path[i]) == 2)
 		{
+			tmp = route;
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
+			free(tmp);
+			printf("la ruta es %s\n", route);
 			chdir(route);
 		}
-		else if (!(path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
+		else if ((path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
 		{
 			route = ft_strjoin(route, "/");
 			route = ft_strjoin(route, path[i]);
 			if (access(route, X_OK) != 0)
-				return(print_error(8, NULL, NULL), 1);
+				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
+		}
+		else
+		{
+			tmp = route;
+			route = ft_strjoin(route, "/");
+			free(tmp);
+			tmp = route;
+			route = ft_strjoin(route, args);
+			free(tmp);
+			if (access(route, X_OK) != 0)
+				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
 		}
 	}
-	chdir(route);
+	tmp = current->content;
 	current->content = ft_strdup(route);
-	// printf("donde petas get path?\n");
-	return(0);
+	return(free(tmp), free(route), free_double(path), 0);
 }
 
 int	ft_cd(char **args, t_input **env)
@@ -106,7 +130,6 @@ int	ft_cd(char **args, t_input **env)
 		current = current->next;
 	while (args[i])
 	{
-		// printf("tenemos %s\n", args[i]);
 		i++;
 	}
 	if (i > 1)
@@ -124,7 +147,6 @@ int	ft_cd(char **args, t_input **env)
 		free(current->content);
 		current->content = ft_strdup(home);
 	}
-	ft_pwd();
 	return(0);
 }
 
@@ -132,12 +154,16 @@ void add_var(char *name, t_var_list **env, char *content)
 {
 	t_var_list	*current;
 	t_var_list	*new;
+	
 
 	current = *env;
 	while(current)
 	{
 		if (ft_strncmp(name, current->name, ft_strlen(name)) == 0)
 		{
+			printf("la variable es : %s\n", current->name);
+			printf("el contenido es : %s\n", current->content);
+			free(current->content);//OTRO APAÑO GUARRO PA LA COLE
 			if(content)
 				current->content = ft_strdup(content);
 			return ;
@@ -160,7 +186,7 @@ void add_var(char *name, t_var_list **env, char *content)
 	new->is_printed = 0;
 }
 
-void ft_empty_export(t_var_list **env)
+void	ft_empty_export(t_var_list **env)
 {
 	t_var_list 	*save;
 	t_var_list	*current;
@@ -204,13 +230,13 @@ void ft_empty_export(t_var_list **env)
 	}
 }
 
-int ft_export(char *var, t_input **struct_input)
+int	ft_export(char *var, t_input **struct_input)
 {
 	char		*equal;
 	char		*name;
 	char		*content;
 
-	if (var[0] == '_' || ft_isalpha(var[0]) == 0 || var[0] == '?')
+	if (var && (var[0] == '_' || ft_isalpha(var[0]) == 0 || var[0] == '?'))
 		return(print_error(1, NULL, struct_input), FALSE);
 	if (var)
 		equal = ft_strchr(var, '=');
@@ -226,7 +252,6 @@ int ft_export(char *var, t_input **struct_input)
 	else
 	{
 		add_var(var, &(*struct_input)->ent_var, NULL);
-		free(var);
 	}
 	return (TRUE);
 
@@ -275,27 +300,30 @@ void	ft_unset(char *name, t_input **struct_input)
 	t_var_list *current;
 	t_var_list *tmp;
 
-	if (!name)
+	if (!name || ft_strlen(name) == 0)
+	{
 		return ;
+	}
 	current = (*struct_input)->ent_var;
-	// printf("Vamos a intentar quitar el primero a ver si funtxiona\n%s\n", name);
-	//printf("La primera variable es %s\n", current->name);
 	if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)//seria para verificar si el primero 
 	{
-		// printf("Llegamos a entrar aqui?\n");
 		(*struct_input)->ent_var = current->next;
+		free(current->content);
+		free(current->name);
 		free(current);
 		return ;
 	}
 	while(current->next)
 	{
-		if (ft_strncmp(current->next->name, name, ft_strlen(name)) == 0)
+		if (ft_strncmp(current->next->name, name, ft_strlen(name)) == 0 && ft_strlen(name) == ft_strlen(current->next->name))
 		{
 			tmp = current->next;
 			if(current->next->next)
 				current->next = current->next->next;
 			else
 				current->next = NULL;
+			free(tmp->content);
+			free(tmp->name);
 			free(tmp);
 			return ;
 		}
@@ -321,7 +349,7 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
-		ft_pwd();
+		ft_pwd(struct_input);
 	}
 	else if(ft_strncmp(cmd_list->cmd_splited[0], "cd", 2) == 0)
 	{

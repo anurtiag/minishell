@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 11:58:49 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:16:19 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,7 @@ void	prepare_program(t_input **struct_input, char **envp)
 int	check_input(char **line, t_input **struct_input)
 {
 	if (ft_strlen(*line) == 0)
-		return (FALSE);
-		
+		return (FALSE);	
 	if (analyze_input(line, struct_input) == FALSE)
 		return (FALSE);
 	
@@ -212,7 +211,8 @@ int	check_input(char **line, t_input **struct_input)
 			free(input);
 		}
 		g_main_loop = 1;
-		free_double(struct_input->token_raw);
+		free_double(struct_input->token_raw);//ESTO ES DONDE ME PETA LO DEL FREE CON DOS INTROS
+		struct_input->token_raw = NULL;
 	}
 	free_all(struct_input, input);
 	return (0);

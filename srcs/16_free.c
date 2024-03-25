@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/22 12:18:30 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:16:29 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ void free_double(char **double_ptr)
 
 	while (*double_ptr != NULL)
 	{
+		// printf("no deberiammos de entrar aqui no\n");
 		free(*double_ptr);
+		*double_ptr = NULL;
 		double_ptr++;
 	}
 	free(temp); // Liberamos la memoria del puntero doble en sí

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/22 11:05:55 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 10:01:37 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 			free(route_tmp);
 			if (access(route, X_OK) != 0)
 			{
+				printf("puta1\n");
 				print_error(8, cmd->cmd_splited[0], env);
 				return (free(route), free_double(path), FALSE);
 			}
@@ -91,13 +92,14 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 	struct stat			statbuf;
 
 	cmd = *cmd_list;
-	if (ft_strlen(cmd->cmd_splited[0]) == 0)
+	// printf("DONDE PETAS\n");
+	if (!cmd->cmd)
 	{
-		print_error(10, cmd->cmd_splited[0], env);
 		return (FALSE);
 	}
-	else if (!cmd->cmd)
+	else if (ft_strlen(cmd->cmd_splited[0]) == 0)
 	{
+		print_error(10, cmd->cmd_splited[0], env);
 		return (FALSE);
 	}
 	control = TRUE;
@@ -112,7 +114,10 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 		else if (cmd->cmd_splited[0][0] == '/')
 		{
 			if (stat(cmd->cmd_splited[0], &statbuf) == -1)
+			{
+				printf("puta2\n");
 				return (print_error(8, cmd->cmd_splited[0], env), free_double(posible_paths), free(path_env), FALSE);
+			}
 			
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
@@ -174,6 +179,7 @@ int	ft_here_doc(char *end, int fd)
 	if (outfile < 0)
 		return(1);
 	free_here_doc(delimiter, output, line, outfile);
+	//free(end);
 	outfile = open(".tempfile.txt", O_RDONLY);
 	return (outfile);
 }

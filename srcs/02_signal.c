@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/14 13:21:49 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:53:55 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ extern int	g_main_loop;
 //Handles the signals
 static void	signal_handler(int	signal)
 {
+	printf("señal %i\n", signal);
 	if (signal == SIGINT)
 	{
 		//printf("Changing the prompt\n");
@@ -34,11 +35,9 @@ void	signal_receiver()
 {
 	struct sigaction	sa;
 
-	// rl_catch_signals = 0;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = signal_handler;
-	// sa.sa_handler = *(void (*)(int))signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);

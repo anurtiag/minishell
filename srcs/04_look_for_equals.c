@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_look_for_equals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/21 14:34:01 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/24 17:44:10 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_add_var(t_var_list **list, char *name, char *content, int id)
 {
 	t_var_list	*new;
 
+	// printf("lo que voy a añadir a las variables es: %s\n", content);
 	new = malloc(sizeof(t_var_list));
 	if (new == NULL)
 		return ;
@@ -68,7 +69,7 @@ int	ft_var_found(t_var_list **list, char *name, char *content)
 }
 
 //Trim the token into name and content
-void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id)
+void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list, int id)
 {
 	char	*var_name;
 	char	*var_content;
@@ -77,18 +78,28 @@ void	ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,in
 
 	end = ft_strlen(token);
 	var_name = strndup(token, equal_pos);
+	// printf("3lo que sea que leakea es %s\n", var_name);
 	if (token[equal_pos + 1] == '\'' || token[equal_pos + 1] == '\"')
 	{
 		var_content = strndup(token + equal_pos + 2, (end - 1) - (equal_pos + 2));
+		// printf("1lo que sea que leakea es %s\n", var_content);
 	}
 	else
 	{
 		var_content = strndup(token + equal_pos + 1, end - (equal_pos + 1));
+		// printf("2lo que sea que leakea es %s\n", var_content);
 	}
 
 	if (ft_var_found(variable_list, var_name, var_content) == FALSE)
 	{
 		ft_add_var(variable_list, var_name, var_content, id);
+	}
+	else
+	{
+		if (var_name)
+			free(var_name);
+		if(var_content)
+			free(var_content);
 	}
 }
 
