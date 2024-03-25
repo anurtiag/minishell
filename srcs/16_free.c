@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   16_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:17:49 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/24 17:16:29 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:08:13 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void free_tree(t_token *root)
 	free_tree(root->left);
 	free_tree(root->middle);
 	free_tree(root->right);
-	free(root->data);
+	if (root->data)
+		free(root->data);
 	root->data = NULL;
 	free(root);
 	root = NULL;

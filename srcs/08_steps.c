@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 16:27:54 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:45:08 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,61 +33,142 @@ void print_step_list(t_step *step)
 
 void remove_quotes_aux(char **cmd_ptr)
 {
-	int					start;
-	int					end;
-	char				*before;
-	char				*mid;
-	char				*after;
-	char				*tmp;
+	int		control[2];
+	int		start;
+	int		i;
+	int		end;
+	int		size;
+	char	*tmp;
+	char	*joined_tmp;
+	char	quotes_flag;
 
-	tmp = NULL;
-	before = NULL;
-	mid = NULL;
-	after = NULL;
+	quotes_flag = 0;
+	size = ft_strlen(*cmd_ptr) - 1;
 	start = 0;
-	end = ft_strlen(*cmd_ptr);
-	while (start <= end)
-	{
-		if((*cmd_ptr)[start] == '\'' || (*cmd_ptr)[start] == '\"')
-			break;
-		start++;
-	}
-	while (end >= 0)
-	{
-		if((*cmd_ptr)[end] == '\'' || (*cmd_ptr)[end] == '\"')
-			break;
-		end--;
-	}
+	i = 0;
+	end = 0;
+	tmp = NULL;
+	control[SIMPLE] = FALSE;
+	control[DOUBLE] = FALSE;
+	tmp = NULL;
+	joined_tmp = ft_strdup("");
 
-	before = ft_substr(*cmd_ptr, 0, start);
-	mid = ft_substr(*cmd_ptr, start + 1, end - start - 1);
-	after = ft_substr(*cmd_ptr, end + 1, ft_strlen(*cmd_ptr) - end);
-
-	// printf("%s\n", *cmd_ptr);
-	// printf("------------------\n");
-	// printf("start %i\n", start);
-	// printf("end %i\n", end);
-	// printf("b %s\n", before);
-	// printf("m %s\n", mid);
-	// printf("a %s\n", after);
-
-	
-	if (end == -1 || (end == 0 && start == 0))
+	while (i <= size)
 	{
-		free(before);
-		free(mid);
-		free(after);
-		return;
+		if ((*cmd_ptr)[i] == '\'' && control[DOUBLE] == FALSE)
+		{
+			if (control[SIMPLE] == FALSE)
+			{
+				start = i;
+				control[SIMPLE] = TRUE;
+				if (quotes_flag == 1)
+					tmp = ft_substr(*cmd_ptr, end + 1, start - end - 1);
+				else
+					tmp = ft_substr(*cmd_ptr, end, start - end);
+				joined_tmp = ft_strjoin(joined_tmp, tmp);
+			}
+			else
+			{
+				quotes_flag = 1;
+				end = i;
+				control[SIMPLE] = FALSE;
+				tmp = ft_substr(*cmd_ptr, start + 1, end - start - 1);
+				joined_tmp = ft_strjoin(joined_tmp, tmp);
+				free(tmp);
+			}
+		}
+		if ((*cmd_ptr)[i] == '\"' && control[SIMPLE] == FALSE)
+		{
+			if (control[DOUBLE] == FALSE)
+			{
+				start = i;
+				control[DOUBLE] = TRUE;
+				if (quotes_flag == 1)
+					tmp = ft_substr(*cmd_ptr, end + 1, start - end - 1);
+				else
+					tmp = ft_substr(*cmd_ptr, end, start - end);
+				joined_tmp = ft_strjoin(joined_tmp, tmp);
+			}
+			else
+			{
+				quotes_flag = 1;
+				end = i;
+				control[DOUBLE] = FALSE;
+				tmp = ft_substr(*cmd_ptr, start + 1, end - start - 1);
+				joined_tmp = ft_strjoin(joined_tmp, tmp);
+				free(tmp);
+			}
+		}
+		i++;
 	}
-	
-	free(*cmd_ptr);
-	tmp = ft_strjoin(before, mid);
-	*cmd_ptr = ft_strjoin(tmp, after);
-	free(tmp);
-	free(before);
-	free(mid);
-	free(after);
+	if (quotes_flag == 1)
+	{
+		tmp = ft_substr(*cmd_ptr, end + 1, size - end);
+		joined_tmp = ft_strjoin(joined_tmp, tmp);
+		free(tmp);
+		*cmd_ptr = joined_tmp;
+	}
+	else
+		free(joined_tmp);
 }
+
+// void remove_quotes_aux(char **cmd_ptr)
+// {
+// 	int					start;
+// 	int					end;
+// 	char				*before;
+// 	char				*mid;
+// 	char				*after;
+// 	char				*tmp;
+
+// 	tmp = NULL;
+// 	before = NULL;
+// 	mid = NULL;
+// 	after = NULL;
+// 	start = 0;
+// 	end = ft_strlen(*cmd_ptr);
+// 	while (start <= end)
+// 	{
+// 		if((*cmd_ptr)[start] == '\'' || (*cmd_ptr)[start] == '\"')
+// 			break;
+// 		start++;
+// 	}
+// 	while (end >= 0)
+// 	{
+// 		if((*cmd_ptr)[end] == '\'' || (*cmd_ptr)[end] == '\"')
+// 			break;
+// 		end--;
+// 	}
+
+// 	before = ft_substr(*cmd_ptr, 0, start);
+// 	mid = ft_substr(*cmd_ptr, start + 1, end - start - 1);
+// 	after = ft_substr(*cmd_ptr, end + 1, ft_strlen(*cmd_ptr) - end);
+
+// 	// printf("%s\n", *cmd_ptr);
+// 	// printf("------------------\n");
+// 	// printf("start %i\n", start);
+// 	// printf("end %i\n", end);
+// 	// printf("b %s\n", before);
+// 	// printf("m %s\n", mid);
+// 	// printf("a %s\n", after);
+
+	
+// 	if (end == -1 || (end == 0 && start == 0))
+// 	{
+// 		free(before);
+// 		free(mid);
+// 		free(after);
+// 		return;
+// 	}
+	
+// 	free(*cmd_ptr);
+// 	tmp = ft_strjoin(before, mid);
+// 	*cmd_ptr = ft_strjoin(tmp, after);
+// 	free(tmp);
+// 	free(before);
+// 	free(mid);
+// 	free(after);
+// }
 
 //Removes the quotes
 void remove_quotes(t_var_parsed_table **head)
@@ -324,14 +405,14 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	if (c_step->tree_stack && (stack_size(c_step->tree_stack) == 2) && (last_node_stack(c_step->tree_stack)->type == -2))
 	//if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		// display_structure_tree(c_step->tree_stack, 0);
-		// print_token_list(c_step->tree_stack);
+		//display_structure_tree(c_step->tree_stack, 0);
+		//print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		// print_cmd_contents(&(*struct_input)->parsed_table);
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
+		//print_cmd_contents(&(*struct_input)->parsed_table);
 		if (cmd_handle(&(*struct_input)->parsed_table, struct_input, step) == TRUE)
 		{	
 			pipex(struct_input, step);
@@ -342,7 +423,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	}
 	else
 	{
-		free_steps(step);
+		free_steps(c_step);
 		print_error(7, NULL, struct_input);
 		return (FALSE);
 	}
