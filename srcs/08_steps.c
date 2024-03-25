@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_steps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 10:16:15 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:49:52 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ void print_cmd_contents(t_var_parsed_table **head)
 		printf("NO TENGO NADA\n");
 	while (current != NULL)
 	{
-		if (current->cmd != NULL)
-		{
 			printf("--------------------\n");
 			if (current->cmd_splited != NULL)
 			{
@@ -138,12 +136,14 @@ void print_cmd_contents(t_var_parsed_table **head)
 				}
 				printf("\n");
 			}
-			printf("path: %s\n", current->path);
+			printf ("cmd : %s\n", current->cmd);
+			if (current->path)
+				printf("path: %s\n", current->path);
 			printf("std in: %i\n", current->fd_in);
 			printf("std out: %i\n", current->fd_out);
 			printf("std error: %i\n", current->fd_error);
+			printf("next dir %p\n", current->next);
 			printf("--------------------\n\n");
-		}
 		current = current->next;
 	}
 }
@@ -261,7 +261,7 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		// printf("-----STACK:-----\n");
 		// print_token_list(c_step->tree_stack);
 		// printf("\n");
-		//print_step_list(step);
+		// print_step_list(step);
 
 		// if (c_token->type == -2)
 		// {
@@ -321,21 +321,15 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		end++;
 	}
 
-	if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
+	if (c_step->tree_stack && (stack_size(c_step->tree_stack) == 2) && (last_node_stack(c_step->tree_stack)->type == -2))
+	//if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		free_steps(step);
-		print_error(7, NULL, struct_input);
-		return (FALSE);
-	}
-	else
-	{
-		//printf("\033[0;32mOK\033[0m\n");
-		// display_structure_tree(c_step->tree_stack, 0);
+		//display_structure_tree(c_step->tree_stack, 0);
 		// print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		// print_cmd_contents(&(*struct_input)->parsed_table);
+		//print_cmd_contents(&(*struct_input)->parsed_table);
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
 		if (cmd_handle(&(*struct_input)->parsed_table, struct_input, step) == TRUE)
@@ -345,6 +339,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 		//print_cmd_contents(&(*struct_input)->parsed_table);
 		read_tree(c_step->tree_stack, &(*struct_input)->parsed_table, 2);
 		return (free_steps(step), TRUE);
+	}
+	else
+	{
+		free_steps(step);
+		print_error(7, NULL, struct_input);
+		return (FALSE);
 	}
 	return (FALSE);
 }

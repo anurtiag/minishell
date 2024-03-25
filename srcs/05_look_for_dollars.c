@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 10:20:24 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:34:40 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 		i++;
 	}
 	if (token[0] == '$')//HE HECHO ESTA GUARRADA PORQUE LEAKEABAN LAS VARIABLES ANTES DE EXPANDIRSE, SI ALGO PETA ES POR ESTO
-		free(token);
+		free((char *)token);
 	return (FALSE);
 }
 
@@ -199,6 +199,8 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 	while (current != NULL)
 	{
 		index = 0;
+		if (current->cmd == NULL)
+			break;
 		cmd = current->cmd_splited;
 		while (cmd[index])
 		{
@@ -207,6 +209,5 @@ void	expand_var_ent(t_var_parsed_table **table, t_input **struct_input)
 			index++;
 		}
 		current = current->next;
-		// printf("DONDE PETAS\n");
 	}
 }
