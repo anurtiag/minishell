@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 13:35:46 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:12:51 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Deletes the char on the N position
 void del_char(char **cadena, int position)
 {
 	char	*before;
@@ -27,17 +28,13 @@ void del_char(char **cadena, int position)
 	after = NULL;
 	while (size1 != position)
 		size1++;
-		
 	before = strndup((*cadena), size1);
 	tmp = size1;
 	while ((*cadena)[++size1] != '\0')
 		size2++;
-		
 	after = strndup((*cadena + (tmp + 1)), size2);
-
 	free((*cadena));
 	*cadena = ft_strjoin(before, after);
-	printf("LO QUE SEA QUE LEAKEA ES %s\n\n", *cadena);
 	free(before);
 	free(after);
 }
@@ -63,6 +60,7 @@ static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, ch
 	return (FALSE);
 }
 
+//Trims the token looking for the var name
 static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **content, int index)
 {
 	char	*match_var_name;
@@ -72,9 +70,6 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	int		size;
 	int		size1;
 	int 	size2;
-	int		sizea;
-	int		sizem;
-	int		sizeb;
 
 	size2 = 0;
 	size1 = 0;
@@ -82,22 +77,16 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	before = NULL;
 	after = NULL;
 	tmp = NULL;
-	//---------------------------------------------------------------BUSCAR HASTA EL PRIMER DOLLAR && ft_isalpha(token[size + 1])
 	
 	while (token[size] && size != index)
 	{
 		if (token[size] == '$' && ((isalpha(token[size + 1]) && size == index)))
-		{
 			break;
-		}
-			
 		size++;
 	}
 
 	before = malloc(sizeof(char) * size + 1);
-	sizeb = size;
-	//---------------------------------------------------------------CARGAR INFORMACION EN BEFORE
-
+	
 	while (size1 < size)
 	{
 		before[size1] = token[size1];
@@ -105,16 +94,11 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	}
 	before[size1] = '\0';
 
-	//---------------------------------------------------------------
-	//&& (token[size1] != '$'))
 	size1++;
 	while (token[size1] && ((token[size1] != '\'') && (token[size1] != '\"') && (token[size1] != '$') && (token[size1] != '/') && (token[size1] != ' ')))
-	{
 		size1++;
-	}
-	//---------------------------------------------------------------
+
 	after = malloc(sizeof(char) * (ft_strlen(token) - size1 + 1));
-	sizea = ft_strlen(token) - size1;
 	
 	while (token[size1])
 	{
@@ -123,14 +107,9 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 		size2++;
 	}
 	after[size2] = '\0';
-	//---------------------------------------------------------------
-	match_var_name = strndup(token + size + 1, (size1 - size - size2 - 1));
-	sizem = (size1 - size - size2 - 1);
 
-	// printf("b %s\n", before);
-	// printf("m %s\n",match_var_name);
-	// printf("a %s\n\n",after);
-	
+	match_var_name = strndup(token + size + 1, (size1 - size - size2 - 1));
+
 	ft_find_variable(match_var_name, variable_list, content);
 	tmp = ft_strjoin((*content), after);
 	if (ft_strlen(*content) == 0)
@@ -158,15 +137,11 @@ int	ft_look_4_dollar(char const *token, t_var_list **variable_list, char **conte
 	i = 0;
 	while (i < max)
 	{
-		//printf("content %s\n", *content);
-		//$'$'
-		
 		if ((*content)[i] == '\'')
 			quotes_flag = !quotes_flag;
 
 		if ((*content)[i] == '\"')
 			quotes_flag2 = !quotes_flag2;
-
 
 		if (!quotes_flag2 && !quotes_flag && (*content)[i] == '$' && ((*content)[i + 1] == '\'' || (*content)[i + 1] == '\"'))
 		{

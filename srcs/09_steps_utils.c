@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:29:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/12 16:30:34 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:04:34 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	find_state(t_states *states_list, int state_number, t_states **state)
 
 	current_state = states_list;
 	while (current_state != NULL && current_state->state != state_number)
-	{
 		current_state = current_state->next;
-	}
-
 	if (current_state != NULL)
 	{
 		*state = current_state;
@@ -74,10 +71,6 @@ void	add_step(t_input *struct_input, t_options *option, t_token *tree_stack, t_t
 
 	if (step == NULL)
 		return ;
-	
-	// state = (t_states *)malloc(sizeof(t_states));
-	// if (state == NULL)
-	// 	return ((void)free(step));
 
 	step->step_nbr = (*c_step)->step_nbr + 1;
 	step->state_nbr = option->next_state;
@@ -108,7 +101,7 @@ t_token	*last_node_stack(t_token *stack)
 		return NULL;
 	current = stack;
 	while (current->next != NULL)
-		current = current->next;		
+		current = current->next;
 	return (current);
 }
 
@@ -120,7 +113,6 @@ void	ret_to_prev(t_step **c_step)
 	prev_step = (*c_step)->prev;
 	prev_step->tree_stack = (*c_step)->tree_stack;
 	prev_step->input = (*c_step)->input;
-	
 	free(*c_step);
 	*c_step = prev_step;
 }

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/19 17:42:23 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:59:33 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,4 @@ void	save_history(char	*input)
 	ft_putstr_fd("\n", file);
 	close(file);
 	add_history(input);
-	//free(input);
 }

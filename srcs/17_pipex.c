@@ -6,12 +6,13 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 17:11:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:29:07 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-//finds a env and returns the content
+
+//Custom function to get the env
 char	*ft_getenv(t_var_list **list, char *name)
 {
 	t_var_list	*current;
@@ -30,7 +31,8 @@ char	*ft_getenv(t_var_list **list, char *name)
 	}
 	return (NULL);
 }
-//verifies if it is one built in and deletess the here_doc file
+
+//Main pipex function
 int	pipex(t_input **struct_input, t_step *step)
 {
 	int		fd[2];
