@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 13:36:03 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:27:01 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,44 +114,46 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			error_flag = 1;
 	}
 	
-	if (tree->type == 108)
-		fd = open(tree->data, O_RDWR);
+	// if (tree->type == 108)
+	// {
+	// 	printf("1 entramos a asignar infile\n");
+	// 	fd = open(tree->data, O_RDWR);
+	// 	printf("el archivo tiene un fd de %d\n", fd);
+	// }
 	// if (tree->type == 106)//el 110 es para cat << lim a ver si tira
 	// {
-	// 	//printf("el arbol tiene %s\n", tree->data);
-	// 	//if (tree->left)
-	// 		//printf("a la izquierda hay %s\n", tree->left->data);
-	// 	//if (tree->middle)
-	// 		//printf("en medio hay %s\n", tree->middle->data);
-	// 	//if (tree->right)
-	// 		//printf("a la derecha hay %s\n", tree->right->data);
+	// 	printf("el arbol tiene %s\n", tree->data);
+	// 	if (tree->left)
+	// 		printf("a la izquierda hay %s\n", tree->left->data);
+	// 	if (tree->middle)
+	// 		printf("en medio hay %s\n", tree->middle->data);
+	// 	if (tree->right)
+	// 		printf("a la derecha hay %s\n", tree->right->data);
 	// }
-	if (tree->type == 106)
+	if(tree && tree->right && (tree->right->type == 108 || tree->right->type == 110))
 	{
-		if (strcmp(tree->left->data, ">>") == 0)
+		if(tree->left && tree->left->type == 1)
 		{
-			// printf("Entramos a abrir en modo append\n");
-			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		}
-		else if (strcmp(tree->left->data, ">") == 0)
-		{
-			// printf("entramos a modo output normal\n");
+			printf("tenemos un outfile con el filename %s\n", tree->right->data);
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			// printf("el archivo %s tiene un fd %d\n", tree->right->data, fd);
 		}
-		if (strcmp(tree->left->data, "<") == 0)
+		else if (tree->left && tree->left->type == 2)
 		{
-			// printf("entramos a modo input normal\n");
+			printf("tenemos un infile con el filename %s\n", tree->right->data);
 			fd = open(tree->right->data, O_RDONLY);
 		}
-		if (fd < 0)
-			print_error(9, NULL, NULL);
+		else if (tree->left && tree->left->type == 3)
+		{
+			printf("tenemos un here_doc con el filename %s\n", tree->right->data);
+			fd = ft_here_doc(tree->right->data, 0);
+		}
+		else if (tree->left && tree->left->type == 4)
+		{
+			printf("tenemos un append con el filename %s\n", tree->right->data);
+			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		}
 	}
-	if (tree->type == 110)
-	{
-		// printf("entramos a modo output normal\n");
-		fd = ft_here_doc(tree->data, 0);
-	}
+
 	if (tree && tree->left && tree->right && tree->type == 105 && tree->left->type == 1)
 	{
 		// printf("entramos a modo output normal\n");
@@ -181,10 +183,10 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
 	}
-	if (tree->type == 108)
-	{
-			(*table_node)->cmd = NULL;
-	}
+	// if (tree->type == 108)
+	// {
+	// 		(*table_node)->cmd = NULL;
+	// }
 	if (red_from_flag == 1 || here_doc == 1)
 	{
 		// printf("entramos a guardar el input\n");

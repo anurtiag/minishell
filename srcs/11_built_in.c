@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 13:21:20 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:42:53 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ void	ft_echo(char **args, int fd)
 	size_t	i;
 	int		control;
 
-	// ft_putstr_fd("puta\n", 2);
 	i = -1;
 	control = FALSE;
 	args++;
-	while (args[0] && (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0))
+	while (args[0] && (ft_strncmp(args[0], "-n", 2) == 0) && ft_strlen(args[0]) == 2)
 	{
 		control = TRUE;
 		args++;
@@ -91,7 +90,7 @@ int	get_path(char *args, t_input **env)
 			tmp = route;
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
 			free(tmp);
-			printf("la ruta es %s\n", route);
+			printf("1la ruta es %s\n", route);
 			chdir(route);
 		}
 		else if ((path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
@@ -107,14 +106,16 @@ int	get_path(char *args, t_input **env)
 			route = ft_strjoin(route, "/");
 			free(tmp);
 			tmp = route;
-			route = ft_strjoin(route, args);
+			route = ft_strjoin(route, path[i]);
 			free(tmp);
+			printf("2la ruta es %s\n", route);
 			if (access(route, X_OK) != 0)
 				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
 		}
 	}
 	tmp = current->content;
 	current->content = ft_strdup(route);
+	printf("3la ruta es %s\n", route);
 	chdir(route);
 	return(free(tmp), free(route), free_double(path), 0);
 }

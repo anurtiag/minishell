@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 13:35:57 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:27:54 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,12 +324,12 @@ int	start_anaylizer(t_input **struct_input, t_token *input_token)
 	if (c_step->tree_stack && (stack_size(c_step->tree_stack) == 2) && (last_node_stack(c_step->tree_stack)->type == -2))
 	//if (c_step->tree_stack && ((stack_size(c_step->tree_stack) != 2) || (last_node_stack(c_step->tree_stack)->type != -2)))
 	{
-		//display_structure_tree(c_step->tree_stack, 0);
+		// display_structure_tree(c_step->tree_stack, 0);
 		// print_token_list(c_step->tree_stack);
 		
 		walk_tree(&(*struct_input)->parsed_table, c_step->tree_stack);
 		config_parsed_table(&(*struct_input)->parsed_table);
-		//print_cmd_contents(&(*struct_input)->parsed_table);
+		// print_cmd_contents(&(*struct_input)->parsed_table);
 		expand_var_ent(&(*struct_input)->parsed_table, struct_input);
 		remove_quotes(&(*struct_input)->parsed_table);
 		if (cmd_handle(&(*struct_input)->parsed_table, struct_input, step) == TRUE)
