@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 10:01:37 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:40:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 	struct stat			statbuf;
 
 	cmd = *cmd_list;
-	// printf("DONDE PETAS\n");
 	if (!cmd->cmd)
 	{
 		return (FALSE);
@@ -109,13 +108,14 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 	posible_paths = ft_split(path_env, ':');
 	while(cmd)
 	{
+		if (cmd->cmd == NULL)
+			break;
 		if (ft_built_in(cmd, env, NULL, 0, step) == TRUE)
 			control = TRUE;
 		else if (cmd->cmd_splited[0][0] == '/')
 		{
 			if (stat(cmd->cmd_splited[0], &statbuf) == -1)
 			{
-				printf("puta2\n");
 				return (print_error(8, cmd->cmd_splited[0], env), free_double(posible_paths), free(path_env), FALSE);
 			}
 			

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 12:33:20 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:36:03 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,10 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 			ft_strlcat((*table_node)->cmd, " ", (ft_strlen((*table_node)->cmd) + ft_strlen(" ") + 1));
 			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
 		}
+	}
+	if (tree->type == 108)
+	{
+			(*table_node)->cmd = NULL;
 	}
 	if (red_from_flag == 1 || here_doc == 1)
 	{
