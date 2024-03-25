@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   11_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 16:42:53 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:17:44 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
+//Custom echo function
 void	ft_echo(char **args, int fd)
 {
 	size_t	i;
@@ -35,6 +36,7 @@ void	ft_echo(char **args, int fd)
 		ft_putstr_fd("\n", fd);
 }
 
+//Custom pwd function
 int	ft_pwd(t_input **env)
 {
 	t_var_list	*current;
@@ -46,18 +48,7 @@ int	ft_pwd(t_input **env)
 	return (0);
 }
 
-// int	ft_pwd(void)
-// {
-// 	char	*path;
-
-// 	path = getcwd(NULL, 0);
-// 	if (!path)
-// 		return(1);
-// 	printf("%s\n", path);
-// 	free(path);
-// 	return (0);
-// }
-
+//Custom path funcion
 int	get_path(char *args, t_input **env)
 {
 	char		**path;
@@ -120,6 +111,7 @@ int	get_path(char *args, t_input **env)
 	return(free(tmp), free(route), free_double(path), 0);
 }
 
+//Custom cd funcion
 int	ft_cd(char **args, t_input **env)
 {
 	size_t		i;
@@ -131,9 +123,7 @@ int	ft_cd(char **args, t_input **env)
 	while(ft_strncmp(current->name, "PWD", 3) != 0)
 		current = current->next;
 	while (args[i])
-	{
 		i++;
-	}
 	if (i > 1)
 		get_path(args[1], env);
 	else
@@ -142,9 +132,7 @@ int	ft_cd(char **args, t_input **env)
 		if(access(home, X_OK) == 0)
 		{
 			if (chdir(home) != 0)
-			{
 				return(1);
-			}
 		}
 		free(current->content);
 		current->content = ft_strdup(home);
@@ -152,6 +140,7 @@ int	ft_cd(char **args, t_input **env)
 	return(0);
 }
 
+//Adds a variable to the list
 void add_var(char *name, t_var_list **env, char *content)
 {
 	t_var_list	*current;
@@ -164,7 +153,7 @@ void add_var(char *name, t_var_list **env, char *content)
 		if (ft_strncmp(name, current->name, ft_strlen(name)) == 0)
 		{
 			free(current->content);//OTRO APAÑO GUARRO PA LA COLE
-			if(content)
+			if (content)
 				current->content = ft_strdup(content);
 			return ;
 		}
@@ -186,6 +175,7 @@ void add_var(char *name, t_var_list **env, char *content)
 	new->is_printed = 0;
 }
 
+//Custom export funcion
 void	ft_empty_export(t_var_list **env)
 {
 	t_var_list 	*save;
@@ -214,7 +204,6 @@ void	ft_empty_export(t_var_list **env)
 				name = current;
 			current = current->next;
 		}
-		// printf("\n\n\n");
 		name->is_printed = 1;
 		if (name->content)
 			printf("declare -x %s=%s\n", name->name, name->content);
@@ -230,6 +219,7 @@ void	ft_empty_export(t_var_list **env)
 	}
 }
 
+//Exports the var to the env
 int	ft_export(char *var, t_input **struct_input)
 {
 	char		*equal;
@@ -245,18 +235,15 @@ int	ft_export(char *var, t_input **struct_input)
 	else if (equal)
 	{
 		name = ft_substr(var, 0, equal - var);
-		// printf("el nombre es %s\nel contenido %s\n", name, (equal + 1));
 		add_var(name, &(*struct_input)->ent_var, (equal + 1));
 		free(name);
 	}
 	else
-	{
 		add_var(var, &(*struct_input)->ent_var, NULL);
-	}
 	return (TRUE);
-
 }
 
+//Custom exit funcion
 void	ft_eexit(char **arg, t_input **struct_input, t_step *step)
 {
 	int num;
@@ -295,6 +282,7 @@ void	ft_eexit(char **arg, t_input **struct_input, t_step *step)
 	}
 }
 
+//Custom unset function
 void	ft_unset(char *name, t_input **struct_input)
 {
 	t_var_list *current;
@@ -331,6 +319,7 @@ void	ft_unset(char *name, t_input **struct_input)
 	}
 }
 
+//Main built in function
 int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode, t_step *step)
 {
 	if (ft_strncmp(cmd_list->cmd_splited[0], "echo", 4) == 0)
@@ -342,7 +331,6 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 		else
 			ft_echo(cmd_list->cmd_splited, 1);
 		*control = FALSE;
-		
 	}
 	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", 3) == 0)
 	{

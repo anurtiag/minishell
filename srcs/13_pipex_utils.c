@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 15:08:12 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:24:31 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../incs/minishell.h"
 
+//Checks the joined paths and check if is the correct
 int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 {
 	size_t	i;
@@ -22,7 +23,6 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	
 	control = TRUE;
 	i = -1;
-
 	if (strcmp(cmd->cmd_splited[0], ".") == 0)
 		return(print_error(12, cmd->cmd_splited[0], env), FALSE);
 	else if (strcmp(cmd->cmd_splited[0], "..") == 0)
@@ -30,10 +30,8 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	while(paths[++i])
 	{
 		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
-		//printf("el comando es: %s\nel path %s\n", str, paths[i]);
 		str = ft_strjoin(paths[i], str_tmp);
 		free(str_tmp);
-		//printf("despues del join comando es: %s\n", str);
 		if (access(str, X_OK) == 0)
 		{
 			cmd->path = str;
@@ -45,6 +43,7 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	return (FALSE);
 }
 
+//Function for relative paths
 int	relative_path(t_var_parsed_table *cmd, t_input **env)
 {
 	char		**path;
@@ -71,11 +70,7 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 			route = ft_strjoin(route_tmp, path[i]);
 			free(route_tmp);
 			if (access(route, X_OK) != 0)
-			{
-				printf("puta1\n");
-				print_error(8, cmd->cmd_splited[0], env);
-				return (free(route), free_double(path), FALSE);
-			}
+				return (print_error(8, cmd->cmd_splited[0], env), free(route), free_double(path), FALSE);
 		}
 	}
 	free_double(path);
@@ -83,6 +78,7 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 	return (TRUE);
 }
 
+//Joins the posible paths and checks if there is any available
 int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 {
 	t_var_parsed_table	*cmd;
@@ -93,14 +89,9 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 
 	cmd = *cmd_list;
 	if (!cmd->cmd)
-	{
 		return (FALSE);
-	}
 	else if (ft_strlen(cmd->cmd_splited[0]) == 0)
-	{
-		print_error(10, cmd->cmd_splited[0], env);
-		return (FALSE);
-	}
+		return (print_error(10, cmd->cmd_splited[0], env), FALSE);
 	control = TRUE;
 	path_env = ft_getenv(&(*env)->ent_var, "PATH");
 	if (!path_env)
@@ -115,10 +106,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 		else if (cmd->cmd_splited[0][0] == '/')
 		{
 			if (stat(cmd->cmd_splited[0], &statbuf) == -1)
-			{
 				return (print_error(8, cmd->cmd_splited[0], env), free_double(posible_paths), free(path_env), FALSE);
-			}
-			
 			if (access(cmd->cmd_splited[0], X_OK) != 0)
 			{
 				print_error(10, cmd->cmd_splited[0], env);
@@ -147,6 +135,7 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 	return (TRUE);
 }
 
+//Custom here doc function
 int	ft_here_doc(char *end, int fd)
 {
 	char	*delimiter;
@@ -156,10 +145,7 @@ int	ft_here_doc(char *end, int fd)
 	char	*tmp;
 
 	if (end == NULL)
-	{
-		print_error(11, NULL, NULL);
-		return (1);
-	}
+		return (print_error(11, NULL, NULL), 1);
 	remove_quotes_aux(&end);
 	output = (char *)malloc(sizeof(char) * 1);
 	output[0] = '\0';
@@ -179,11 +165,12 @@ int	ft_here_doc(char *end, int fd)
 	if (outfile < 0)
 		return(1);
 	free_here_doc(delimiter, output, line, outfile);
-	//free(end);
 	outfile = open(".tempfile.txt", O_RDONLY);
 	return (outfile);
 }
 
+
+//Free the here doc utils
 void	free_here_doc(char *delimiter, char *output, char *line, int outfile)
 {
 	if (write(outfile, output, ft_strlen(output)) == -1)
