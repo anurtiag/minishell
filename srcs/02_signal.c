@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   02_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:21:39 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:40:24 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
 extern int	g_main_loop;
+
 //Handles the signals
-static void	signal_handler(int	signal)
+static void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -27,7 +29,7 @@ static void	signal_handler(int	signal)
 }
 
 //Receives the signals
-void	signal_receiver()
+void	signal_receiver(void)
 {
 	struct sigaction	sa;
 

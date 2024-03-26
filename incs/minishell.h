@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 10:45:39 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:32:01 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@
 
 # define SIMPLE 0
 # define DOUBLE 1
+
+# define FD 0
+# define OPTION_INDEX 1
+# define STATE 2
+# define T_TYPE 3
+# define ACTION 4
+# define NEXT_STATE 5
+# define NBR_RED 6
+
+# define STATES_LIST 0
+# define CURRENT_STATE 1
+
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
@@ -146,6 +158,12 @@ typedef struct s_var_parsed_table
 //MAIN
 static int	print_history(char *line, t_input **struct_input);
 
+//MAIN_UTILS
+void	beyond_pipe(char *input, size_t *control);
+char	*join_line(char *input, size_t *control, t_input **struct_input);
+int		add_space(char **input, char c, t_input **struct_input);
+int		open_quotes(char *input);
+
 //HISTORY
 static int	check_history_file(void);
 void		load_history(void);
@@ -166,20 +184,27 @@ int			ft_var_found(t_var_list **list, char *name, char *content);
 void		ft_trim_var_equal(char *token, int equal_pos, t_var_list **variable_list,int id);
 int			ft_look_4_equal(char const *token, t_var_list **variable_list,int id);
 
-//LOOK FOR DOLLARS
-static int	ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
-static int	ft_trim_var_dollar(char *token, t_var_list **variable_list, char **content, int index);
-int			ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content);
+//LOOK FOR DOLLARS 1
+void		del_char(char **cadena, int position);
+int			ft_find_variable(char *match_var_name, t_var_list **variable_list, char **content);
 void		expand_var_ent(t_var_parsed_table **table, t_input **struct_input);
+
+//LOOK FOR DOLLARS 2
+
+int			ft_trim_var_dollar(char *token, t_var_list **variable_list, char **content, int index);
+void		ft_trim_var_dollar_aux(char *token, char **before, char **after, char **match_var_name, int index);
+int			ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content);
+void		ft_look_4_d_aux(char **content, int i, int max, t_var_list **v_list);
 
 //READ TABLE
 void		print_options_for_state(t_states *states_list, int state_number);
 void		read_table(t_input **struct_input);
 
+
 //ANALYZER
 void		create_tokens_analyzer(t_input **struct_input);
 void		print_token_list(t_token *tokens);
-
+void	add_last_token(t_token *last_token, t_token **tokens);
 
 //STEPS
 int			start_anaylizer(t_input **struct_input, t_token *input_token);

@@ -6,16 +6,16 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:46:17 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 16:59:33 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:39:21 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 //This function checks if the txt is created
-static int		check_history_file(void)
+static int	check_history_file(void)
 {
-	FILE *file;
+	FILE	*file;
 
 	file = fopen(".history.txt", "r");
 	if (file == NULL)
@@ -33,21 +33,23 @@ static int		check_history_file(void)
 //This function loads the history from the txt
 void	load_history(void)
 {
-	char *tmp;
-	int fd;
+	char	*tmp;
+	int		fd;
 
 	if (check_history_file() != 0)
-		return; // Handle error opening or creating history file
+		return ;
 	fd = open(".history.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		print_error(4, NULL, NULL);
-		return;
+		return ;
 	}
-	while ((tmp = get_next_line(fd)) != NULL)
+	tmp = get_next_line(fd);
+	while (tmp != NULL)
 	{
 		add_history(tmp);
 		free(tmp);
+		tmp = get_next_line(fd);
 	}
 	close(fd);
 }
@@ -64,4 +66,5 @@ void	save_history(char	*input)
 	ft_putstr_fd("\n", file);
 	close(file);
 	add_history(input);
+	free(input);
 }

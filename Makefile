@@ -6,7 +6,7 @@
 #    By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/22 11:36:49 by emimenza          #+#    #+#              #
-#    Updated: 2024/03/19 17:45:14 by emimenza         ###   ########.fr        #
+#    Updated: 2024/03/26 14:01:33 by emimenza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RLFLAGS		=	-I /Users/$(USER)/.brew/opt/readline/include
 NAME		=	minishell
 
 #Ficheros
-SRC_FILES	=	00_main 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 11_built_in 12_read_tree 13_pipex_utils 14_bash_split 15_tokenization 16_free 17_pipex 18_process 19_error
+SRC_FILES	=	00_main 00_main_utils 01_history 02_signal 03_variables 04_look_for_equals 05_look_for_dollars1 05_look_for_dollars2 06_read_table 07_analyzer 08_steps 09_steps_utils 10_actions 11_built_in 12_read_tree 13_pipex_utils 14_bash_split 15_tokenization 16_free 17_pipex 18_process 19_error
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 LIBFT		=	libs/Libft
