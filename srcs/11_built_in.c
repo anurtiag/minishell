@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 17:28:46 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:44:22 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_echo(char **args, int fd)
 	i = -1;
 	control = FALSE;
 	args++;
-	while (args[0] && (ft_strncmp(args[0], "-n", 2) == 0) && ft_strlen(args[0]) == 2)
+	while (args[0] && (ft_strcmp(args[0], "-n") == 0))
 	{
 		control = TRUE;
 		args++;
@@ -42,7 +42,7 @@ int	ft_pwd(t_input **env)
 	t_var_list	*current;
 
 	current = (*env)->ent_var;
-	while(ft_strncmp(current->name, "PWD", 3) != 0)
+	while(ft_strcmp(current->name, "PWD") != 0)
 		current = current->next;
 	printf("%s\n", current->content);
 	return (0);
@@ -59,7 +59,7 @@ int	get_path(char *args, t_input **env)
 
 	i =  -1;
 	current = (*env)->ent_var;
-	while(ft_strncmp(current->name, "PWD", 3) != 0)
+	while(ft_strcmp(current->name, "PWD") != 0)
 		current = current->next;
 	if(args[0] == '/')//rutas absolutas
 	{
@@ -76,7 +76,7 @@ int	get_path(char *args, t_input **env)
 		return(1);
 	while (path[++i])//rutas relativas
 	{
-		if((ft_strncmp(path[i], "..", 2) == 0) && ft_strlen(path[i]) == 2)
+		if((ft_strcmp(path[i], "..") == 0))
 		{
 			tmp = route;
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
@@ -119,7 +119,7 @@ int	ft_cd(char **args, t_input **env)
 
 	i = 0;
 	current = (*env)->ent_var;
-	while(ft_strncmp(current->name, "PWD", 3) != 0)
+	while(ft_strcmp(current->name, "PWD") != 0)
 		current = current->next;
 	while (args[i])
 		i++;
@@ -149,7 +149,7 @@ void add_var(char *name, t_var_list **env, char *content)
 	current = *env;
 	while(current)
 	{
-		if (ft_strncmp(name, current->name, ft_strlen(name)) == 0)
+		if (ft_strcmp(name, current->name) == 0)
 		{
 			free(current->content);//OTRO APAÑO GUARRO PA LA COLE
 			if (content)
@@ -199,7 +199,7 @@ void	ft_empty_export(t_var_list **env)
 			name = name->next;
 		while(current)
 		{
-			if(ft_strncmp(name->name, current->name, ft_strlen(current->name)) > 0 && current->is_printed == 0)
+			if(ft_strcmp(name->name, current->name) > 0 && current->is_printed == 0)
 				name = current;
 			current = current->next;
 		}
@@ -292,7 +292,7 @@ void	ft_unset(char *name, t_input **struct_input)
 		return ;
 	}
 	current = (*struct_input)->ent_var;
-	if (ft_strncmp(current->name, name, ft_strlen(name)) == 0)//seria para verificar si el primero 
+	if (ft_strcmp(current->name, name) == 0)//seria para verificar si el primero 
 	{
 		(*struct_input)->ent_var = current->next;
 		free(current->content);
@@ -302,7 +302,7 @@ void	ft_unset(char *name, t_input **struct_input)
 	}
 	while(current->next)
 	{
-		if (ft_strncmp(current->next->name, name, ft_strlen(name)) == 0 && ft_strlen(name) == ft_strlen(current->next->name))
+		if (ft_strcmp(current->next->name, name) == 0)
 		{
 			tmp = current->next;
 			if(current->next->next)
@@ -321,7 +321,7 @@ void	ft_unset(char *name, t_input **struct_input)
 //Main built in function
 int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *control, int mode, t_step *step)
 {
-	if (ft_strncmp(cmd_list->cmd_splited[0], "echo", 4) == 0)
+	if (ft_strcmp(cmd_list->cmd_splited[0], "echo") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
@@ -331,42 +331,42 @@ int	ft_built_in(t_var_parsed_table	*cmd_list, t_input **struct_input, int *contr
 			ft_echo(cmd_list->cmd_splited, 1);
 		*control = FALSE;
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "pwd", 3) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "pwd") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_pwd(struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "cd", 2) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "cd") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_cd(cmd_list->cmd_splited, struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "export", 6) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "export") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_export(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "unset", 5) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "unset") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_unset(cmd_list->cmd_splited[1], struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "env", 3) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "env") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);
 		*control = FALSE;
 		ft_print_var(*struct_input);
 	}
-	else if(ft_strncmp(cmd_list->cmd_splited[0], "exit", ft_strlen(cmd_list->cmd_splited[0])) == 0)
+	else if(ft_strcmp(cmd_list->cmd_splited[0], "exit") == 0)
 	{
 		if(mode == 0)
 			return(TRUE);

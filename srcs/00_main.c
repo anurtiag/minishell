@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:24:56 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:44:46 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int	check_input(char **line, t_input **struct_input)
 		struct_input->input = input;
 		if (input == NULL)
 			break ;
-		if (ft_strncmp(input, "clear", 5) == 0)
+		if (ft_strcmp(input, "clear") == 0)
 			printf("\033[H\033[2J");
 		g_main_loop = 0;
 		if (check_input(&input, &struct_input) == TRUE)

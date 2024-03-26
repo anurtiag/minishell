@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:14:29 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:46:04 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 	if (tree->type == 1)
 	{
 		red_to_flag = 1;
-		if (strcmp(tree->data, "2>") == 0)
+		if (ft_strcmp(tree->data, "2>") == 0)
 			error_flag = 1;
 	}
 	if(tree && tree->right && (tree->right->type == 108 || tree->right->type == 110))

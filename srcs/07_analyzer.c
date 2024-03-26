@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_analyzer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:04:19 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:03:48 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:45:32 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ t_token *assign_token_types(char *token_raw)
 
 	if (new_token == NULL)
 		return (new_token);
-	if (strcmp(token_raw, "<") == 0)
+	if (ft_strcmp(token_raw, "<") == 0)
 		new_token->type = 2;
-	else if ((strcmp(token_raw, ">") == 0) || strcmp(token_raw, "2>") == 0)
+	else if ((ft_strcmp(token_raw, ">") == 0) || ft_strcmp(token_raw, "2>") == 0)
 		new_token->type = 1;
-	else if (strcmp(token_raw, "<<") == 0)
+	else if (ft_strcmp(token_raw, "<<") == 0)
 		new_token->type = 3;
-	else if (strcmp(token_raw, ">>") == 0)
+	else if (ft_strcmp(token_raw, ">>") == 0)
 		new_token->type = 4;
-	else if (strcmp(token_raw, "|") == 0)
+	else if (ft_strcmp(token_raw, "|") == 0)
 		new_token->type = 5;
-	else if (strcmp(token_raw, "$END") == 0)
+	else if (ft_strcmp(token_raw, "$END") == 0)
 		new_token->type = -2;
 	else
 		new_token->type = 0;

@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:59:12 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:21:00 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:45:09 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_var_found(t_var_list **list, char *name, char *content)
 	current = *list;
 	while (current != NULL)
 	{
-		if (strcmp(current->name, name) == 0)
+		if (ft_strcmp(current->name, name) == 0)
 		{
 			free(current->content);
 			current->content = NULL;

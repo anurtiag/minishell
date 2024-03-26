@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 07:13:42 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 17:29:07 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:46:48 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_getenv(t_var_list **list, char *name)
 	content = NULL;
 	while (current != NULL)
 	{
-		if (strcmp(current->name, name) == 0)
+		if (ft_strcmp(current->name, name) == 0)
 		{
 			content = ft_strdup(current->content);
 			return (content);
@@ -30,6 +30,24 @@ char	*ft_getenv(t_var_list **list, char *name)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+	int		diff;
+
+	i = 0;
+	if(!s1 && !s2)
+		return(0);
+	else if (!s1)
+		return(-1);
+	else if (!s2)
+		return (1);
+	while ((s1[i] != '\0' || s2[i] != '\0') && s1[i] == s2[i])
+		i++;
+	diff = (unsigned char)s1[i] - (unsigned char)s2[i];
+	return (diff);
 }
 
 //Main pipex function

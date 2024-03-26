@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 15:19:17 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:36:25 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void		ft_make_process(t_var_parsed_table *cmd, int fd[2], t_input **struct_input
 void		file_permissions(char *name, int type);
 int			pipex(t_input **struct_input, t_step *step);
 char		*ft_getenv(t_var_list **list, char *name);
+int			ft_strcmp(const char *s1, const char *s2);
 
 //FREE
 void		free_all(t_input *struct_input, char *history);

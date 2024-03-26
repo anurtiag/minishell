@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   13_pipex_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 17:24:31 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 07:46:19 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	
 	control = TRUE;
 	i = -1;
-	if (strcmp(cmd->cmd_splited[0], ".") == 0)
+	if (ft_strcmp(cmd->cmd_splited[0], ".") == 0)
 		return(print_error(12, cmd->cmd_splited[0], env), FALSE);
-	else if (strcmp(cmd->cmd_splited[0], "..") == 0)
+	else if (ft_strcmp(cmd->cmd_splited[0], "..") == 0)
 		return(print_error(10, cmd->cmd_splited[0], env), FALSE);
 	while(paths[++i])
 	{
@@ -58,7 +58,7 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 	route = getcwd(NULL, 0);
 	while (path[++i])//rutas relativas
 	{
-		if((ft_strncmp(path[i], "..", 2) == 0) && ft_strlen(path[i]) == 2)
+		if((ft_strcmp(path[i], "..") == 0))
 		{
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
 			chdir(route);
@@ -154,7 +154,7 @@ int	ft_here_doc(char *end, int fd)
 	{
 		write(1,"Minishell heredoc> ", 19);
 		line = get_next_line(fd);
-		if (ft_strncmp(delimiter, line, ft_strlen(delimiter)) == 0)
+		if (ft_strcmp(delimiter, line) == 0)
 			break ;
 		tmp = output;
 		output = ft_strjoin(output, line);
