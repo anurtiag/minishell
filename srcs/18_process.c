@@ -6,49 +6,54 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 07:34:39 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/25 17:04:16 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:56:25 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 //executes the command and redirects the fds
-void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input, t_step *step)
+void	ft_son_utils(int (*fd)[2], int (*control_fd)[2], \
+t_var_parsed_table *arg)
 {
-	int	fdin;
-	int	fdout;
-	int control_fdin;
-	int control_fdout;
-	int	control;
-
-	fdin = 0;
-	fdout = 0;
-	control_fdin = 0;
-	control_fdout = 0;
-	control = TRUE;
-	if (arg->fd_in != 0)//si no es la entrada estandar redirigimos lo que sea como entrada estandar
+	*fd[READ] = 0;
+	*fd[WRITE] = 0;
+	*control_fd[READ] = 0;
+	*control_fd[WRITE] = 0;
+	if (arg->fd_in != 0)
 	{
-		fdin = dup2(arg->fd_in, STDIN_FILENO);
-		control_fdin = 1;
+		*fd[READ] = dup2(arg->fd_in, STDIN_FILENO);
+		*control_fd[READ] = 1;
 	}
 	else
-		fdin = arg->fd_in;
-	if (fdin < 0)
+		*fd[READ] = arg->fd_in;
+	if (*fd[READ] < 0)
 		exit(1);
 	if (arg->fd_error != -1)
-		fdout = dup2(arg->fd_out, STDERR_FILENO);
-	else if (arg->fd_out != 1)//si no es la salida estandar redirigimos lo que sea como salida estandar
+		*fd[WRITE] = dup2(arg->fd_out, STDERR_FILENO);
+	else if (arg->fd_out != 1)
 	{
-		fdout = dup2(arg->fd_out, STDOUT_FILENO);
-		control_fdout = 1;
+		*fd[WRITE] = dup2(arg->fd_out, STDOUT_FILENO);
+		*control_fd[WRITE] = 1;
 	}
 	else
-		fdout = arg->fd_out;
-	if (fdout < 0)
+		*fd[WRITE] = arg->fd_out;
+	if (*fd[WRITE] < 0)
 		exit(1);
-	if (control_fdin == 1)
+}
+
+void	ft_son_process(t_var_parsed_table *arg, \
+t_input **struct_input, t_step *step)
+{
+	int	fd[2];
+	int	control_fd[2];
+	int	control;
+
+	control = TRUE;
+	ft_son_utils(&fd, &control_fd, arg);
+	if (control_fd[READ] == 1)
 		if (close(arg->fd_in) < 0)
 			exit(1);
-	if (control_fdout == 1)
+	if (control_fd[WRITE] == 1)
 		if (close(arg->fd_out) < 0)
 			exit(1);
 	ft_built_in(arg, struct_input, &control, 1, step);
@@ -57,71 +62,70 @@ void	ft_son_process(t_var_parsed_table *arg, t_input **struct_input, t_step *ste
 	if (execve(arg->path, arg->cmd_splited, arg->env) == -1)
 		exit(1);
 }
+
 //this function closes the used fds and assigns the pipe fd
 t_var_parsed_table	*father_process(t_var_parsed_table *cmd, int fd[2])
 {
-		if ((cmd->fd_in != 0 && cmd->fd_in != -1))//si no es ni la entrada estandar ni -1 (hay que asignarle pipe)
-			if (close(cmd->fd_in) < 0)
-				exit(1);
-		if ((cmd->fd_out != 1 && cmd->fd_out != -1))//si no es ni la entrada estandar ni -1 (hay que asignarle pipe)
-			if (close(cmd->fd_out) < 0)
-				exit(1);
-		if (close(fd[WRITE]) < 0)//cerramos el pipe de escritura (ya se le a asignado el hijo)
+	if ((cmd->fd_in != 0 && cmd->fd_in != -1))
+		if (close(cmd->fd_in) < 0)
 			exit(1);
-		if (cmd->next)//si existe el siguiente y no tiene un fd asignado (que pasa si hay un siguiente pero si tiene un fd asignado?)
-			cmd->next->fd_in = fd[READ];
-		else
-			close(fd[READ]);
+	if ((cmd->fd_out != 1 && cmd->fd_out != -1))
+		if (close(cmd->fd_out) < 0)
+			exit(1);
+	if (close(fd[WRITE]) < 0)
+		exit(1);
+	if (cmd->next)
+		cmd->next->fd_in = fd[READ];
+	else
+		close(fd[READ]);
 	cmd = cmd->next;
 	return (cmd);
-	
 }
-//main function of pipex, makes the process and pipes
-void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], t_input **struct_input, t_step *step)
+
+t_var_parsed_table	*ft_process_utils(t_var_parsed_table *cmd_list, int fd[2], \
+t_input **struct_input, t_step *step)
+{
+	if (cmd_list->pid == 0 && !cmd_list->next)
+	{
+		if (cmd_list->prev)
+		{
+			if (waitpid(cmd_list->prev->pid, NULL, 0) == 0)
+				ft_close_pipes(fd);
+		}
+		else
+			ft_close_pipes(fd);
+		ft_son_process(cmd_list, struct_input, step);
+	}
+	else if (cmd_list->pid == 0)
+	{
+		if (close(fd[READ]) < 0)
+			exit(1);
+		if (cmd_list->fd_out == -1)
+			cmd_list->fd_out = fd[WRITE];
+		ft_son_process(cmd_list, struct_input, step);
+	}
+	else
+		cmd_list = father_process(cmd_list, fd);
+	return (cmd_list);
+}
+
+void	ft_make_process(t_var_parsed_table *cmd_list, int fd[2], \
+t_input **struct_input, t_step *step)
 {
 	int		status;
 	char	*tmp;
+
 	status = 0;
 	while (cmd_list)
 	{
-		if (pipe(fd) < 0)//hacemos el pipe
+		if (pipe(fd) < 0)
 			exit(1);
-		cmd_list->pid = fork();//forkeamos
+		cmd_list->pid = fork();
 		if (cmd_list->pid < 0)
 			exit(1);
-		else if (cmd_list->pid == 0 && !cmd_list->next)//en el proceso hijo si es el ultimo nodo...
-		{
-			if (cmd_list->prev)//si exite uno anterior...
-			{
-				if (waitpid(cmd_list->prev->pid, NULL, 0) == 0)//... y el proceso anterior a terminado
-				{
-					if (close(fd[READ]) < 0)
-						exit(1);
-					if (close(fd[WRITE]) < 0)
-						exit(1);
-				}
-			}
-			else//si no existe uno anterior ni siguiente cerramos todos los pipes
-			{
-				if (close(fd[READ]) < 0)
-					exit(1);
-				if (close(fd[WRITE]) < 0)
-					exit(1);
-			}
-			ft_son_process(cmd_list, struct_input, step);// y entramos al hijo
-		}
-		else if (cmd_list->pid == 0)// si estamos en el hijo pero si existe un siguiente...
-		{
-			if (close(fd[READ]) < 0)//cerramos el pipe de escritura
-				exit(1);
-			if(cmd_list->fd_out == -1)//si no tiene un fd asignado le damos el pipe de escritura
-				cmd_list->fd_out = fd[WRITE];
-			ft_son_process(cmd_list, struct_input, step);// y entramos al hijo
-		}
-		else
-			cmd_list = father_process(cmd_list, fd);
+		cmd_list = ft_process_utils(cmd_list, fd, struct_input, step);
 	}
-	while(waitpid(-1, &status, 0) > 0)
+	while (waitpid(-1, &status, 0) > 0)
 		;
 	tmp = ft_itoa(status);
 	ft_var_found(&(*struct_input)->ent_var, "?", tmp);
