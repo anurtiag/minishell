@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/26 10:49:09 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:05:19 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	return (FALSE);
 }
 
+int	ft_close_pipes(int fd[2])
+{
+	if (close(fd[READ]) < 0)
+		return (1);
+	if (close(fd[WRITE]) < 0)
+		return (1);
+	return (0);
+}
+
 //Function for relative paths
 int	relative_path(t_var_parsed_table *cmd, t_input **env)
 {
@@ -49,7 +58,6 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 	char		*route;
 	char		*route_tmp;
 	size_t		i;
-	t_var_list	*current;
 
 	i = -1;
 	path = ft_split(cmd->cmd_splited[0], '/');
@@ -69,9 +77,8 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 				return (print_error(8, cmd->cmd_splited[0], env), free(route), free_double(path), FALSE);
 		}
 	}
-	free_double(path);
 	cmd->path = route;
-	return (TRUE);
+	return (free_double(path), TRUE);
 }
 
 //Joins the posible paths and checks if there is any available
@@ -126,10 +133,9 @@ int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step)
 			return(free_double(posible_paths), free(path_env), FALSE);
 		cmd = cmd->next;
 	}
-	free(path_env);
-	free_double(posible_paths);
-	return (TRUE);
+	return (free(path_env), free_double(posible_paths), TRUE);
 }
+
 
 //Custom here doc function
 int	ft_here_doc(char *end, int fd)

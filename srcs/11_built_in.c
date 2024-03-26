@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/26 09:03:57 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:58:15 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,34 @@ int	ft_pwd(t_input **env)
 	return (0);
 }
 
+int	get_path_utils(char **path, char **route, char *tmp, char *args)
+{
+	size_t	i;
+
+	i = -1;
+	path = ft_split(args, '/');
+	if (!path)
+		return(1);
+	*route = getcwd(NULL, 0);
+	while (path[++i])//rutas relativas
+	{
+		if((ft_strcmp(path[i], "..") == 0))
+		{
+			tmp = *route;
+			*route = ft_substr(*route, 0, ft_strrchr(*route, '/') - *route);
+			free(tmp);
+		}
+		else
+		{
+			*route = ft_strjoin(*route, "/", 3);
+			*route = ft_strjoin(*route, path[i], 3);
+			if (access(*route, X_OK) != 0)
+				return(print_error(8, NULL, NULL), free(*route), free_double(path), 1);
+		}
+	}
+	return (free_double(path), 0);
+}
+
 //Custom path funcion
 int	get_path(char *args, t_input **env)
 {
@@ -70,44 +98,11 @@ int	get_path(char *args, t_input **env)
 		current->content = ft_strdup(args);
 		return(0);
 	}
-	path = ft_split(args, '/');
-	route = getcwd(NULL, 0);
-	if (!path)
-		return(1);
-	while (path[++i])//rutas relativas
-	{
-		if((ft_strcmp(path[i], "..") == 0))
-		{
-			tmp = route;
-			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
-			free(tmp);
-			// printf("1la ruta es %s\n", route);
-			chdir(route);
-		}
-		else if ((path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
-		{
-			route = ft_strjoin(route, "/", 3);
-			route = ft_strjoin(route, path[i], 3);
-			if (access(route, X_OK) != 0)
-				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
-		}
-		else
-		{
-			// tmp = route;
-			route = ft_strjoin(route, "/", 3);
-			// free(tmp);
-			// tmp = route;
-			route = ft_strjoin(route, path[i], 3);
-			// free(tmp);
-			printf("2la ruta es %s\n", route);
-			if (access(route, X_OK) != 0)
-				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
-		}
-	}
+	if (get_path_utils(path, &route,tmp, args) != 0)
+		return (1);
 	tmp = current->content;
 	current->content = ft_strdup(route);
-	chdir(route);
-	return(free(tmp), free(route), free_double(path), 0);
+	return(chdir(route), free(tmp), free(route), 0);
 }
 
 //Custom cd funcion
@@ -139,13 +134,26 @@ int	ft_cd(char **args, t_input **env)
 	return(0);
 }
 
+void	add_var_utils(char *name, char *content, t_var_list	*current, t_var_list *new)
+{
+	while(current->next)
+		current = current->next;
+	new->name = ft_strdup(name);
+	if (content)
+		new->content = ft_strdup(content);
+	else
+		new->content = NULL;
+	current->next = new;
+	new->next = NULL;
+	new->is_printed = 0;
+}
+
 //Adds a variable to the list
 void add_var(char *name, t_var_list **env, char *content)
 {
 	t_var_list	*current;
 	t_var_list	*new;
 	
-
 	current = *env;
 	while(current)
 	{
@@ -162,19 +170,29 @@ void add_var(char *name, t_var_list **env, char *content)
 	if(!new)
 		return ;
 	current = *env;
-	while(current->next)
-		current = current->next;
-	new->name = ft_strdup(name);
-	if (content)
-		new->content = ft_strdup(content);
-	else
-		new->content = NULL;
-	current->next = new;
-	new->next = NULL;
-	new->is_printed = 0;
+	add_var_utils(name, content, current, new);
 }
 
-//Custom export funcion
+void	ft_empty_export_utils(t_var_list *current, t_var_list **env, t_var_list	*name, int *size)
+{
+	current = *env;
+	name = current;
+	while(name->is_printed == 1 && name->next)
+		name = name->next;
+	while(current)
+	{
+		if(ft_strcmp(name->name, current->name) > 0 && current->is_printed == 0)
+			name = current;
+		current = current->next;
+	}
+	name->is_printed = 1;
+	if (name->content)
+		printf("declare -x %s=%s\n", name->name, name->content);
+	else
+		printf("declare -x %s\n", name->name);
+	(*size)--;
+}
+
 void	ft_empty_export(t_var_list **env)
 {
 	t_var_list 	*save;
@@ -189,27 +207,8 @@ void	ft_empty_export(t_var_list **env)
 		size++;
 		current = current->next;
 	}
-	// printf("size vale %d\n", size);
 	while(size > 1)
-	{
-		current = *env;
-		// printf("\n\n%s\n\n", current->name);
-		name = current;
-		while(name->is_printed == 1 && name->next)
-			name = name->next;
-		while(current)
-		{
-			if(ft_strcmp(name->name, current->name) > 0 && current->is_printed == 0)
-				name = current;
-			current = current->next;
-		}
-		name->is_printed = 1;
-		if (name->content)
-			printf("declare -x %s=%s\n", name->name, name->content);
-		else
-			printf("declare -x %s\n", name->name);
-		size--;
-	}
+		ft_empty_export_utils(current, env, name, &size);
 	current = *env;
 	while(current)
 	{
@@ -217,6 +216,7 @@ void	ft_empty_export(t_var_list **env)
 		current = current->next;
 	}
 }
+
 
 //Exports the var to the env
 int	ft_export(char *var, t_input **struct_input)
@@ -266,20 +266,12 @@ void	ft_eexit(char **arg, t_input **struct_input, t_step *step)
 		}
 	}
 	num = ft_atoi(arg[1]);
-	if (num >= 0 && num <= 255)
-	{
-		free_all(*struct_input, (*struct_input)->input);
-		free_steps(step);
-		exit(num);
-	}		
-	else
-	{
-		printf("exit\n");
-		free_all(*struct_input, (*struct_input)->input);
-		free_steps(step);
-		exit(0);
-	}
+	free_all(*struct_input, (*struct_input)->input);
+	free_steps(step);
+	printf("exit\n");
+	exit(num % 256);
 }
+
 
 //Custom unset function
 void	ft_unset(char *name, t_input **struct_input)
@@ -288,17 +280,12 @@ void	ft_unset(char *name, t_input **struct_input)
 	t_var_list *tmp;
 
 	if (!name || ft_strlen(name) == 0)
-	{
 		return ;
-	}
 	current = (*struct_input)->ent_var;
-	if (ft_strcmp(current->name, name) == 0)//seria para verificar si el primero 
+	if (ft_strcmp(current->name, name) == 0)
 	{
 		(*struct_input)->ent_var = current->next;
-		free(current->content);
-		free(current->name);
-		free(current);
-		return ;
+		return (free(current->content), free(current->name), free(current));
 	}
 	while(current->next)
 	{
@@ -309,10 +296,7 @@ void	ft_unset(char *name, t_input **struct_input)
 				current->next = current->next->next;
 			else
 				current->next = NULL;
-			free(tmp->content);
-			free(tmp->name);
-			free(tmp);
-			return ;
+			return (free(tmp), free(tmp->name), free(tmp->content));
 		}
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 17:32:01 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:54:51 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,8 @@
 # define FILENAME 108
 # define IO_HERE 109
 # define HERE_END 110
-# ifndef READ
-#  define READ 0
-# endif
-# ifndef WRITE
-#  define WRITE 1
-# endif
+# define READ 0
+# define WRITE 1
 
 # ifndef ALLOW_WRITE
 #  define ALLOW_WRITE 0
@@ -240,6 +236,7 @@ int			tokenization(char *input, t_input **struct_input);
 int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step);
 int		ft_here_doc(char *end, int fd);
 void	free_here_doc(char *delimiter, char *output, char *line, int *outfile);
+int		ft_close_pipes(int fd[2]);
 
 //BUILT_IN
 void	ft_echo(char **args, int fd);
