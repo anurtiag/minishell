@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 07:36:25 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 10:45:39 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int			tokenization(char *input, t_input **struct_input);
 //PIPEX_UTILS
 int	cmd_handle(t_var_parsed_table **cmd_list, t_input **env, t_step *step);
 int		ft_here_doc(char *end, int fd);
-void	free_here_doc(char *delimiter, char *output, char *line, int outfile);
+void	free_here_doc(char *delimiter, char *output, char *line, int *outfile);
 
 //BUILT_IN
 void	ft_echo(char **args, int fd);

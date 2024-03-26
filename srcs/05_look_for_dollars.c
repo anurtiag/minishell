@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_look_for_dollars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:19:28 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:12:51 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/26 09:02:47 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void del_char(char **cadena, int position)
 		size2++;
 	after = strndup((*cadena + (tmp + 1)), size2);
 	free((*cadena));
-	*cadena = ft_strjoin(before, after);
-	free(before);
-	free(after);
+	*cadena = ft_strjoin(before, after, 15);
+	// free(before);
+	// free(after);
 }
 
 //Looks for a variable with the name vien
@@ -111,15 +111,15 @@ static int	ft_trim_var_dollar(char *token,  t_var_list **variable_list, char **c
 	match_var_name = strndup(token + size + 1, (size1 - size - size2 - 1));
 
 	ft_find_variable(match_var_name, variable_list, content);
-	tmp = ft_strjoin((*content), after);
+	tmp = ft_strjoin((*content), after, 5);
 	if (ft_strlen(*content) == 0)
 		free(*content);//OTRA FREE GUARRO PARA CASOS COMO: /bin/echo $TESTNOTFOUND
-	(*content) = ft_strjoin(before, tmp);
-	free(tmp);
+	(*content) = ft_strjoin(before, tmp, 15);
+	// free(tmp);
 
 	free(match_var_name);
-	free(after);
-	free(before);
+	// free(after);
+	// free(before);
 	return (FALSE);
 }
 

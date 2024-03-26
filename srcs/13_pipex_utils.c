@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:46:50 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/26 07:46:19 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 10:49:09 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 	size_t	i;
 	char	*str;
 	char	*str_tmp;
-	int control;
+	int		control;
 	
 	control = TRUE;
 	i = -1;
@@ -29,9 +29,8 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 		return(print_error(10, cmd->cmd_splited[0], env), FALSE);
 	while(paths[++i])
 	{
-		str_tmp = ft_strjoin("/", cmd->cmd_splited[0]);
-		str = ft_strjoin(paths[i], str_tmp);
-		free(str_tmp);
+		str_tmp = ft_strjoin("/", cmd->cmd_splited[0], 1);
+		str = ft_strjoin(paths[i], str_tmp, 5);
 		if (access(str, X_OK) == 0)
 		{
 			cmd->path = str;
@@ -47,7 +46,6 @@ int	ft_verify_cmd(char **paths, t_var_parsed_table *cmd, t_input **env)
 int	relative_path(t_var_parsed_table *cmd, t_input **env)
 {
 	char		**path;
-	char		*tmp;
 	char		*route;
 	char		*route_tmp;
 	size_t		i;
@@ -65,10 +63,8 @@ int	relative_path(t_var_parsed_table *cmd, t_input **env)
 		}
 		else if (!(path[i][0] == '.' && ft_strlen(path[i]) == 1))
 		{
-			route_tmp = ft_strjoin(route, "/");
-			free(route);
-			route = ft_strjoin(route_tmp, path[i]);
-			free(route_tmp);
+			route_tmp = ft_strjoin(route, "/", 3);
+			route = ft_strjoin(route_tmp, path[i], 3);
 			if (access(route, X_OK) != 0)
 				return (print_error(8, cmd->cmd_splited[0], env), free(route), free_double(path), FALSE);
 		}
@@ -149,36 +145,33 @@ int	ft_here_doc(char *end, int fd)
 	remove_quotes_aux(&end);
 	output = (char *)malloc(sizeof(char) * 1);
 	output[0] = '\0';
-	delimiter = ft_strjoin(end, "\n");
+	delimiter = ft_strjoin(end, "\n", 1);
 	while (1)
 	{
 		write(1,"Minishell heredoc> ", 19);
 		line = get_next_line(fd);
 		if (ft_strcmp(delimiter, line) == 0)
 			break ;
-		tmp = output;
-		output = ft_strjoin(output, line);
-		free(line);
-		free(tmp);
+		output = ft_strjoin(output, line, 15);
 	}
-	outfile = open(".tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (outfile < 0)
-		return(1);
-	free_here_doc(delimiter, output, line, outfile);
-	outfile = open(".tempfile.txt", O_RDONLY);
+	free_here_doc(delimiter, output, line, &outfile);
 	return (outfile);
 }
 
 
 //Free the here doc utils
-void	free_here_doc(char *delimiter, char *output, char *line, int outfile)
+void	free_here_doc(char *delimiter, char *output, char *line, int *outfile)
 {
-	if (write(outfile, output, ft_strlen(output)) == -1)
+	*outfile = open(".tempfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (*outfile < 0)
+		return ;
+	if (write(*outfile, output, ft_strlen(output)) == -1)
 		return ;
 	free(delimiter);
 	free(output);
 	free(line);
 	line = NULL;
-	if (close(outfile) < 0)
+	if (close(*outfile) < 0)
 		return ;
+	*outfile = open(".tempfile.txt", O_RDONLY);
 }

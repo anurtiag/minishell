@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:43:59 by anurtiag          #+#    #+#             */
-/*   Updated: 2024/03/26 07:44:22 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 09:03:57 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,24 +81,24 @@ int	get_path(char *args, t_input **env)
 			tmp = route;
 			route = ft_substr(route, 0, ft_strrchr(route, '/') - route);
 			free(tmp);
-			printf("1la ruta es %s\n", route);
+			// printf("1la ruta es %s\n", route);
 			chdir(route);
 		}
 		else if ((path[i][0] == '.' && path[i][1] == '/' && ft_strlen(path[i]) == 1))
 		{
-			route = ft_strjoin(route, "/");
-			route = ft_strjoin(route, path[i]);
+			route = ft_strjoin(route, "/", 3);
+			route = ft_strjoin(route, path[i], 3);
 			if (access(route, X_OK) != 0)
 				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);
 		}
 		else
 		{
-			tmp = route;
-			route = ft_strjoin(route, "/");
-			free(tmp);
-			tmp = route;
-			route = ft_strjoin(route, path[i]);
-			free(tmp);
+			// tmp = route;
+			route = ft_strjoin(route, "/", 3);
+			// free(tmp);
+			// tmp = route;
+			route = ft_strjoin(route, path[i], 3);
+			// free(tmp);
 			printf("2la ruta es %s\n", route);
 			if (access(route, X_OK) != 0)
 				return(print_error(8, NULL, NULL), free(route), free_double(path), 1);

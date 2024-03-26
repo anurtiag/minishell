@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 09:30:01 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:19:01 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:34:49 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void remove_quotes_aux(char **cmd_ptr)
 					tmp = ft_substr(*cmd_ptr, end + 1, start - end - 1);
 				else
 					tmp = ft_substr(*cmd_ptr, end, start - end);
-				joined_tmp = ft_strjoin(joined_tmp, tmp);
+				joined_tmp = ft_strjoin(joined_tmp, tmp, 1);
 			}
 			else
 			{
@@ -72,8 +72,8 @@ void remove_quotes_aux(char **cmd_ptr)
 				end = i;
 				control[SIMPLE] = FALSE;
 				tmp = ft_substr(*cmd_ptr, start + 1, end - start - 1);
-				joined_tmp = ft_strjoin(joined_tmp, tmp);
-				free(tmp);
+				joined_tmp = ft_strjoin(joined_tmp, tmp, 5);
+				// free(tmp);
 			}
 		}
 		if ((*cmd_ptr)[i] == '\"' && control[SIMPLE] == FALSE)
@@ -86,7 +86,7 @@ void remove_quotes_aux(char **cmd_ptr)
 					tmp = ft_substr(*cmd_ptr, end + 1, start - end - 1);
 				else
 					tmp = ft_substr(*cmd_ptr, end, start - end);
-				joined_tmp = ft_strjoin(joined_tmp, tmp);
+				joined_tmp = ft_strjoin(joined_tmp, tmp, 1);
 			}
 			else
 			{
@@ -94,8 +94,8 @@ void remove_quotes_aux(char **cmd_ptr)
 				end = i;
 				control[DOUBLE] = FALSE;
 				tmp = ft_substr(*cmd_ptr, start + 1, end - start - 1);
-				joined_tmp = ft_strjoin(joined_tmp, tmp);
-				free(tmp);
+				joined_tmp = ft_strjoin(joined_tmp, tmp, 5);
+				// free(tmp);
 			}
 		}
 		i++;
@@ -103,8 +103,8 @@ void remove_quotes_aux(char **cmd_ptr)
 	if (quotes_flag == 1)
 	{
 		tmp = ft_substr(*cmd_ptr, end + 1, size - end);
-		joined_tmp = ft_strjoin(joined_tmp, tmp);
-		free(tmp);
+		joined_tmp = ft_strjoin(joined_tmp, tmp, 5);
+		// free(tmp);
 		*cmd_ptr = joined_tmp;
 	}
 	else

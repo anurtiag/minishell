@@ -6,7 +6,7 @@
 /*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:43:55 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 07:44:46 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:31:05 by anurtiag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	beyond_pipe(char *input, size_t *control)
 char	*join_line(char *input, char *tmp, char *line, size_t *control, t_input **struct_input)
 {
 	write(1,">", 1);
-	tmp = input;
-	input = ft_strjoin(input, " ");
+	// tmp = input;
+	input = ft_strjoin(input, " ", 3);
 	if (!input)
-		return (free(tmp), NULL);
-	free(tmp);
+		return (NULL);
+	// free(tmp);
 	line = get_next_line(0);
 	if (!line)
 	{
@@ -58,12 +58,12 @@ char	*join_line(char *input, char *tmp, char *line, size_t *control, t_input **s
 	if (!line)
 		return (free(tmp), NULL);
 	free(tmp);
-	tmp = input;
-	input = ft_strjoin(input, line);
+	// tmp = input;
+	input = ft_strjoin(input, line, 15);
 	if (!input)
-		return (free(tmp), free(line), NULL);
-	free(tmp);
-	free(line);
+		return (NULL);
+	// free(tmp);
+	// free(line);
 	beyond_pipe(input, control);
 	return(input);
 }
@@ -90,12 +90,12 @@ int		add_space(char **input, char c, t_input **struct_input)
 		first = ft_substr(*input, 0, (s - *input + 1));
 		last = ft_strdup(s + 1);
 		free(*input);
-		tmp = first;
-		first = ft_strjoin(first, " ");
-		free(tmp);
-		*input = ft_strjoin(first, last);
-		free(first);
-		free(last);
+		// tmp = first;
+		first = ft_strjoin(first, " ", 3);
+		// free(tmp);
+		*input = ft_strjoin(first, last, 15);
+		// free(first);
+		// free(last);
 		s = ft_strchr((s + 1), c);
 		if(s && *(s + 1) == c)
 			s++;
