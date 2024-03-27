@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/27 13:29:33 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/27 21:09:28 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@
 # define CUR 2
 # define SIZE 3
 # define QUOTES 4
+
+# define FIRST 0	//first flag
+# define RTF 1		//redirection to flag
+# define RFF 2		//redirection from flag
+# define HDF 3		//here doc flag
+# define APPF 4		//append flag
+# define EF 5		//error flag
+# define FD 6		//file descriptor
 
 // # define FD 0
 // # define OPTION_INDEX 1
@@ -241,11 +249,11 @@ void		read_tree(t_token *tree, t_var_parsed_table **table_node, int mode);
 t_var_parsed_table	*init_parsed_table(t_var_parsed_table *prev_table);
 
 //READ TREE UTILS
-void	reset_statics(int mode, int *first_time, int *red_to_flag, int *red_from_flag, int *error_flag, int *fd, t_var_parsed_table **table_node);
+int		*reset_statics(int mode, int *array, t_var_parsed_table **table_node);
 void	init_append_tree(t_token *tree, int *first_time, t_var_parsed_table **table_node);
-void	set_fds(int red_from_flag, int red_to_flag, int here_doc, int append, int error_flag, t_var_parsed_table **table_node, int fd);
+void	set_fds(int *array, t_var_parsed_table **table_node);
 void	create_table(t_token *tree, t_var_parsed_table **table_node);
-void	set_flags(t_token *tree, int *red_from_flag, int *here_doc, int *append, int *red_to_flag, int *error_flag);
+int		*set_flags(t_token *tree, int *array);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
