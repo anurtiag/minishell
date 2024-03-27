@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   12_read_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:46:59 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 07:46:04 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:41:28 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 //Frees the parsed table node
-void free_parsed_table(t_var_parsed_table **table)
+void	free_parsed_table(t_var_parsed_table **table)
 {
-	t_var_parsed_table *temp;
+	t_var_parsed_table	*temp;
 
 	while ((*table) != NULL)
 	{
-		//printf("cleaning parsed table %s\n", (*table)->cmd);
 		temp = (*table)->next;
 		free_double((*table)->cmd_splited);
 		free((*table)->cmd);
@@ -30,9 +29,9 @@ void free_parsed_table(t_var_parsed_table **table)
 }
 
 //Inits and creates node for parsed table
-t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
+t_var_parsed_table	*init_parsed_table(t_var_parsed_table *prev_table)
 {
-	t_var_parsed_table *node;
+	t_var_parsed_table	*node;
 
 	node = (t_var_parsed_table *)malloc(sizeof(t_var_parsed_table));
 	if (node)
@@ -52,48 +51,38 @@ t_var_parsed_table *init_parsed_table(t_var_parsed_table *prev_table)
 }
 
 //Recursive function to read the data of the tree
-void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
+void	read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 {
-	static int first_time = 1;
-	static int red_to_flag = 0;
-	static int red_from_flag = 0;
-	static int here_doc = 0;
-	static int append = 0;
-	static int error_flag = 0;
-	static int fd = -1;
+	static int	first_time = 1;
+	static int	red_to_flag = 0;
+	static int	red_from_flag = 0;
+	static int	here_doc = 0;
+	static int	append = 0;
+	static int	error_flag = 0;
+	static int	fd = -1;
+
 	if (tree == NULL)
-		return;
+		return ;
+	//reset_statics(mode, &first_time, &red_to_flag, &red_from_flag, &error_flag, &fd, table_node);
 	if (mode == 2)
 	{
 		first_time = 1;
 		free_parsed_table(table_node);
-		return;
+		return ;
 	}
 	if (mode == 1)
 	{
-		//reset of the variables
 		red_to_flag = 0;
 		red_from_flag = 0;
 		error_flag = 0;
 		fd = -1;
 		return ;
 	}
-	if (tree->type == 100 || tree->type == 101)
-	{
-		if (first_time == 1)
-		{
-			//printf("CREAMOS NODO PRINCIPAL\n");
-			*table_node = init_parsed_table(*table_node);
-			first_time = 0;
-		}
-		else
-		{
-			//printf("\nCREAMOS NODO SECUNDARIO\n");
-			(*table_node)->next = init_parsed_table(*table_node);
-			//printf("NEXT NODE: %p\n", (*table_node)->next);
-			*table_node = (*table_node)->next;
-		}
-	}
+	//-----------------------
+	
+	init_append_tree(tree, &first_time, table_node);
+	
+	//set_flags(tree, &red_from_flag, &here_doc, &append, &red_to_flag, &error_flag);
 	if (tree->type == 2)
 		red_from_flag = 1;
 	if (tree->type == 3)
@@ -106,9 +95,11 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		if (ft_strcmp(tree->data, "2>") == 0)
 			error_flag = 1;
 	}
-	if(tree && tree->right && (tree->right->type == 108 || tree->right->type == 110))
+	//-----------------------
+	
+	if (tree && tree->right && (tree->right->type == 108 || tree->right->type == 110))
 	{
-		if(tree->left && tree->left->type == 1)
+		if (tree->left && tree->left->type == 1)
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (tree->left && tree->left->type == 2)
 			fd = open(tree->right->data, O_RDONLY);
@@ -117,30 +108,18 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		else if (tree->left && tree->left->type == 4)
 			fd = open(tree->right->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
-	// Process left child
 	if (tree->left != NULL)
 		read_tree(tree->left, table_node, 0);
-	// Process middle child
 	if (tree->middle != NULL)
 		read_tree(tree->middle, table_node, 0);
-	// Process right child
 	if (tree->right != NULL)
 		read_tree(tree->right, table_node, 0);
-	//Is the type of data we are looking for
-	if (((tree->type == 0 || tree->type == 102 || tree->type == 103 || tree->type == 105 || tree->type == 100 || tree->type == 101) && (tree->left == NULL && tree->middle == NULL && tree->right == NULL)))
-	{		
-		if ((*table_node)->cmd == NULL)
-			(*table_node)->cmd = strdup(tree->data);
-		else
-		{
-			(*table_node)->cmd = realloc((*table_node)->cmd, ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 2);
-			ft_strlcat((*table_node)->cmd, " ", (ft_strlen((*table_node)->cmd) + ft_strlen(" ") + 1));
-			ft_strlcat((*table_node)->cmd, tree->data, (ft_strlen((*table_node)->cmd) + ft_strlen(tree->data) + 1));
-		}
-	}
+		
+	create_table(tree, table_node);
+	
+	//set_fds(red_from_flag, red_from_flag, here_doc, append, error_flag, table_node, fd);
 	if (red_from_flag == 1 || here_doc == 1)
 		(*table_node)->fd_in = fd;
-	
 	if (red_to_flag == 1 || append == 1)
 	{
 		if (error_flag == 1)
@@ -148,20 +127,20 @@ void read_tree(t_token *tree, t_var_parsed_table **table_node, int mode)
 		else
 			(*table_node)->fd_out = fd;
 	}
+	//-----------------------
 }
 
 //Looks for sub_trees in the main tree
 void	walk_tree(t_var_parsed_table **parsed_table, t_token *tree)
 {
-	int control;
+	int	control;
 
-	control = TRUE;	
+	control = TRUE;
 	if (tree->left && tree->left->type == 100)
 		walk_tree(parsed_table, tree->left);
 	if (tree->left && tree->left->type == 100)
 		read_tree(tree->right, parsed_table, 0);
 	else
 		read_tree(tree, parsed_table, 0);
-	//Calling the function again to clear the static variables (mode 1)
 	read_tree(tree, parsed_table, 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_actions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anurtiag <anurtiag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:12:20 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/25 17:16:17 by anurtiag         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:46:46 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 //Reduce the tokens of the stack
 void	ft_reduce(t_options *options, t_step **c_step)
 {
-	t_token *token_4;
-	t_token *token_3;
-	t_token *token_2;
-	t_token *token_1;
-	t_token *join_token;
-	t_token *start_stack;
+	t_token	*token_4;
+	t_token	*token_3;
+	t_token	*token_2;
+	t_token	*token_1;
+	t_token	*join_token;
+	t_token	*start_stack;
 
 	join_token = NULL;
 	if (options->nbr_red == 1)
@@ -34,14 +34,12 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		join_token = (t_token *)malloc(sizeof(t_token));
 		if (join_token == NULL)
 			return;
-		//Asignamos data a joined token
 		join_token->data = ft_strdup("Joined token");
 		join_token->type = options->next_state;
 		join_token->left = NULL;
 		join_token->right = NULL;
 		join_token->middle = NULL;
 		join_token->next = NULL;
-		//init los 3 ultimos tokens
 		token_1 = last_node_stack(start_stack);
 		token_2 = start_stack;
 		token_3 = start_stack;
@@ -67,14 +65,12 @@ void	ft_reduce(t_options *options, t_step **c_step)
 		join_token = (t_token *)malloc(sizeof(t_token));
 		if (join_token == NULL)
 			return;
-		//Asignamos data a joined token
 		join_token->data = ft_strdup("Joined token");
 		join_token->type = options->next_state;
 		join_token->left = NULL;
 		join_token->right = NULL;
 		join_token->middle = NULL;
 		join_token->next = NULL;
-		//init los 3 ultimos tokens
 		token_1 = last_node_stack(start_stack);
 		token_2 = start_stack;
 		token_3 = start_stack;
@@ -102,13 +98,13 @@ void	ft_reduce(t_options *options, t_step **c_step)
 }
 
 //Shifts the first node of the input to the last position of stack
-void 	ft_shift(t_token **stack, t_token **input)
+void	ft_shift(t_token **stack, t_token **input)
 {
-	t_token *c_token;
-	t_token *c_stack;
+	t_token	*c_token;
+	t_token	*c_stack;
 
 	if (*input == NULL)
-		return;
+		return ;
 	c_token = *input;
 	*input = c_token->next;
 	c_token->next = NULL;
@@ -122,33 +118,19 @@ void 	ft_shift(t_token **stack, t_token **input)
 }
 
 //Apply the action received 
-void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag)
+void	apply_action(t_options *opts, t_step **c_step, \
+t_token *c_token, int *end)
 {
 	int	action_type;
 
-	action_type = options->action;
-	if (action_type == -1)//PA DEBUGEAR, DE MOEMENTO SE QUEDA 
-	{
-		// go
-		//printf("\n\033[0;35mGO TO %i\n\033[0m\n", options->next_state);
-	}
-	else if (action_type == 0)
-	{
-		// shift and go
-		//printf("\n\033[0;35mSHIFT AND GO TO %i\n\033[0m\n", options->next_state);
-		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);;
-	}
+	action_type = opts->action;
+	if (action_type == 0)
+		ft_shift(&(*c_step)->tree_stack, &(*c_step)->input);
 	else if (action_type == 1)
 	{
-		// reduce
-		ft_reduce(options, c_step);
-		//printf("\n\033[0;35mREDUCE TO %i BACT TO %i\n\033[0m\n", last_node_stack((*c_step)->tree_stack)->type, (*c_step)->prev->state_nbr);
+		ft_reduce(opts, c_step);
 		ret_to_prev(c_step);
 	}
 	else if (action_type == 2)
-	{
-		//accept
-		//printf("\n\033[0;35mACCEPT\n\033[0m\n");
-		*end_flag = TRUE;
-	}
+		*end = TRUE;
 }

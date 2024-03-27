@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/27 12:00:18 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:29:33 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,14 @@ void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *e
 //READ_TREE
 void		walk_tree(t_var_parsed_table **table, t_token *tree);
 void		read_tree(t_token *tree, t_var_parsed_table **table_node, int mode);
+t_var_parsed_table	*init_parsed_table(t_var_parsed_table *prev_table);
+
+//READ TREE UTILS
+void	reset_statics(int mode, int *first_time, int *red_to_flag, int *red_from_flag, int *error_flag, int *fd, t_var_parsed_table **table_node);
+void	init_append_tree(t_token *tree, int *first_time, t_var_parsed_table **table_node);
+void	set_fds(int red_from_flag, int red_to_flag, int here_doc, int append, int error_flag, t_var_parsed_table **table_node, int fd);
+void	create_table(t_token *tree, t_var_parsed_table **table_node);
+void	set_flags(t_token *tree, int *red_from_flag, int *here_doc, int *append, int *red_to_flag, int *error_flag);
 
 //BASH SPLIT
 static void	ignore_separator(char const *s, int *control, int *i);
