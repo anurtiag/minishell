@@ -6,7 +6,7 @@
 /*   By: emimenza <emimenza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:42:23 by emimenza          #+#    #+#             */
-/*   Updated: 2024/03/26 17:54:51 by emimenza         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:00:18 by emimenza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,28 @@
 # define SIMPLE 0
 # define DOUBLE 1
 
-# define FD 0
-# define OPTION_INDEX 1
-# define STATE 2
-# define T_TYPE 3
-# define ACTION 4
-# define NEXT_STATE 5
-# define NBR_RED 6
+# define START 0
+# define END 1
+# define CUR 2
+# define SIZE 3
+# define QUOTES 4
 
-# define STATES_LIST 0
-# define CURRENT_STATE 1
+// # define FD 0
+// # define OPTION_INDEX 1
+// # define STATE 2
+// # define T_TYPE 3
+// # define ACTION 4
+// # define NEXT_STATE 5
+// # define NBR_RED 6
+
+// # define STATES_LIST 0
+// # define CURRENT_STATE 1
+
+// # define STEP 0
+// # define C_STEP 1
+
+// # define DEF_OPT 0
+// # define AVAIL_OPT 1
 
 # define TRUE 1
 # define FALSE 0
@@ -186,7 +198,6 @@ int			ft_find_variable(char *match_var_name, t_var_list **variable_list, char **
 void		expand_var_ent(t_var_parsed_table **table, t_input **struct_input);
 
 //LOOK FOR DOLLARS 2
-
 int			ft_trim_var_dollar(char *token, t_var_list **variable_list, char **content, int index);
 void		ft_trim_var_dollar_aux(char *token, char **before, char **after, char **match_var_name, int index);
 int			ft_look_4_dollar(char const *token, t_var_list **variable_list, char **content);
@@ -200,20 +211,26 @@ void		read_table(t_input **struct_input);
 //ANALYZER
 void		create_tokens_analyzer(t_input **struct_input);
 void		print_token_list(t_token *tokens);
-void	add_last_token(t_token *last_token, t_token **tokens);
+void		add_last_token(t_token *last_token, t_token **tokens);
 
 //STEPS
 int			start_anaylizer(t_input **struct_input, t_token *input_token);
 void		print_cmd_contents(t_var_parsed_table **head);
 void 		remove_quotes_aux(char **cmd_ptr);
 
-//STEPS UTILS
+//STEPS UTILS 1
 int			find_state(t_states *states_list, int state_number, t_states **state);
 int			stack_size(t_token *stack);
 t_options	*find_option(t_states *state, int token_type);
 void		add_step(t_input *struct_input, t_options *options, t_token *tree_stack, t_token *input_token, t_step **c_step);
 t_token		*last_node_stack(t_token *stack);
+
+//STEPS UTILS 2
 void		ret_to_prev(t_step **c_step);
+void		remove_quotes_aux(char **cmd_ptr);
+void		remove_quotes(t_var_parsed_table **head);
+void		config_parsed_table(t_var_parsed_table **current);
+t_step		*init_first_step(t_input **struct_input, t_token *input_token);
 
 //ACTIONS
 void		apply_action(t_options *options, t_step **c_step, t_token *c_token, int *end_flag);
